@@ -16,12 +16,13 @@ var k_up = 38;
 var k_right = 39;
 var k_down = 40;
 var santa_dir = 1;
-var tonakai_dir = "right";
+var tonakai_counter = 1;
 var santaL_src = "image/santa_pack/red_l.png";
 var santaR_src = "image/santa_pack/red_r.png";
-var tonakaiL_src = "image/santa_pack/blue_l.png";
-var tonakaiR_src = "image/santa_pack/blue_r.png";
+// var tonakaiL_src = "image/santa_pack/blue_l.png";
+var tonakai_src = "image/tonakai/tonakai";
 var move_threshold = 8;
+var move_tonakai_threshold = 12;
 function santamove(){
     if (santa_dir > 0){
         obj.attr({
@@ -42,17 +43,14 @@ function santamove(){
     console.log(santa_dir);
 }
 function moveTonakai(){
-    if (tonakai_dir == "right"){
+    if (tonakai_counter < move_tonakai_threshold){
         obj_tonakai.attr({
-            src: tonakaiR_src
+            src: tonakai_src + tonakai_counter + ".png"
         });
-        tonakai_dir = "left";
     }else{
-        obj_tonakai.attr({
-            src: tonakaiL_src
-        });
-        tonakai_dir = "right";
+        tonakai_counter = 0;
     }
+    tonakai_counter++;
 }
 
 function movePlane() {
@@ -85,5 +83,5 @@ function movestart(){
             delete keys[e.keyCode];
         });    });
     setInterval(movePlane, 20);
-    setInterval(moveTonakai, 1000);
+    setInterval(moveTonakai, 500);
 }
