@@ -1,5 +1,7 @@
 var obj;
 var obj_tonakai;
+var WIDTH;
+var HEIGHT;
 function moveleft(){
     console.log(obj);
     // console.log(obj.position().left);
@@ -23,6 +25,7 @@ var santaR_src = "image/santa_pack/red_r.png";
 var tonakai_src = "image/tonakai/tonakai";
 var move_threshold = 8;
 var move_tonakai_threshold = 12;
+
 function santamove(){
     if (santa_dir > 0){
         obj.attr({
@@ -40,7 +43,7 @@ function santamove(){
     }else if (santa_dir < - move_threshold){
         santa_dir = 1;
     }
-    console.log(santa_dir);
+    // console.log(santa_dir);
 }
 function moveTonakai(){
     if (tonakai_counter < move_tonakai_threshold){
@@ -53,22 +56,34 @@ function moveTonakai(){
     tonakai_counter++;
 }
 
+function px2int(pxstr){
+    return Number(pxstr.substr(0, pxstr.length-2));
+}
+
 function movePlane() {
     for (var direction in keys) {
         if (!keys.hasOwnProperty(direction)) continue;
+
+        var pos_left = px2int(obj.css("left"));
+        var pos_top = px2int(obj.css("top"));
+
         if (direction == k_left) {
-            obj.animate({left: "-=5"}, 0);
-            // $("#plane").animate({left: "-=5"}, 0);
+            pos_left = Math.max(0, pos_left - 5);
+            obj.animate({left: ""+pos_left}, 0);
         }
         if (direction == k_up) {
-            obj.animate({top: "-=5"}, 0);
+            pos_top = Math.max(0, pos_top - 5);
+            obj.animate({top: pos_top}, 0);
             santamove();
         }
         if (direction == k_right) {
-            obj.animate({left: "+=5"}, 0);  
+            pos_left = Math.min(WIDTH - px2int(obj.css("width")), pos_left + 5);
+            obj.animate({left: pos_left}, 0);
         }
         if (direction == k_down) {
-            obj.animate({top: "+=5"}, 0);  
+            pos_top = Math.min(HEIGHT - px2int(obj.css("height")), pos_top + 5);
+            // console.log("HEIGHT=" + HEIGHT + " pos_top=" + pos_top);
+            obj.animate({top: pos_top}, 0);  
             santamove();
         }
     }
@@ -76,6 +91,10 @@ function movePlane() {
 function movestart(){
     obj = $("#santa_red");
     obj_tonakai = $("#tonakai");
+    WIDTH = px2int($("#anime_box").css("width"));
+    HEIGHT = px2int($("#anime_box").css("height"));
+    console.log("width=" + WIDTH + " height=" + HEIGHT);
+    console.log($("body").css("height"));
     $(document).keydown(function(e) {
         keys[e.keyCode] = true;
 
