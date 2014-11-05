@@ -97,8 +97,8 @@ function move_list(move_list){
             duration = 400;
         }
         obj.animate({
-            left: move_list[i]['left'],
-            top: move_list[i]['top']
+            left: "+="+move_list[i]['left'],
+            top: "+="+move_list[i]['top']
         }, duration);
     }
 }
@@ -108,14 +108,19 @@ function move_from_textarea(str){
     move_list(eval(str));
 }
 
+function reset_santa_pos(){
+    // サンタの位置を初期値（中央に移動）
+    obj.css("left", WIDTH / 2 - px2int(obj.css("width"))/2);
+    obj.css("top", HEIGHT / 2- px2int(obj.css("height"))/2);
+}
+
 function movestart(){
     obj = $("#santa_red");
     obj_tonakai = $("#tonakai");
     WIDTH = px2int($("#anime_box").css("width"));
     HEIGHT = px2int($("#anime_box").css("height"));
 
-    obj.css("left", WIDTH / 2 - px2int(obj.css("width"))/2);
-    obj.css("top", HEIGHT / 2- px2int(obj.css("height"))/2);
+    reset_santa_pos();
 
     console.log("width=" + WIDTH + " height=" + HEIGHT);
     console.log(obj.css("left") + " " + obj.css("top"));
