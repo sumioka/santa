@@ -1,4 +1,4 @@
-var obj;
+var obj_santa;
 var obj_tonakai;
 var WIDTH;
 var HEIGHT;
@@ -10,6 +10,7 @@ function moveleft(){
 }
 
 
+var _communication_keys = {red:{},blu:{},gre:{},yel:{}};
 
 
 var keys = {};
@@ -17,7 +18,7 @@ var k_left = 37;
 var k_up = 38;
 var k_right = 39;
 var k_down = 40;
-var santa_dir = 1;
+var santa_dir = {red:1,blu:1,gre:1,yel:1};
 var tonakai_counter = 1;
 var santaL_src = "image/santa_pack/red_l.png";
 var santaR_src = "image/santa_pack/red_r.png";
@@ -25,25 +26,25 @@ var santaR_src = "image/santa_pack/red_r.png";
 var tonakai_src = "image/tonakai/tonakai";
 var move_threshold = 8;
 var move_tonakai_threshold = 12;
-
-function santamove(){
-    if (santa_dir > 0){
-        obj.attr({
+function santamove(color){
+    if (santa_dir[color] > 0){
+        obj_santa[color].attr({
         src: santaL_src
         });
-        santa_dir++;
-    }else if (santa_dir < 0){
-        obj.attr({
+        santa_dir[color]++;
+    }else if (santa_dir[color] < 0){
+        obj_santa[color].attr({
         src: santaR_src
         });
-        santa_dir--;
+        santa_dir[color]--;
     }
-    if (santa_dir > move_threshold){
-        santa_dir = -1;
-    }else if (santa_dir < - move_threshold){
-        santa_dir = 1;
+    if (santa_dir[color] > move_threshold){
+        santa_dir[color] = -1;
+    }else if (santa_dir[color] < - move_threshold){
+        santa_dir[color] = 1;
     }
-    // console.log(santa_dir);
+    console.log(santa_dir[color]);
+
 }
 function moveTonakai(){
     if (tonakai_counter < move_tonakai_threshold){
@@ -61,30 +62,36 @@ function px2int(pxstr){
 }
 
 function movePlane() {
-    for (var direction in keys) {
+    var move_keys = _communication_keys;
+    for(var direction in keys){
         if (!keys.hasOwnProperty(direction)) continue;
+        move_keys.red[direction] = true;
+    }
+    _communication_keys = {red:{},blu:{},gre:{},yel:{}};
+    for(var color in obj_santa){
 
-        var pos_left = px2int(obj.css("left"));
-        var pos_top = px2int(obj.css("top"));
-
-        if (direction == k_left) {
-            pos_left = Math.max(0, pos_left - 5);
-            obj.animate({left: ""+pos_left}, 0);
-        }
-        if (direction == k_up) {
-            pos_top = Math.max(0, pos_top - 5);
-            obj.animate({top: pos_top}, 0);
-            santamove();
-        }
-        if (direction == k_right) {
-            pos_left = Math.min(WIDTH - px2int(obj.css("width")), pos_left + 5);
-            obj.animate({left: pos_left}, 0);
-        }
-        if (direction == k_down) {
-            pos_top = Math.min(HEIGHT - px2int(obj.css("height")), pos_top + 5);
-            // console.log("HEIGHT=" + HEIGHT + " pos_top=" + pos_top);
-            obj.animate({top: pos_top}, 0);  
-            santamove();
+        for (var direction in move_keys[color]) {
+	        var pos_left = px2int(obj.css("left"));
+	        var pos_top = px2int(obj.css("top"));
+            if (!move_keys[color].hasOwnProperty(direction)) continue;
+            if (direction == k_left) {
+	            pos_left = Math.max(0, pos_left - 5);
+                obj_santa[color].animate({left: ""+pos_left}, 0);
+            }
+            if (direction == k_up) {
+                pos_top = Math.max(0, pos_top - 5);
+                obj_santa[color].animate({top: pos_top}, 0);
+                santamove(color);
+            }
+            if (direction == k_right) {
+	            pos_left = Math.min(WIDTH - px2int(obj.css("width")), pos_left + 5);
+                obj_santa[color].animate({left: pos_left}, 0);  
+            }
+            if (direction == k_down) {
+	            pos_top = Math.min(HEIGHT - px2int(obj.css("height")), pos_top + 5);
+                obj_santa[color].animate({top: pos_top}, 0);  
+                santamove(color);
+            }
         }
     }
 }
@@ -109,13 +116,17 @@ function move_from_textarea(str){
 }
 
 function reset_santa_pos(){
-    // ã‚µãƒ³ã‚¿ã®ä½ç½®ã‚’åˆæœŸå€¤ï¼ˆä¸­å¤®ã«ç§»å‹•ï¼‰
+    // ƒTƒ“ƒ^‚ÌˆÊ’u‚ð‰Šú’li’†‰›‚ÉˆÚ“®j
     obj.css("left", WIDTH / 2 - px2int(obj.css("width"))/2);
     obj.css("top", HEIGHT / 2- px2int(obj.css("height"))/2);
 }
-
 function movestart(){
-    obj = $("#santa_red");
+    obj_santa = {
+        red : $("#santa_red"),
+        blu : $("#santa_blu"),
+        gre : $("#santa_gre"),
+        yel : $("#santa_yel")
+    }
     obj_tonakai = $("#tonakai");
     WIDTH = px2int($("#anime_box").css("width"));
     HEIGHT = px2int($("#anime_box").css("height"));
@@ -130,7 +141,10 @@ function movestart(){
 
         $(document).keyup(function(e) {
             delete keys[e.keyCode];
-        });    });
+        });
+    });
     setInterval(movePlane, 20);
     setInterval(moveTonakai, 500);
 }
+
+
