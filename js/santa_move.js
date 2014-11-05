@@ -92,10 +92,14 @@ function movePlane() {
 function move_list(move_list){
     console.log("move_list:" + move_list);
     for (var i = 0; i < move_list.length; i++){
+        var duration = move_list[i]['duration'];
+        if (duration == undefined){
+            duration = 400;
+        }
         obj.animate({
             left: move_list[i]['left'],
             top: move_list[i]['top']
-        }, 500);
+        }, duration);
     }
 }
 
