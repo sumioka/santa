@@ -88,12 +88,33 @@ function movePlane() {
         }
     }
 }
+
+function move_list(move_list){
+    console.log("move_list:" + move_list);
+    for (var i = 0; i < move_list.length; i++){
+        obj.animate({
+            left: move_list[i]['left'],
+            top: move_list[i]['top']
+        }, 500);
+    }
+}
+
+function move_from_textarea(str){
+    console.log(str);
+    move_list(eval(str));
+}
+
 function movestart(){
     obj = $("#santa_red");
     obj_tonakai = $("#tonakai");
     WIDTH = px2int($("#anime_box").css("width"));
     HEIGHT = px2int($("#anime_box").css("height"));
+
+    obj.css("left", WIDTH / 2 - px2int(obj.css("width"))/2);
+    obj.css("top", HEIGHT / 2- px2int(obj.css("height"))/2);
+
     console.log("width=" + WIDTH + " height=" + HEIGHT);
+    console.log(obj.css("left") + " " + obj.css("top"));
     console.log($("body").css("height"));
     $(document).keydown(function(e) {
         keys[e.keyCode] = true;
