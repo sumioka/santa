@@ -33,6 +33,13 @@ socket.on('message', function(msg) {
                if(direction == "down")
                  _communication_keys[color][k_down] = true;
                break;
+            case "init":
+               init();
+               break;
+            case "readyGo":
+               readyGo();
+               break;
+            case "end":
             default:
          }
       } catch (error){

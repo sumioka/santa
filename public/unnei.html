@@ -15,6 +15,10 @@ var santa = "red";
    $(document).keydown(function(e) {
    		santa = $("input[name='santa']:checked")[0].value;
 
+   		if(santa == "non"){
+   			return;
+   		}
+
 		switch(e.keyCode){
 			case k_left:
 		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"left"}});
@@ -31,17 +35,31 @@ var santa = "red";
 		} 
 
    });
- 
+
+function init(){
+	SendMsg("message", {method:"init", options:{}});
+} 
+function readyGo(){
+	SendMsg("message", {method:"readyGo", options:{}});
+} 
 </script>
 </head>
 <body>
 <div id="connectId"></div><br/>
 <div id="receiveMsg"></div>
 
-<input type="radio" name="santa" value="red" checked="checked">赤サンタ</input>
+<!--　サンタの選択 -->
+<h2>サンタの選択</h2>
+<input type="radio" name="santa" value="non" checked="checked">なし</input>
+<input type="radio" name="santa" value="red">赤サンタ</input>
 <input type="radio" name="santa" value="blu">青サンタ</input>
 <input type="radio" name="santa" value="gre">緑サンタ</input>
 <input type="radio" name="santa" value="yel">黄サンタ</input>
+
+<!-- ゲーム全体の進行 -->
+<h2>ゲームの進行</h2>
+<button onclick="init()">init</button>
+<button onclick="readyGo()">readyGo</button>
 
 </body>
 </html>
