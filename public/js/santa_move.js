@@ -2,6 +2,11 @@ var obj_santa;
 var obj_tonakai;
 var WIDTH;
 var HEIGHT;
+var santaCanMove = false;
+var GAMETIME_DEFAULT = 30;
+var gametime = GAMETIME_DEFAULT;
+var gameTimer = null;
+
 function moveleft(){
     console.log(obj);
     // console.log(obj.position().left);
@@ -119,6 +124,9 @@ function reset_santa_pos(color){
     obj_santa[color].css("left", WIDTH / 2 - px2int(obj_santa[color].css("width"))/2);
     obj_santa[color].css("top", HEIGHT / 2- px2int(obj_santa[color].css("height"))/2);
 }
+
+
+// depricated
 function movestart(){
     obj_santa = {
         red : $("#santa_red"),
@@ -148,4 +156,60 @@ function movestart(){
     setInterval(moveTonakai, 500);
 }
 
+///////////////////////////////////////////////////////////////////////
+// GameTimer
+///////////////////////////////////////////////////////////////////////
+function initGameTimer(){
+    if(gameTimer){
+        clearInterval(gameTimer);
+        gameTimer = null;
+    }
+    gametime = GAMETIME_DEFAULT;
+    $("#gameTimer").attr("src","image/num/30.png");
+}
 
+function startGameTimer(){
+    gameTimer = setInterval("timeSpend()",1000);
+}
+
+function timeSpend(){
+    gametime--;
+    $("#gameTimer").attr("src","image/num/" + gametime + ".png");    
+    if(gametime < 1){
+        timeUp();
+    }
+}
+
+function timeUp(){
+    if(gameTimer){
+        clearInterval(gameTimer);
+        gameTimer = null;
+    }
+
+}
+
+///////////////////////////////////////////////////////////////////////
+// signaling
+///////////////////////////////////////////////////////////////////////
+function init(){
+
+    for(var tmp_color in obj_santa){
+        reset_santa_pos(tmp_color);
+    }
+
+    santaCanMove = false;
+    initGameTimer();
+}
+
+function readyGo(){
+    // 3 , 2 , 1 
+
+
+    // Go!
+    startGameTimer();
+    santaCanMove = true;
+}
+
+function end(){
+
+}
