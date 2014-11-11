@@ -20,30 +20,49 @@ var k_right = 39;
 var k_down = 40;
 var santa_dir = {red:1,blu:1,gre:1,yel:1};
 var tonakai_counter = 1;
-var santaL_src = "image/santa_pack/red_l.png";
-var santaR_src = "image/santa_pack/red_r.png";
+// var santaL_src = "image/santa_pack/red_l.png";
+// var santaR_src = "image/santa_pack/red_r.png";
 // var tonakaiL_src = "image/santa_pack/blue_l.png";
 var tonakai_src = "image/tonakai/tonakai";
 var move_threshold = 8;
 var move_tonakai_threshold = 12;
+function next_santa_image_src(cur_image_src){
+    // 1.png, 2.png, ..., 10.png‚Ì‡”Ô‚ÅŽŸ‚Ì‰æ‘œƒpƒX‚ð•Ô‚·
+    console.log("cur_image_src=" + cur_image_src);
+    var num_start = cur_image_src.lastIndexOf("/") + 1;
+    var num_end = cur_image_src.lastIndexOf(".png");
+    var next_num = (Number(cur_image_src.substring(num_start, num_end)) + 1) % 10 + 1;
+    console.log("num_start=" + num_start + " num_end=" + num_end);
+    var res = cur_image_src.substring(0, num_start) + next_num + cur_image_src.substring(num_end);
+    // console.log(res);
+    return res;
+}
 function santamove(color){
-    if (santa_dir[color] > 0){
-        obj_santa[color].attr({
-        src: santaL_src
-        });
-        santa_dir[color]++;
-    }else if (santa_dir[color] < 0){
-        obj_santa[color].attr({
-        src: santaR_src
-        });
-        santa_dir[color]--;
-    }
+    // console.log(obj_santa[color]);
+    console.log("src="+obj_santa[color].attr("src"));
     if (santa_dir[color] > move_threshold){
-        santa_dir[color] = -1;
-    }else if (santa_dir[color] < - move_threshold){
+        obj_santa[color].attr({
+            src: next_santa_image_src(obj_santa[color].attr("src"))
+        });
         santa_dir[color] = 1;
+    }else{
+        santa_dir[color] += 1;
     }
-    console.log(santa_dir[color]);
+    // console.log(obj_santa[color].css("src"));
+    // if (santa_dir[color] > 0){
+    //     santa_dir[color]++;
+    // }else if (santa_dir[color] < 0){
+    //     obj_santa[color].attr({
+    //     src: santaR_src
+    //     });
+    //     santa_dir[color]--;
+    // }
+    // if (santa_dir[color] > move_threshold){
+    //     santa_dir[color] = -1;
+    // }else if (santa_dir[color] < - move_threshold){
+    //     santa_dir[color] = 1;
+    // }
+    // console.log(santa_dir[color]);
 
 }
 function moveTonakai(){
@@ -103,7 +122,7 @@ function move_list(move_list){
         if (duration == undefined){
             duration = 400;
         }
-        obj.animate({
+        obj_santa[red].animate({
             left: "+="+move_list[i]['left'],
             top: "+="+move_list[i]['top']
         }, duration);
@@ -126,7 +145,7 @@ function movestart(){
         blu : $("#santa_blu"),
         gre : $("#santa_gre"),
         yel : $("#santa_yel")
-    }
+    };
     obj_tonakai = $("#tonakai");
     WIDTH = px2int($("#anime_box").css("width"));
     HEIGHT = px2int($("#anime_box").css("height"));
