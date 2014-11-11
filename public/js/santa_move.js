@@ -71,8 +71,8 @@ function movePlane() {
     for(var color in obj_santa){
 
         for (var direction in move_keys[color]) {
-	        var pos_left = px2int(obj.css("left"));
-	        var pos_top = px2int(obj.css("top"));
+	        var pos_left = px2int(obj_santa[color].css("left"));
+	        var pos_top = px2int(obj_santa[color].css("top"));
             if (!move_keys[color].hasOwnProperty(direction)) continue;
             if (direction == k_left) {
 	            pos_left = Math.max(0, pos_left - 5);
@@ -84,11 +84,11 @@ function movePlane() {
                 santamove(color);
             }
             if (direction == k_right) {
-	            pos_left = Math.min(WIDTH - px2int(obj.css("width")), pos_left + 5);
+	            pos_left = Math.min(WIDTH - px2int(obj_santa[color].css("width")), pos_left + 5);
                 obj_santa[color].animate({left: pos_left}, 0);  
             }
             if (direction == k_down) {
-	            pos_top = Math.min(HEIGHT - px2int(obj.css("height")), pos_top + 5);
+	            pos_top = Math.min(HEIGHT - px2int(obj_santa[color].css("height")), pos_top + 5);
                 obj_santa[color].animate({top: pos_top}, 0);  
                 santamove(color);
             }
@@ -115,10 +115,10 @@ function move_from_textarea(str){
     move_list(eval(str));
 }
 
-function reset_santa_pos(){
+function reset_santa_pos(color){
     // サンタの位置を初期値（中央に移動）
-    obj.css("left", WIDTH / 2 - px2int(obj.css("width"))/2);
-    obj.css("top", HEIGHT / 2- px2int(obj.css("height"))/2);
+    obj_santa[color].css("left", WIDTH / 2 - px2int(obj_santa[color].css("width"))/2);
+    obj_santa[color].css("top", HEIGHT / 2- px2int(obj_santa[color].css("height"))/2);
 }
 function movestart(){
     obj_santa = {
@@ -131,11 +131,13 @@ function movestart(){
     WIDTH = px2int($("#anime_box").css("width"));
     HEIGHT = px2int($("#anime_box").css("height"));
 
-    reset_santa_pos();
+	for(var tmp_color in obj_santa){
+	    reset_santa_pos(tmp_color);
+	    console.log("width=" + WIDTH + " height=" + HEIGHT);
+	    console.log(obj_santa[tmp_color].css("left") + " " + obj_santa[tmp_color].css("top"));
+	    console.log($("body").css("height"));
+	}
 
-    console.log("width=" + WIDTH + " height=" + HEIGHT);
-    console.log(obj.css("left") + " " + obj.css("top"));
-    console.log($("body").css("height"));
     $(document).keydown(function(e) {
         keys[e.keyCode] = true;
 
