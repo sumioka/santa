@@ -69,7 +69,6 @@ function movePlane() {
     }
     _communication_keys = {red:{},blu:{},gre:{},yel:{}};
     for(var color in obj_santa){
-
         for (var direction in move_keys[color]) {
 	        var pos_left = px2int(obj_santa[color].css("left"));
 	        var pos_top = px2int(obj_santa[color].css("top"));

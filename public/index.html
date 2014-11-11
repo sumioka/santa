@@ -2,15 +2,19 @@
 <html>
 <head>
 <title>Santa Move</title>
-<script src="js/santa_move.js"></script>
+<script src="js/config.js"></script>
 <script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/socket.io.js"></script>
+<script src="js/santa_move.js"></script>
+<script src="js/santa_move_communication.js"></script>
 <!-- <script>var socket = io.connect('http://quizff.herokuapp.com');</script> -->
 <!-- <script>var socket = io.connect('http://localhost:5000');</script> -->
 </head>
 
 <body onLoad="movestart()" background="image/back.png">
-
-
+<div id="connectId"></div>
+<div id="receiveMsg"></div>
+<div id="errorMsg"></div>
 <div id="anime_box" style="width:1200px;height:1100px;">
 <img src="image/santa_pack/red_l.png" name="santa_red" id="santa_red" style="position:absolute;left:0px;top:16px;">
 <img src="image/santa_pack/red_l.png" name="santa_blu" id="santa_blu" style="position:absolute;left:100px;top:16px;">
