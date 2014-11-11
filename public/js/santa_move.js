@@ -1,7 +1,11 @@
 var obj_santa;
 var obj_tonakai;
+var obj_animebox;
 var WIDTH;
 var HEIGHT;
+var DEBUG_LEVEL = 0;
+var GOAL_LINE = 150;
+var game_timer;
 function moveleft(){
     console.log(obj);
     // console.log(obj.position().left);
@@ -19,6 +23,7 @@ var k_up = 38;
 var k_right = 39;
 var k_down = 40;
 var santa_dir = {red:1,blu:1,gre:1,yel:1};
+var santa_pos = {red:undefined, blu:undefined, gre:undefined, yel:undefined};
 var tonakai_counter = 1;
 // var santaL_src = "image/santa_pack/red_l.png";
 // var santaR_src = "image/santa_pack/red_r.png";
@@ -37,8 +42,24 @@ function next_santa_image_src(cur_image_src){
     // console.log(res);
     return res;
 }
+
+function debug(){
+    if (DEBUG_LEVEL == 0) return;
+    for (var color in obj_santa){
+        // santa_pos[color] = $("<p>");
+        santa_pos[color].css("top", obj_santa[color].css("top"));
+        santa_pos[color].css("left", obj_santa[color].css("left"));
+        var str = color +
+            " top:" + obj_santa[color].css("top") +
+            " left:" + obj_santa[color].css("left");
+        santa_pos[color].text(str);
+        // console.log(santa_pos[color]);
+        // alert("");
+    }
+}
+
 function santamove(color){
-    // console.log(obj_santa[color]);
+    // 動きカウンタがしきい値以上ならば次の画像に差し替え
     console.log("src="+obj_santa[color].attr("src"));
     if (santa_dir[color] > move_threshold){
         obj_santa[color].attr({
@@ -48,22 +69,6 @@ function santamove(color){
     }else{
         santa_dir[color] += 1;
     }
-    // console.log(obj_santa[color].css("src"));
-    // if (santa_dir[color] > 0){
-    //     santa_dir[color]++;
-    // }else if (santa_dir[color] < 0){
-    //     obj_santa[color].attr({
-    //     src: santaR_src
-    //     });
-    //     santa_dir[color]--;
-    // }
-    // if (santa_dir[color] > move_threshold){
-    //     santa_dir[color] = -1;
-    // }else if (santa_dir[color] < - move_threshold){
-    //     santa_dir[color] = 1;
-    // }
-    // console.log(santa_dir[color]);
-
 }
 function moveTonakai(){
     if (tonakai_counter < move_tonakai_threshold){
@@ -80,7 +85,27 @@ function px2int(pxstr){
     return Number(pxstr.substr(0, pxstr.length-2));
 }
 
+function goalAnimation(){
+    // とりあえずはゴールの表示だけ
+    var goal_text = $("<img>").attr("src", "image/goal/goal.png");
+    goal_text.appendTo(obj_animebox);
+    clearInterval(game_timer);
+
+    // ゴールに到達した時の処理
+
+    // 一番のサンタがよじ登る
+
+    // 他のサンタはロープを使ってワープする
+
+    // そりに乗る
+
+    // そりが動く
+
+    // 終わりナレーション？
+}
+
 function movePlane() {
+    debug();
     var move_keys = _communication_keys;
     for(var direction in keys){
         if (!keys.hasOwnProperty(direction)) continue;
@@ -88,6 +113,10 @@ function movePlane() {
     }
     _communication_keys = {red:{},blu:{},gre:{},yel:{}};
     for(var color in obj_santa){
+        if (px2int(obj_santa[color].css("top")) == GOAL_LINE){
+            goalAnimation();
+            // alert();
+        }
 
         for (var direction in move_keys[color]) {
 	        var pos_left = px2int(obj_santa[color].css("left"));
@@ -96,6 +125,7 @@ function movePlane() {
             if (direction == k_left) {
 	            pos_left = Math.max(0, pos_left - 5);
                 obj_santa[color].animate({left: ""+pos_left}, 0);
+                santamove(color);
             }
             if (direction == k_up) {
                 pos_top = Math.max(0, pos_top - 5);
@@ -104,11 +134,12 @@ function movePlane() {
             }
             if (direction == k_right) {
 	            pos_left = Math.min(WIDTH - px2int(obj_santa[color].css("width")), pos_left + 5);
-                obj_santa[color].animate({left: pos_left}, 0);  
+                obj_santa[color].animate({left: pos_left}, 0);
+                santamove(color);
             }
             if (direction == k_down) {
 	            pos_top = Math.min(HEIGHT - px2int(obj_santa[color].css("height")), pos_top + 5);
-                obj_santa[color].animate({top: pos_top}, 0);  
+                obj_santa[color].animate({top: pos_top}, 0);
                 santamove(color);
             }
         }
@@ -139,16 +170,26 @@ function reset_santa_pos(color){
     obj_santa[color].css("left", WIDTH / 2 - px2int(obj_santa[color].css("width"))/2);
     obj_santa[color].css("top", HEIGHT / 2- px2int(obj_santa[color].css("height"))/2);
 }
-function movestart(){
+
+function movestart(debug){
+    DEBUG_LEVEL = debug;
     obj_santa = {
         red : $("#santa_red"),
         blu : $("#santa_blu"),
         gre : $("#santa_gre"),
         yel : $("#santa_yel")
     };
-    obj_tonakai = $("#tonakai");
-    WIDTH = px2int($("#anime_box").css("width"));
-    HEIGHT = px2int($("#anime_box").css("height"));
+    // obj_tonakai = $("#tonakai");
+    obj_animebox = $("#anime_box"); // ゲーム画面全体
+    WIDTH = px2int(obj_animebox.css("width"));
+    HEIGHT = px2int(obj_animebox.css("height"));
+
+    if (DEBUG_LEVEL > 0){
+        for (var color in obj_santa){
+            santa_pos[color] = $("<p>");
+            santa_pos[color].appendTo(obj_animebox);
+        }
+    }
 
 	for(var tmp_color in obj_santa){
 	    reset_santa_pos(tmp_color);
@@ -164,8 +205,8 @@ function movestart(){
             delete keys[e.keyCode];
         });
     });
-    setInterval(movePlane, 20);
-    setInterval(moveTonakai, 500);
+    game_timer = setInterval(movePlane, 20);
+    // setInterval(moveTonakai, 500);
 }
 
 
