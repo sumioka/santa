@@ -1,0 +1,47 @@
+<html>
+<head>
+<script src="js/config.js"></script>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/socket.io.js"></script>
+<script src="js/unnei_communication.js"></script>
+<script type="text/javascript">
+var k_left = 37;
+var k_up = 38;
+var k_right = 39;
+var k_down = 40;
+
+var santa = "red";
+
+   $(document).keydown(function(e) {
+   		santa = $("input[name='santa']:checked")[0].value;
+
+		switch(e.keyCode){
+			case k_left:
+		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"left"}});
+				break;
+			case k_up:
+		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"up"}});
+		        break;
+			case k_right:
+		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"right"}});
+				break;
+			case k_down:
+		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"down"}});
+				break;
+		} 
+
+   });
+ 
+</script>
+</head>
+<body>
+<div id="connectId"></div><br/>
+<div id="receiveMsg"></div>
+
+<input type="radio" name="santa" value="red" checked="checked">赤サンタ</input>
+<input type="radio" name="santa" value="blu">青サンタ</input>
+<input type="radio" name="santa" value="gre">緑サンタ</input>
+<input type="radio" name="santa" value="yel">黄サンタ</input>
+
+</body>
+</html>
