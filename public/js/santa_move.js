@@ -34,7 +34,7 @@ var tonakai_counter = 1;
 // var santaR_src = "image/santa_pack/red_r.png";
 // var tonakaiL_src = "image/santa_pack/blue_l.png";
 var tonakai_src = "image/tonakai/tonakai";
-var move_threshold = 8;
+var move_threshold = 5;
 var move_tonakai_threshold = 12;
 function next_santa_image_src(cur_image_src){
     // 1.png, 2.png, ..., 10.pngの順番で次の画像パスを返す
@@ -118,7 +118,7 @@ function movePlane() {
     }
     _communication_keys = {red:{},blu:{},gre:{},yel:{}};
     for(var color in obj_santa){
-        if (px2int(obj_santa[color].css("top")) == GOAL_LINE){
+        if (px2int(obj_santa[color].css("top")) <= GOAL_LINE){
             goalAnimation();
             // alert();
         }
@@ -170,10 +170,18 @@ function move_from_textarea(str){
     move_list(eval(str));
 }
 
-function reset_santa_pos(color){
+function reset_santa_pos(){
     // サンタの位置を初期値（中央に移動）
-    obj_santa[color].css("left", WIDTH / 2 - px2int(obj_santa[color].css("width"))/2);
-    obj_santa[color].css("top", HEIGHT / 2- px2int(obj_santa[color].css("height"))/2);
+    var MARGIN = 50;
+    var step = (WIDTH - 2 * MARGIN) / 4;
+    var top  = 800;
+    var left = MARGIN;
+    console.log("step" + step);
+    for (var color in obj_santa){
+        obj_santa[color].css("left", left);
+        obj_santa[color].css("top", top);
+        left += step;
+    }
 }
 
 function movestart(debug){
@@ -195,13 +203,14 @@ function movestart(debug){
             santa_pos[color].appendTo(obj_animebox);
         }
     }
+    reset_santa_pos();
 
-	for(var tmp_color in obj_santa){
-	    reset_santa_pos(tmp_color);
-	    console.log("width=" + WIDTH + " height=" + HEIGHT);
-	    console.log(obj_santa[tmp_color].css("left") + " " + obj_santa[tmp_color].css("top"));
-	    console.log($("body").css("height"));
-	}
+	// for(var tmp_color in obj_santa){
+	//     reset_santa_pos(tmp_color);
+	//     console.log("width=" + WIDTH + " height=" + HEIGHT);
+	//     console.log(obj_santa[tmp_color].css("left") + " " + obj_santa[tmp_color].css("top"));
+	//     console.log($("body").css("height"));
+	// }
 
     $(document).keydown(function(e) {
         keys[e.keyCode] = true;
@@ -250,10 +259,7 @@ function timeUp(){
 // signaling
 ///////////////////////////////////////////////////////////////////////
 function init(){
-
-    for(var tmp_color in obj_santa){
-        reset_santa_pos(tmp_color);
-    }
+    reset_santa_pos();
 
     santaCanMove = false;
     initGameTimer();
