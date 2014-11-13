@@ -260,12 +260,22 @@ function init(){
 }
 
 function readyGo(){
-    // 3 , 2 , 1 
+    // よーい
+    $("#screen_yoi").show();
 
+    // どん!
+    setTimeout("go()",3000);
+}
 
-    // Go!
-    startGameTimer();
-    santaCanMove = true;
+// よーいどん用
+{
+    function go(){
+        startGameTimer();
+        santaCanMove = true;
+        $("#screen_yoi").hide();
+        $("#screen_don").show();
+        $("#screen_don").fadeOut(3000);
+    }
 }
 
 function end(){
