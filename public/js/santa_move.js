@@ -1,4 +1,5 @@
 var obj_santa;
+var obj_window;
 var obj_tonakai;
 var obj_animebox;
 var WIDTH;
@@ -6,6 +7,7 @@ var HEIGHT;
 var DEBUG_LEVEL = 0;
 var GOAL_LINE = 150;
 var game_timer;
+var window_timer;
 var santaCanMove = false;
 var GAMETIME_DEFAULT = 30;
 var gametime = GAMETIME_DEFAULT;
@@ -36,13 +38,26 @@ var tonakai_counter = 1;
 var tonakai_src = "image/tonakai/tonakai";
 var move_threshold = 5;
 var move_tonakai_threshold = 12;
-function next_santa_image_src(cur_image_src){
-    // 1.png, 2.png, ..., 10.pngの順番で次の画像パスを返す
-    console.log("cur_image_src=" + cur_image_src);
+function change_image_src(obj_img, id){
+    // 連番の画像ソースについて数字部分をidに変更
+    cur_image_src = obj_img.attr("src");
     var num_start = cur_image_src.lastIndexOf("/") + 1;
     var num_end = cur_image_src.lastIndexOf(".png");
-    var next_num = (Number(cur_image_src.substring(num_start, num_end)) + 1) % 10 + 1;
-    console.log("num_start=" + num_start + " num_end=" + num_end);
+    var new_src = cur_image_src.substring(0, num_start) + id + cur_image_src.substring(num_end);
+    obj_img.attr({
+        src: new_src
+    });
+    // console.log(res);
+}
+function next_image_src(cur_image_src, num_image){
+    // 1.png, 2.png, ..., 10.pngの順番で次の画像パスを返す
+    // console.log("cur_image_src=" + cur_image_src);
+    var num_start = cur_image_src.lastIndexOf("/") + 1;
+    var num_end = cur_image_src.lastIndexOf(".png");
+    var next_num = (Number(cur_image_src.substring(num_start, num_end)) + 1) % num_image;
+    next_num = Math.max(1, next_num);
+    // console.log("num_start=" + num_start + " num_end=" + num_end);
+    console.log("next_num="+next_num);
     var res = cur_image_src.substring(0, num_start) + next_num + cur_image_src.substring(num_end);
     // console.log(res);
     return res;
@@ -68,7 +83,7 @@ function santamove(color){
     console.log("src="+obj_santa[color].attr("src"));
     if (santa_dir[color] > move_threshold){
         obj_santa[color].attr({
-            src: next_santa_image_src(obj_santa[color].attr("src"))
+            src: next_image_src(obj_santa[color].attr("src"), 10)
         });
         santa_dir[color] = 1;
     }else{
@@ -107,6 +122,27 @@ function goalAnimation(){
     // そりが動く
 
     // 終わりナレーション？
+}
+
+function moveWindowColor(color){
+    console.log("movewindow color:"+color + obj_window[color].image_id);
+    if (obj_window[color].image_id >= 26){
+        obj_window[color].image_id = 1;
+        change_image_src(obj_window[color], obj_window[color].image_id);
+    }else{
+        obj_window[color].image_id += 1;
+        change_image_src(obj_window[color], obj_window[color].image_id);
+        setTimeout('moveWindowColor("'+color+'")', 150);
+    }
+}
+
+function moveWindow(){
+    // ランダムでウインドウを動かす
+    var id = getRandomInt(0, 3);
+    var colors = Object.keys(obj_window);
+    console.log("moveWindow:" + colors[id]);
+    obj_window[colors[id]].id = 1;
+    moveWindowColor(colors[id]);
 }
 
 function movePlane() {
@@ -183,6 +219,21 @@ function reset_santa_pos(){
         left += step;
     }
 }
+function getRandomInt(min, max) {
+  return Math.floor( Math.random() * (max - min + 1) ) + min;
+}
+function reset_window_pos(){
+    // サンタの位置を初期値（中央に移動）
+    var MARGIN = 50;
+    var step = (WIDTH - 2 * MARGIN) / 4;
+    var left = MARGIN;
+    for (var color in obj_window){
+        console.log("step" + step);
+        obj_window[color].css("left", left);
+        obj_window[color].css("top", getRandomInt(GOAL_LINE + MARGIN * 2, 500));
+        left += step;
+    }
+}
 
 function movestart(debug){
     DEBUG_LEVEL = debug;
@@ -192,6 +243,15 @@ function movestart(debug){
         gre : $("#santa_gre"),
         yel : $("#santa_yel")
     };
+    obj_window = {
+        red : $("#window_red"),
+        blu : $("#window_blu"),
+        gre : $("#window_gre"),
+        yel : $("#window_yel")
+    };
+    for (var color in obj_window){
+        obj_window[color].image_id = 1;
+    }
     // obj_tonakai = $("#tonakai");
     obj_animebox = $("#anime_box"); // ゲーム画面全体
     WIDTH = px2int(obj_animebox.css("width"));
@@ -204,6 +264,7 @@ function movestart(debug){
         }
     }
     reset_santa_pos();
+    reset_window_pos();
 
 	// for(var tmp_color in obj_santa){
 	//     reset_santa_pos(tmp_color);
@@ -220,6 +281,8 @@ function movestart(debug){
         });
     });
     game_timer = setInterval(movePlane, 20);
+    // moveWindow();
+    window_timer = setInterval(moveWindow, 5000);
     // setInterval(moveTonakai, 500);
 }
 
@@ -260,6 +323,7 @@ function timeUp(){
 ///////////////////////////////////////////////////////////////////////
 function init(){
     reset_santa_pos();
+    reset_window_pos();
 
     santaCanMove = false;
     initGameTimer();
