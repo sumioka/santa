@@ -4292,7 +4292,7 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
 			return continuationByte & 0x3F;
 		}
 
-		// If we end up here, it’s not a continuation byte
+		// If we end up here, it窶冱 not a continuation byte
 		throw Error('Invalid continuation byte');
 	}
 

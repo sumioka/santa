@@ -6,6 +6,11 @@ var HEIGHT;
 var DEBUG_LEVEL = 0;
 var GOAL_LINE = 150;
 var game_timer;
+var santaCanMove = false;
+var GAMETIME_DEFAULT = 30;
+var gametime = GAMETIME_DEFAULT;
+var gameTimer = null;
+
 function moveleft(){
     console.log(obj);
     // console.log(obj.position().left);
@@ -32,7 +37,7 @@ var tonakai_src = "image/tonakai/tonakai";
 var move_threshold = 8;
 var move_tonakai_threshold = 12;
 function next_santa_image_src(cur_image_src){
-    // 1.png, 2.png, ..., 10.png‚Ì‡”Ô‚ÅŸ‚Ì‰æ‘œƒpƒX‚ğ•Ô‚·
+    // 1.png, 2.png, ..., 10.pngã®é †ç•ªã§æ¬¡ã®ç”»åƒãƒ‘ã‚¹ã‚’è¿”ã™
     console.log("cur_image_src=" + cur_image_src);
     var num_start = cur_image_src.lastIndexOf("/") + 1;
     var num_end = cur_image_src.lastIndexOf(".png");
@@ -59,7 +64,7 @@ function debug(){
 }
 
 function santamove(color){
-    // “®‚«ƒJƒEƒ“ƒ^‚ª‚µ‚«‚¢’lˆÈã‚È‚ç‚ÎŸ‚Ì‰æ‘œ‚É·‚µ‘Ö‚¦
+    // å‹•ãã‚«ã‚¦ãƒ³ã‚¿ãŒã—ãã„å€¤ä»¥ä¸Šãªã‚‰ã°æ¬¡ã®ç”»åƒã«å·®ã—æ›¿ãˆ
     console.log("src="+obj_santa[color].attr("src"));
     if (santa_dir[color] > move_threshold){
         obj_santa[color].attr({
@@ -86,22 +91,22 @@ function px2int(pxstr){
 }
 
 function goalAnimation(){
-    // ‚Æ‚è‚ ‚¦‚¸‚ÍƒS[ƒ‹‚Ì•\¦‚¾‚¯
+    // ã¨ã‚Šã‚ãˆãšã¯ã‚´ãƒ¼ãƒ«ã®è¡¨ç¤ºã ã‘
     var goal_text = $("<img>").attr("src", "image/goal/goal.png");
     goal_text.appendTo(obj_animebox);
     clearInterval(game_timer);
 
-    // ƒS[ƒ‹‚É“’B‚µ‚½‚Ìˆ—
+    // ã‚´ãƒ¼ãƒ«ã«åˆ°é”ã—ãŸæ™‚ã®å‡¦ç†
 
-    // ˆê”Ô‚ÌƒTƒ“ƒ^‚ª‚æ‚¶“o‚é
+    // ä¸€ç•ªã®ã‚µãƒ³ã‚¿ãŒã‚ˆã˜ç™»ã‚‹
 
-    // ‘¼‚ÌƒTƒ“ƒ^‚Íƒ[ƒv‚ğg‚Á‚Äƒ[ƒv‚·‚é
+    // ä»–ã®ã‚µãƒ³ã‚¿ã¯ãƒ­ãƒ¼ãƒ—ã‚’ä½¿ã£ã¦ãƒ¯ãƒ¼ãƒ—ã™ã‚‹
 
-    // ‚»‚è‚Éæ‚é
+    // ãã‚Šã«ä¹—ã‚‹
 
-    // ‚»‚è‚ª“®‚­
+    // ãã‚ŠãŒå‹•ã
 
-    // I‚í‚èƒiƒŒ[ƒVƒ‡ƒ“H
+    // çµ‚ã‚ã‚ŠãƒŠãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ï¼Ÿ
 }
 
 function movePlane() {
@@ -166,7 +171,7 @@ function move_from_textarea(str){
 }
 
 function reset_santa_pos(color){
-    // ƒTƒ“ƒ^‚ÌˆÊ’u‚ğ‰Šú’li’†‰›‚ÉˆÚ“®j
+    // ã‚µãƒ³ã‚¿ã®ä½ç½®ã‚’åˆæœŸå€¤ï¼ˆä¸­å¤®ã«ç§»å‹•ï¼‰
     obj_santa[color].css("left", WIDTH / 2 - px2int(obj_santa[color].css("width"))/2);
     obj_santa[color].css("top", HEIGHT / 2- px2int(obj_santa[color].css("height"))/2);
 }
@@ -180,7 +185,7 @@ function movestart(debug){
         yel : $("#santa_yel")
     };
     // obj_tonakai = $("#tonakai");
-    obj_animebox = $("#anime_box"); // ƒQ[ƒ€‰æ–Ê‘S‘Ì
+    obj_animebox = $("#anime_box"); // ã‚²ãƒ¼ãƒ ç”»é¢å…¨ä½“
     WIDTH = px2int(obj_animebox.css("width"));
     HEIGHT = px2int(obj_animebox.css("height"));
 
@@ -209,4 +214,60 @@ function movestart(debug){
     // setInterval(moveTonakai, 500);
 }
 
+///////////////////////////////////////////////////////////////////////
+// GameTimer
+///////////////////////////////////////////////////////////////////////
+function initGameTimer(){
+    if(gameTimer){
+        clearInterval(gameTimer);
+        gameTimer = null;
+    }
+    gametime = GAMETIME_DEFAULT;
+    $("#gameTimer").attr("src","image/num/30.png");
+}
 
+function startGameTimer(){
+    gameTimer = setInterval("timeSpend()",1000);
+}
+
+function timeSpend(){
+    gametime--;
+    $("#gameTimer").attr("src","image/num/" + gametime + ".png");    
+    if(gametime < 1){
+        timeUp();
+    }
+}
+
+function timeUp(){
+    if(gameTimer){
+        clearInterval(gameTimer);
+        gameTimer = null;
+    }
+
+}
+
+///////////////////////////////////////////////////////////////////////
+// signaling
+///////////////////////////////////////////////////////////////////////
+function init(){
+
+    for(var tmp_color in obj_santa){
+        reset_santa_pos(tmp_color);
+    }
+
+    santaCanMove = false;
+    initGameTimer();
+}
+
+function readyGo(){
+    // 3 , 2 , 1 
+
+
+    // Go!
+    startGameTimer();
+    santaCanMove = true;
+}
+
+function end(){
+
+}

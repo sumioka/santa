@@ -1,0 +1,19 @@
+
+img {
+    position: relative;
+    border-width: medium;
+    border-color: #000000;
+    border-style: solid;
+}
+div#anime_box{
+    width:1080px;
+    height:1080px;
+    border-width: 10px;
+    /* border-width: medium; */
+    border-color: #000000;
+    border-style: solid;
+    position: relative;
+}
+
+
+
