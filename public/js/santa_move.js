@@ -12,6 +12,10 @@ var santaCanMove = false;
 var GAMETIME_DEFAULT = 30;
 var gametime = GAMETIME_DEFAULT;
 var gameTimer = null;
+var STATE_MOVING = 0;
+var STATE_HITTED = 1;
+var STATE_GOAL = 2;
+var STATE_WAIT = 3;
 
 function moveleft(){
     console.log(obj);
@@ -90,6 +94,21 @@ function santamove(color){
         santa_dir[color] += 1;
     }
 }
+
+function santa_hitstop(color){
+    // トナカイとぶつかった時のモーション
+    // 操作不可
+	  var pos_top = px2int(obj_santa[color].css("top"));
+    obj_santa[color].animate({top: pos_top + 100}, 200);
+    var prev_src = obj_santa[color].attr("src");
+    var id = obj_santa[color].id;
+    // console.log(id);
+    var down_src = "image/down" + id + "/down" + id + ".gif";
+    obj_santa[color].attr({src:down_src});
+    // setTimeout('function(){obj_santa['+color+'].attr({src:'+prev_src+'});obj_santa['+color+'].state='+STATE_MOVING+';};', 3000);
+    setTimeout(function(){obj_santa[color].attr({src:prev_src});obj_santa[color].state=STATE_MOVING;}, 3000);
+}
+
 function moveTonakai(){
     if (tonakai_counter < move_tonakai_threshold){
         obj_tonakai.attr({
@@ -154,9 +173,17 @@ function movePlane() {
     }
     _communication_keys = {red:{},blu:{},gre:{},yel:{}};
     for(var color in obj_santa){
-        if (px2int(obj_santa[color].css("top")) <= GOAL_LINE){
+        var toppos = px2int(obj_santa[color].css("top"));
+        var windowpos = px2int(obj_window[color].css("top"));
+        if (toppos <= GOAL_LINE){
             goalAnimation();
             // alert();
+        }
+        if (windowpos + 100 <= toppos && toppos <= windowpos + 300){
+            if (obj_santa[color].state == STATE_MOVING){
+                obj_santa[color].state = STATE_HITTED;
+                santa_hitstop(color);
+            }
         }
 
         for (var direction in move_keys[color]) {
@@ -249,6 +276,13 @@ function movestart(debug){
         gre : $("#window_gre"),
         yel : $("#window_yel")
     };
+    obj_santa["red"].id = 1; // 個別画像フォルダを参照するためのid
+    obj_santa["blu"].id = 2; // santa[id], down[id]等
+    obj_santa["yel"].id = 3;
+    obj_santa["gre"].id = 4;
+    for (var color in obj_santa){
+        obj_santa[color].state = STATE_MOVING;
+    }
     for (var color in obj_window){
         obj_window[color].image_id = 1;
     }
