@@ -232,7 +232,7 @@ function startGameTimer(){
 
 function timeSpend(){
     gametime--;
-    $("#gameTimer").attr("src","image/num/" + gametime + ".png");    
+    $("#gameTimer").attr("src","image/num/" + gametime + ".png");
     if(gametime < 1){
         timeUp();
     }
@@ -257,7 +257,36 @@ function init(){
 
     santaCanMove = false;
     initGameTimer();
+
+    // プレ、タイトル、説明用画像を消す
+    $("#screen_pre").css("display", "none");
+    $("#screen_title").css("display", "none");
+    $("#screen_rule").css("display", "none");
+
+
 }
+
+// プレ用
+function pre(){
+    $("#screen_pre").css("display", "inline");
+    $("#screen_title").css("display", "none");
+    $("#screen_rule").css("display", "none");
+};
+
+// タイトル用
+function title(){
+    $("#screen_pre").css("display", "none");
+    $("#screen_title").css("display", "inline");
+    $("#screen_rule").css("display", "none");
+};
+
+// ルール説明用
+function rule(){
+    $("#screen_pre").css("display", "none");
+    $("#screen_title").css("display", "none");
+    $("#screen_rule").css("display", "inline");
+};
+
 
 function readyGo(){
     // よーい
