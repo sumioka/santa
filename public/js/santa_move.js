@@ -98,6 +98,12 @@ function santamove(color){
     }
 }
 
+function santa_warp(color){
+    // サンタをワープさせる
+    // 1. ロープで上方画面外へ
+    // 2. 上方画面外からそりへ
+}
+
 function santa_hitstop(color){
     // トナカイとぶつかった時のモーション
     // 操作不可
