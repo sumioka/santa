@@ -21,7 +21,6 @@ function moveleft(){
 
 var _communication_keys = {red:{},blu:{},gre:{},yel:{}};
 
-
 var keys = {};
 var k_left = 37;
 var k_up = 38;
@@ -36,6 +35,7 @@ var tonakai_counter = 1;
 var tonakai_src = "image/tonakai/tonakai";
 var move_threshold = 8;
 var move_tonakai_threshold = 12;
+
 function next_santa_image_src(cur_image_src){
     // 1.png, 2.png, ..., 10.pngの順番で次の画像パスを返す
     console.log("cur_image_src=" + cur_image_src);
@@ -90,7 +90,7 @@ function px2int(pxstr){
     return Number(pxstr.substr(0, pxstr.length-2));
 }
 
-function goalAnimation(){
+function goalAnimation(color){
     // とりあえずはゴールの表示だけ
     var goal_text = $("<img>").attr("src", "image/goal/goal.png");
     goal_text.appendTo(obj_animebox);
@@ -99,6 +99,20 @@ function goalAnimation(){
     // ゴールに到達した時の処理
 
     // 一番のサンタがよじ登る
+    switch(color){
+      case "red":
+        $("#santa_red").animate({top:"-50px"}, 2000);
+        $("#santa_goalred").show();
+        setTimeout("finAnimation()", 2000);
+        break;
+      case "blu":
+        break;
+      case "gre":
+        break;
+      case "yel":
+        break;
+    }
+
 
     // 他のサンタはロープを使ってワープする
 
@@ -106,7 +120,14 @@ function goalAnimation(){
 
     // そりが動く
 
+}
+
     // 終わりナレーション？
+function finAnimation(){
+    $("#santa_red").hide();
+    $("#anime_box").animate({top:"800px"}, 1500);
+    $("#screen_fin").css("display", "inline");
+
 }
 
 function movePlane() {
@@ -119,8 +140,7 @@ function movePlane() {
     _communication_keys = {red:{},blu:{},gre:{},yel:{}};
     for(var color in obj_santa){
         if (px2int(obj_santa[color].css("top")) == GOAL_LINE){
-            goalAnimation();
-            // alert();
+            goalAnimation(color);
         }
 
         for (var direction in move_keys[color]) {
