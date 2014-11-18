@@ -32,16 +32,29 @@ var santa = "red";
 			case k_down:
 		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"down"}});
 				break;
-		} 
+		}
 
    });
 
 function init(){
 	SendMsg("message", {method:"init", options:{}});
-} 
+}
+
+function preBtn(){
+	SendMsg("message", {method:"pre", options:{}});
+}
+
+function titleBtn(){
+	SendMsg("message", {method:"title", options:{}});
+}
+
+function ruleBtn(){
+	SendMsg("message", {method:"rule", options:{}});
+}
+
 function readyGo(){
 	SendMsg("message", {method:"readyGo", options:{}});
-} 
+}
 </script>
 </head>
 <body>
@@ -58,6 +71,9 @@ function readyGo(){
 
 <!-- ゲーム全体の進行 -->
 <h2>ゲームの進行</h2>
+<button onclick="preBtn()">pre</button>
+<button onclick="titleBtn()">title</button>
+<button onclick="ruleBtn()">rule</button>
 <button onclick="init()">init</button>
 <button onclick="readyGo()">readyGo</button>
 

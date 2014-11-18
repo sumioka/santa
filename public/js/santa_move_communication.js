@@ -8,7 +8,7 @@ var socket = io.connect(SERVER + "/proj");
 // var socket = io.connect('http://192.168.0.5:3000');
 socket.on('connect', function(msg) {
   console.log("connect");
-  document.getElementById("connectId").innerHTML = 
+  document.getElementById("connectId").innerHTML =
     "あなたの接続ID::" + socket.io.engine.id;
 
 });
@@ -35,6 +35,15 @@ socket.on('message', function(msg) {
                break;
             case "init":
                init();
+               break;
+            case "pre":
+               pre();
+               break;
+            case "title":
+               title();
+               break;
+            case "rule":
+               rule();
                break;
             case "readyGo":
                readyGo();
