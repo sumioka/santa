@@ -576,13 +576,18 @@ function endAnimationStart(){
     }
     setTimeout(function(){endAnimationBigSoriMove();}, 2000);
 }
+var counter = 0;
 function endAnimationBigSoriMove(){
-    var sori = $("#sori");
-    console.log("endAnimationBigSori");
-    console.log(sori);
-    sori.css("zoom", 3);
-    sori.css("left", 1100);
-    sori.animate({left:-2000},2000);
+    if (counter == 0){
+        counter++;
+        var sori = $("#sori");
+        console.log("endAnimationBigSori");
+        console.log(sori);
+        // sori.css("zoom", 3);
+        sori.css("left", "1000px");
+        sori.css("top", 200);
+        // sori.animate({left:-200},3000);
+    }
 }
 ///////////////////////////////////////////////////////////////////////
 // signaling
