@@ -134,7 +134,8 @@ function santa_goal_sori_ride(color){
     if (obj_santa[color].image_id == 0){
         // 初期化処理
         obj_santa[color].css("left", 370 + 50 * obj_santa[color].id);
-        obj_santa[color].css("top", 0);
+        obj_santa[color].css("bottom", 940);
+        obj_santa[color].css("top", "auto");
         obj_santa[color].css("z-index", 1000);
         obj_santa[color].image_id = 1;
     }
@@ -559,12 +560,19 @@ function rope5(idx){
 
 // 上からサンタが落ちてくる
 function warpAnimation3(){
-    ending();
+    warpAnimationEnd();
 }
 
 
-function ending(){
-
+function warpAnimationEnd(){
+    endAnimationStart();
+}
+function endAnimationStart(){
+    console.log("sori move");
+    $("#sori").animate({left:-2000},2000);
+    for (var color in obj_santa){
+        obj_santa[color].animate({left:-200},2000);
+    }
 }
 ///////////////////////////////////////////////////////////////////////
 // signaling

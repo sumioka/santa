@@ -48,6 +48,9 @@ socket.on('message', function(msg) {
             case "readyGo":
                readyGo();
                break;
+            case "timeUp":
+               timeUp();
+               break;
             case "end":
             default:
          }

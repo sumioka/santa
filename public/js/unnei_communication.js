@@ -115,6 +115,10 @@ function readyGo(){
 	SendMsg("message", {method:"readyGo", options:{}});
 }
 
+function timeUp(){
+	SendMsg("message", {method:"timeUp", options:{}});
+}
+
 // メッセージを送る
 function SendMsg(target,msg) {
      socket.emit(target, { value: JSON.stringify(msg) });
