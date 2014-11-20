@@ -52,6 +52,10 @@ function ruleBtn(){
 	SendMsg("message", {method:"rule", options:{}});
 }
 
+function ouenBtn(){
+	SendMsg("message", {method:"ouen", options:{}});
+}
+
 function readyGo(){
 	SendMsg("message", {method:"readyGo", options:{}});
 }
@@ -75,6 +79,7 @@ function readyGo(){
 <button onclick="titleBtn()">title</button>
 <button onclick="ruleBtn()">rule</button>
 <button onclick="init()">init</button>
+<button onclick="ouenBtn()">ouen</button>
 <button onclick="readyGo()">readyGo</button>
 
 </body>

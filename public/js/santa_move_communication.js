@@ -32,7 +32,7 @@ socket.on('message', function(msg) {
                  _communication_keys[color][k_up] = true;
                if(direction == "down")
                  _communication_keys[color][k_down] = true;
-               break;
+               break
             case "init":
                init();
                break;
@@ -44,6 +44,9 @@ socket.on('message', function(msg) {
                break;
             case "rule":
                rule();
+               break;
+            case "ouen":
+               ouen();
                break;
             case "readyGo":
                readyGo();
