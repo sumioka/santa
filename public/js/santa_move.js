@@ -135,6 +135,8 @@ function px2int(pxstr){
 
 function goalAnimation(){
 
+    obj_bgm.pause();
+
     // とりあえずはゴールの表示だけ
     var goal_text = $("<img>").attr("src", "image/goal/goal.png");
     goal_text.appendTo(obj_animebox);
@@ -385,6 +387,7 @@ function timeUp(){
         clearInterval(gameTimer);
         gameTimer = null;
     }
+    obj_bgm.pause();
     warp();
 }
 
@@ -550,6 +553,8 @@ function init(){
 
     // エンディング画面を消す
     $("#screen_fin2").hide();
+    $("#merryxmas").hide();
+    $("#anime_box").css("top", "0px");
 
 }
 
