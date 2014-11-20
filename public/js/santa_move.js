@@ -440,6 +440,7 @@ function warp(){
         } 
     }
     setTimeout(function(){warpAnimation1()},100);
+    console.log("warp");
 }
 
 function warpAnimation1(){
@@ -573,6 +574,15 @@ function endAnimationStart(){
     for (var color in obj_santa){
         obj_santa[color].animate({left:-200},2000);
     }
+    setTimeout(function(){endAnimationBigSoriMove();}, 2000);
+}
+function endAnimationBigSoriMove(){
+    var sori = $("#sori");
+    console.log("endAnimationBigSori");
+    console.log(sori);
+    sori.css("zoom", 3);
+    sori.css("left", 1100);
+    sori.animate({left:-2000},2000);
 }
 ///////////////////////////////////////////////////////////////////////
 // signaling
