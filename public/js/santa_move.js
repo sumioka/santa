@@ -104,6 +104,39 @@ function santa_warp(color){
     // 2. 上方画面外からそりへ
 }
 
+function santa_goal_anime(color){
+    // console.log("santa_goal_anime:" + obj_santa[color].image_id);
+     if (obj_santa[color].image_id >= 12){
+        obj_santa[color].image_id = 1;
+        santa_goal2(color);
+    } else {
+        change_image_src(obj_santa[color], obj_santa[color].image_id);
+        obj_santa[color].image_id++;
+        setTimeout(function(){santa_goal_anime(color);}, 100);
+        // setTimeout("santa_goal_anime("+color+")", 100);
+    }
+}
+
+function santa_goal1(color){
+    // 状態変更(操作不可に)
+    // よじのぼり
+    // そりへ座る
+    // 状態変更(手を触れるように)
+    obj_santa[color].state = STATE_WAIT;
+    obj_santa[color].attr({src:"image/up" + obj_santa[color].id +"/1.png"});
+    console.log("santa_goal1");
+    santa_goal_anime(color);
+    setTieout(santa_goal_anime(color), 0)
+    // anime
+}
+
+function santa_goal2(color){
+    // アニメーションを挟むためゴール処理を２つに分ける
+    obj_santa[color].state = STATE_GOAL;
+    obj_santa[color].attr({src:"image/santa" + obj_santa[color].id + "/1.png"});
+    console.log("image/santa" + obj_santa[color].id + "/1.png");
+}
+
 function santa_hitstop(color){
     // トナカイとぶつかった時のモーション
     // 操作不可
@@ -133,11 +166,13 @@ function px2int(pxstr){
     return Number(pxstr.substr(0, pxstr.length-2));
 }
 
-function goalAnimation(){
+function goalAnimation(color){
     // とりあえずはゴールの表示だけ
+    console.log("goalAnimation");
     var goal_text = $("<img>").attr("src", "image/goal/goal.png");
     goal_text.appendTo(obj_animebox);
-    clearInterval(game_timer);
+    santa_goal1(color);
+    // clearInterval(game_timer);
 
     // ゴールに到達した時の処理
 
@@ -189,8 +224,8 @@ function movePlane() {
     for(var color in obj_santa){
         var toppos = px2int(obj_santa[color].css("top"));
         var windowpos = px2int(obj_window[color].css("top"));
-        if (toppos <= GOAL_LINE){
-            goalAnimation();
+        if (toppos <= GOAL_LINE && obj_santa[color].state == STATE_MOVING){
+            goalAnimation(color);
             // alert();
         }
         if (obj_santa[color].state == STATE_MOVING &&
@@ -300,6 +335,7 @@ function movestart(debug){
     obj_santa["gre"].id = 4;
     for (var color in obj_santa){
         obj_santa[color].state = STATE_MOVING;
+        obj_santa[color].image_id = 1; // 各種アニメーション用
     }
     for (var color in obj_window){
         obj_window[color].image_id = 1;
