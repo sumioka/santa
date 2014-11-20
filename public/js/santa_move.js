@@ -2,7 +2,7 @@ var obj_santa;
 var obj_window;
 var obj_tonakai;
 var obj_animebox;
-var obj_up;
+var obj_bgm;
 var WIDTH;
 var HEIGHT;
 var DEBUG_LEVEL = 0;
@@ -151,6 +151,10 @@ function goalAnimation(){
     // そりが動く
 
     // 終わりナレーション
+    obj_bgm = new Audio("image/sound/fin.mp3");
+    obj_bgm.load();
+    obj_bgm.play();
+
     $("#anime_box").animate({top:"1080px"}, 1500);
 
     var now = new Date().getTime();
@@ -161,7 +165,7 @@ function goalAnimation(){
       $("#screen_fin1").hide();
       $("#screen_fin2").show();
       $("#merryxmas").fadeIn("slow");
-    },5000);
+    },5500);
 
 }
 
@@ -595,19 +599,25 @@ function readyGo(){
 
     // どん!
     setTimeout("go()",3000);
+
+
 }
 
 // よーいどん用
-{
-    function go(){
-        startGameTimer();
-        for(var color in obj_santa){
-            obj_santa[color].state = STATE_MOVING;
-        }
-        $("#screen_yoi").hide();
-        $("#screen_don").show();
-        $("#screen_don").fadeOut(3000);
+function go(){
+    startGameTimer();
+    for(var color in obj_santa){
+        obj_santa[color].state = STATE_MOVING;
     }
+    $("#screen_yoi").hide();
+    $("#screen_don").show();
+    $("#screen_don").fadeOut(3000);
+
+    //bgm開始
+    obj_bgm = new Audio("image/sound/bgm.mp3");
+    obj_bgm.loop = "true";
+    obj_bgm.load();
+    obj_bgm.play();
 }
 
 function end(){
