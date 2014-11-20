@@ -8,14 +8,14 @@ var DEBUG_LEVEL = 0;
 var GOAL_LINE = 150;
 var game_timer;
 var window_timer;
-var santaCanMove = false;
 var GAMETIME_DEFAULT = 30;
 var gametime = GAMETIME_DEFAULT;
 var gameTimer = null;
-var STATE_MOVING = 0;
-var STATE_HITTED = 1;
-var STATE_GOAL = 2;
-var STATE_WAIT = 3;
+var STATE_INIT = 0;
+var STATE_MOVING = 1;
+var STATE_HITTED = 2;
+var STATE_GOAL = 3;
+var STATE_WAIT = 4;
 
 var STATE_CLOSED = 4;
 var STATE_OPENED = 5;
@@ -404,9 +404,149 @@ function timeUp(){
         clearInterval(gameTimer);
         gameTimer = null;
     }
+    warp();
+}
+
+function warp(){
+    for(var color in obj_santa){
+        if((obj_santa[color].state == STATE_MOVING) || (obj_santa[color].state == STATE_HITTED)){
+            obj_santa[color].state = STATE_WAIT;
+            obj_santa[color].warp = 2;
+            var top = parseInt(obj_santa[color].css("top"));
+            obj_santa[color].hide();
+            obj_santa[color].attr("src","image/warp" + obj_santa[color].id + "/1.png");
+            obj_santa[color].css("top", top - 900);
+//            obj_santa[color].show();
+        } 
+    }
+    setTimeout(function(){warpAnimation1()},100);
+}
+
+function warpAnimation1(){
+    // 本当はwarpに書くべきだが、なぜか上に書くとゴミが写るのでここで記述
+    for(var color in obj_santa){
+        obj_santa[color].show();
+    }
+    $("#santa_rope").show();
+    setTimeout(function(){rope1(1)},100);
 
 }
 
+// 1 2 3 4 5
+function rope1(ropeIdx){
+    $("#santa_rope").attr("src","image/rope/" + ropeIdx + ".png");
+    if(ropeIdx < 5){
+        ropeIdx ++;
+        setTimeout(function(){rope1(ropeIdx)},100);
+    } else {
+        setTimeout(function(){rope2(0)},100);        
+    }
+}
+
+// 6 7 6 7 6 7 8 9
+function rope2(idx){
+    if(idx % 2 == 0){
+        $("#santa_rope").attr("src","image/rope/6.png");
+    } else {
+        $("#santa_rope").attr("src","image/rope/7.png");
+    }
+    if(idx < 7){
+        idx ++;
+        setTimeout(function(){rope2(idx)},200);
+    } else {
+        setTimeout(function(){
+            $("#santa_rope").attr("src","image/rope/8.png");
+            setTimeout(function(){
+                $("#santa_rope").attr("src","image/rope/9.png");
+                setTimeout(function(){rope3(0)},100);        
+                for(var color in obj_santa){
+                    console.log(color);
+                    setTimeout("warpAnimation2(\"" + color + "\")",800);
+                }
+            })
+        })
+    }
+}
+
+// rope: (10 11) x 6 (santa:1~12と同時)
+function rope3(idx){
+    if(idx % 2 == 0){
+        $("#santa_rope").attr("src","image/rope/10.png");
+    } else {
+        $("#santa_rope").attr("src","image/rope/11.png");
+    }
+    if(idx < 12){
+        idx ++;
+        setTimeout(function(){rope3(idx)},100);
+    } else {
+        setTimeout(function(){rope4(0)},100);
+    }
+
+}
+
+// santa: 1 ~ 12
+function warpAnimation2(color){
+    console.log(color);
+    obj_santa[color].attr("src","image/warp" + obj_santa[color].id + "/" + obj_santa[color].warp + ".png");
+    obj_santa[color].warp = obj_santa[color].warp + 1;
+    if(obj_santa[color].warp < 12){
+        setTimeout(function(){warpAnimation2(color)},100);
+    } else {
+        setTimeout(function(){
+            obj_santa[color].animate({top:-1440},2000);
+            setTimeout(function(){warpAnimation3(color)},100);
+        },400);   
+    }
+}
+
+// rope: (12 13) x 10 (santa:12の引き上げと同時 santa.animate 2000)
+function rope4(idx){
+    if(idx % 2 == 0){
+        $("#santa_rope").attr("src","image/rope/12.png");
+    } else {
+        $("#santa_rope").attr("src","image/rope/13.png");
+    }
+    if(idx < 20){
+        idx ++;
+        setTimeout(function(){rope4(idx)},100);
+    } else {
+        // 10 9 8 3 2 1
+        setTimeout(function(){rope5(0)},100);
+    }
+
+}
+
+// rope: 10 9 8 3 2 1
+function rope5(idx){
+    if(idx == 0){
+        $("#santa_rope").attr("src","image/rope/10.png");
+    } else if (idx == 1){
+        $("#santa_rope").attr("src","image/rope/9.png");
+    } else if (idx == 2){
+        $("#santa_rope").attr("src","image/rope/8.png");
+    } else if (idx == 3){
+        $("#santa_rope").attr("src","image/rope/3.png");
+    } else if (idx == 4){
+        $("#santa_rope").attr("src","image/rope/2.png");
+    } else {
+        $("#santa_rope").attr("src","image/rope/1.png");
+        setTimeout(function(){warpAnimation3()},100);
+        return;
+    }
+
+    idx++;
+    setTimeout(function(){rope5(idx)},100);
+}
+
+// 上からサンタが落ちてくる
+function warpAnimation3(){
+    ending();
+}
+
+
+function ending(){
+
+}
 ///////////////////////////////////////////////////////////////////////
 // signaling
 ///////////////////////////////////////////////////////////////////////
@@ -414,7 +554,11 @@ function init(){
     reset_santa_pos();
     reset_window_pos();
 
-    santaCanMove = false;
+    for(var color in obj_santa){
+        obj_santa[color].attr("src","image/santa" + obj_santa[color].id + "/1.png");
+        obj_santa[color].state = STATE_INIT;
+    }
+
     initGameTimer();
 
     // プレ、タイトル、説明用画像を消す
@@ -459,7 +603,9 @@ function readyGo(){
 {
     function go(){
         startGameTimer();
-        santaCanMove = true;
+        for(var color in obj_santa){
+            obj_santa[color].state = STATE_MOVING;
+        }
         $("#screen_yoi").hide();
         $("#screen_don").show();
         $("#screen_don").fadeOut(3000);
