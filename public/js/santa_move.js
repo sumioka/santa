@@ -447,7 +447,7 @@ function warpAnimation1(){
         obj_santa[color].show();
     }
     $("#santa_rope").show();
-    setTimeout(function(){rope1(1)},100);
+    setTimeout(function(){rope1(1);},100);
 
 }
 
@@ -456,9 +456,9 @@ function rope1(ropeIdx){
     $("#santa_rope").attr("src","image/rope/" + ropeIdx + ".png");
     if(ropeIdx < 5){
         ropeIdx ++;
-        setTimeout(function(){rope1(ropeIdx)},100);
+        setTimeout(function(){rope1(ropeIdx);},100);
     } else {
-        setTimeout(function(){rope2(0)},100);        
+        setTimeout(function(){rope2(0);},100);        
     }
 }
 
@@ -482,8 +482,8 @@ function rope2(idx){
                     console.log(color);
                     setTimeout("warpAnimation2(\"" + color + "\")",800);
                 }
-            })
-        })
+            });
+        });
     }
 }
 
