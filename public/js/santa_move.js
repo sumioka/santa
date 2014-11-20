@@ -2,6 +2,7 @@ var obj_santa;
 var obj_window;
 var obj_tonakai;
 var obj_animebox;
+var obj_up;
 var WIDTH;
 var HEIGHT;
 var DEBUG_LEVEL = 0;
@@ -132,7 +133,7 @@ function px2int(pxstr){
     return Number(pxstr.substr(0, pxstr.length-2));
 }
 
-function goalAnimation(color){
+function goalAnimation(){
 
     // とりあえずはゴールの表示だけ
     var goal_text = $("<img>").attr("src", "image/goal/goal.png");
@@ -142,21 +143,6 @@ function goalAnimation(color){
     // ゴールに到達した時の処理
 
     // 一番のサンタがよじ登る
-    switch(color){
-      case "red":
-        $("#santa_red").hide();
-        $("#santa_red_goal").css("left", obj_santa[color].css("left"));
-        $("#santa_red_goal").show();
-        setTimeout("finAnimation()",1000);
-        break;
-      case "blu":
-        break;
-      case "gre":
-        break;
-      case "yel":
-        break;
-    }
-
 
     // 他のサンタはロープを使ってワープする
 
@@ -164,23 +150,19 @@ function goalAnimation(color){
 
     // そりが動く
 
-}
-
-// 終わりナレーション？
-function finAnimation(){
+    // 終わりナレーション
+    $("#anime_box").animate({top:"1080px"}, 1500);
 
     var now = new Date().getTime();
-
-    $("#anime_box").animate({top:"800px"}, 1500);
-
     $("#screen_fin1").attr('src', 'image/fin1/fin1.gif?' + now);
     $("#screen_fin1").show();
 
     setTimeout(function(){
       $("#screen_fin1").hide();
       $("#screen_fin2").show();
-      $("#merryxmas").show();
+      $("#merryxmas").fadeIn("slow");
     },5000);
+
 }
 
 function moveWindowColor(color){
@@ -412,7 +394,7 @@ function warp(){
             obj_santa[color].attr("src","image/warp" + obj_santa[color].id + "/1.png");
             obj_santa[color].css("top", top - 900);
 //            obj_santa[color].show();
-        } 
+        }
     }
     setTimeout(function(){warpAnimation1()},100);
 }
@@ -434,7 +416,7 @@ function rope1(ropeIdx){
         ropeIdx ++;
         setTimeout(function(){rope1(ropeIdx)},100);
     } else {
-        setTimeout(function(){rope2(0)},100);        
+        setTimeout(function(){rope2(0)},100);
     }
 }
 
@@ -453,7 +435,7 @@ function rope2(idx){
             $("#santa_rope").attr("src","image/rope/8.png");
             setTimeout(function(){
                 $("#santa_rope").attr("src","image/rope/9.png");
-                setTimeout(function(){rope3(0)},100);        
+                setTimeout(function(){rope3(0)},100);
                 for(var color in obj_santa){
                     console.log(color);
                     setTimeout("warpAnimation2(\"" + color + "\")",800);
@@ -490,7 +472,7 @@ function warpAnimation2(color){
         setTimeout(function(){
             obj_santa[color].animate({top:-1440},2000);
             setTimeout(function(){warpAnimation3(color)},100);
-        },400);   
+        },400);
     }
 }
 
@@ -560,7 +542,10 @@ function init(){
     $("#screen_pre").hide();
     $("#screen_title").hide();
     $("#screen_rule").hide();
+    $("#screen_ouen").hide();
 
+    // エンディング画面を消す
+    $("#screen_fin2").hide();
 
 }
 
@@ -569,6 +554,7 @@ function pre(){
     $("#screen_pre").show();
     $("#screen_title").hide();
     $("#screen_rule").hide();
+    $("#screen_ouen").hide();
 };
 
 // タイトル用
@@ -576,6 +562,7 @@ function title(){
     $("#screen_pre").hide();
     $("#screen_title").show();
     $("#screen_rule").hide();
+    $("#screen_ouen").hide();
 };
 
 // ルール説明用
@@ -583,6 +570,15 @@ function rule(){
     $("#screen_pre").hide();
     $("#screen_title").hide();
     $("#screen_rule").show();
+    $("#screen_ouen").hide();
+};
+
+// フロンタ応援用
+function ouen(){
+    $("#screen_pre").hide();
+    $("#screen_title").hide();
+    $("#screen_rule").hide();
+    $("#screen_ouen").show();
 };
 
 
@@ -592,6 +588,7 @@ function readyGo(){
     $("#screen_pre").hide();
     $("#screen_title").hide();
     $("#screen_rule").hide();
+    $("#screen_ouen").hide();
 
     // よーい
     $("#screen_yoi").show();
