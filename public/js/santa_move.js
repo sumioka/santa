@@ -107,8 +107,8 @@ function santa_warp(color){
 function santa_goal_anime(color){
     // console.log("santa_goal_anime:" + obj_santa[color].image_id);
      if (obj_santa[color].image_id >= 12){
-        obj_santa[color].image_id = 1;
-        santa_goal2(color);
+        obj_santa[color].image_id = 0;
+        santa_goal_sori_ride(color);
     } else {
         change_image_src(obj_santa[color], obj_santa[color].image_id);
         obj_santa[color].image_id++;
@@ -126,15 +126,34 @@ function santa_goal1(color){
     obj_santa[color].attr({src:"image/up" + obj_santa[color].id +"/1.png"});
     console.log("santa_goal1");
     santa_goal_anime(color);
-    setTieout(santa_goal_anime(color), 0)
     // anime
 }
 
-function santa_goal2(color){
-    // アニメーションを挟むためゴール処理を２つに分ける
+function santa_goal_sori_ride(color){
+    // そりに乗る
+    if (obj_santa[color].image_id == 0){
+        // 初期化処理
+        obj_santa[color].css("left", 370 + 50 * obj_santa[color].id);
+        obj_santa[color].css("top", 0);
+        obj_santa[color].css("z-index", 1000);
+        obj_santa[color].image_id = 1;
+    }
+     if (obj_santa[color].image_id > 7){
+        // obj_santa[color].image_id = 1;
+        santa_goal_end(color);
+    } else {
+        obj_santa[color].attr({
+            src:"image/goal" + obj_santa[color].id + "/" + obj_santa[color].image_id + ".png"
+            });
+        // change_image_src(obj_santa[color], obj_santa[color].image_id);
+        obj_santa[color].image_id++;
+        setTimeout(function(){santa_goal_sori_ride(color);}, 100);
+        // setTimeout("santa_goal_anime("+color+")", 100);
+    }
+}
+function santa_goal_end(color){
+    // ゴール処理最後
     obj_santa[color].state = STATE_GOAL;
-    obj_santa[color].attr({src:"image/santa" + obj_santa[color].id + "/1.png"});
-    console.log("image/santa" + obj_santa[color].id + "/1.png");
 }
 
 function santa_hitstop(color){
