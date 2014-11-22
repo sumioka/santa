@@ -65,6 +65,7 @@ var unnei = io.of("/unnei").on("connection", function(socket){
 	socket.on('message', function(data) {
 		console.log("message");
 		proj.emit("message",  {value: data.value});
+		mobile.emit("message",  {value: data.value});
 		//mobile.emit("message",  {value: data.value});
 	});
 	
@@ -88,14 +89,19 @@ var proj = io.of("/proj").on("connection", function(socket){
 // モバイル
 var mobile = io.of("/mobile").on("connection", function(socket){
 	console.log("mobile connection");
-	
-	// サンタに関するメッセージはビルへ
-	socket.on("santa", function(data){
-//		proj.volatile.emit("message",  {value: data.value});
+
+	socket.on('message', function(data) {
+		console.log("message");
 		proj.emit("message",  {value: data.value});
+		//mobile.emit("message",  {value: data.value});
+	});
+
+	socket.on('unnei', function(data) {
+		console.log("message");
+		unnei.emit("message",  {value: data.value});
+		//mobile.emit("message",  {value: data.value});
 	});
 	
-
 	// 切断
 	socket.on('disconnect',function(){
 		console.log("mobile disconnect");
