@@ -1,10 +1,10 @@
 var obj_santa;
 var obj_window;
 var obj_tonakai;
+var obj_sori;
 var obj_animebox;
 var WIDTH;
 var HEIGHT;
-var DEBUG_LEVEL = 0;
 var GOAL_LINE = 150;
 var game_timer;
 var window_timer;
@@ -335,8 +335,13 @@ function reset_window_pos(){
     }
 }
 
-function movestart(debug){
-    DEBUG_LEVEL = debug;
+function movestart(){
+    if(DEBUG_LEVEL == 0){
+        $("#connectId").hide();
+        $("#receiveMsg").hide();
+        $("#errorMsg").hide();
+    }
+
     obj_santa = {
         red : $("#santa_red"),
         blu : $("#santa_blu"),
@@ -362,6 +367,8 @@ function movestart(debug){
         obj_window[color].state = STATE_CLOSED;
     }
     // obj_tonakai = $("#tonakai");
+
+    obj_sori = $("#sori");
     obj_animebox = $("#anime_box"); // ゲーム画面全体
     WIDTH = px2int(obj_animebox.css("width"));
     HEIGHT = px2int(obj_animebox.css("height"));
@@ -429,7 +436,7 @@ function timeUp(){
 
 function warp(){
     for(var color in obj_santa){
-        if((obj_santa[color].state == STATE_MOVING) || (obj_santa[color].state == STATE_HITTED)){
+        if((obj_santa[color].state == STATE_INIT) || (obj_santa[color].state == STATE_MOVING) || (obj_santa[color].state == STATE_HITTED)){
             obj_santa[color].state = STATE_WAIT;
             obj_santa[color].warp = 2;
             var top = parseInt(obj_santa[color].css("top"));
@@ -446,7 +453,9 @@ function warp(){
 function warpAnimation1(){
     // 本当はwarpに書くべきだが、なぜか上に書くとゴミが写るのでここで記述
     for(var color in obj_santa){
-        obj_santa[color].show();
+        if(obj_santa[color].state == STATE_WAIT){
+            obj_santa[color].show();
+        }
     }
     $("#santa_rope").show();
     setTimeout(function(){rope1(1);},100);
@@ -515,7 +524,7 @@ function warpAnimation2(color){
     } else {
         setTimeout(function(){
             obj_santa[color].animate({top:-1440},2000);
-            setTimeout(function(){warpAnimation3(color)},100);
+            setTimeout(function(){warpAnimation3(color)},2100);
         },400);   
     }
 }
@@ -551,7 +560,7 @@ function rope5(idx){
         $("#santa_rope").attr("src","image/rope/2.png");
     } else {
         $("#santa_rope").attr("src","image/rope/1.png");
-        setTimeout(function(){warpAnimation3()},100);
+        setTimeout(function(){warpAnimationEnd()},2000);
         return;
     }
 
@@ -560,30 +569,53 @@ function rope5(idx){
 }
 
 // 上からサンタが落ちてくる
-function warpAnimation3(){
-    warpAnimationEnd();
+function warpAnimation3(color){
+    obj_santa[color].image_id = 0;
+    santa_goal_sori_ride(color);
 }
-
 
 function warpAnimationEnd(){
-    endAnimationStart();
+    soriAnimationStart();
 }
-function endAnimationStart(){
+function soriAnimationStart(){
     console.log("sori move");
-    $("#sori").animate({left:-2000},2000);
+    obj_sori.image_id = 1;
+    obj_sori.attr("src","image/sleigh1/1.png");
+    //$("#sori").animate({left:-1080},2000,endAnimationBigSoriMove);
+    //$("#santa_rope").animate({left:-1080},2000);
+    
+    $("#santa_rope").hide();
     for (var color in obj_santa){
-        obj_santa[color].animate({left:-200},2000);
+        obj_santa[color].hide();
     }
-    setTimeout(function(){endAnimationBigSoriMove();}, 2000);
+    setTimeout("soriAnimation()",100);
 }
-function endAnimationBigSoriMove(){
-    var sori = $("#sori");
-    console.log("endAnimationBigSori");
+
+function soriAnimation(){
+    var idx = obj_sori.image_id;
+    if(idx < 32){
+        obj_sori.image_id++;
+        var left = parseInt(obj_sori.css("left"));
+        obj_sori.attr("src","image/sleigh1/" + (idx % 8 + 1)+ ".png");
+        obj_sori.css("left", (left - idx * 2));
+        setTimeout("soriAnimation()",100)
+    } else {
+        //obj_sori.animate({left:-1080},1000,soriAnimationBigSoriMove);
+        setTimeout("soriAnimationBigSoriMove()",1000);    
+    }
+}
+
+function soriAnimationBigSoriMove(){
+    console.log("soriAnimationBigSori");
     console.log(sori);
-    sori.css("zoom", 3);
-    sori.css("left", 1100);
-    sori.animate({left:-2000},2000);
+    obj_sori.addClass("refrect");
+    obj_sori.css("zoom", 3);
+//    sori.css("left", 1100);
+    obj_sori.css("top", 100);
+    obj_sori.animate({left:500,top:0},5000);
 }
+
+
 ///////////////////////////////////////////////////////////////////////
 // signaling
 ///////////////////////////////////////////////////////////////////////
@@ -591,7 +623,14 @@ function init(){
     reset_santa_pos();
     reset_window_pos();
 
+    obj_sori.css("zoom", 1);
+    obj_sori.css("left",150);
+    obj_sori.css("top",0);
+    obj_sori.attr("src","image/sleigh1/sleigh.png");
+    obj_sori.removeClass("refrect");
+
     for(var color in obj_santa){
+        obj_santa[color].show();
         obj_santa[color].attr("src","image/santa" + obj_santa[color].id + "/1.png");
         obj_santa[color].state = STATE_INIT;
     }
