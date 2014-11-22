@@ -491,7 +491,9 @@ function rope2(idx){
                 setTimeout(function(){rope3(0)},100);        
                 for(var color in obj_santa){
                     console.log(color);
-                    setTimeout("warpAnimation2(\"" + color + "\")",800);
+                    if(obj_santa[color].state == STATE_WAIT){
+                        setTimeout("warpAnimation2(\"" + color + "\")",800);
+                    }
                 }
             });
         });
