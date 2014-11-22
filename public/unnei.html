@@ -4,58 +4,6 @@
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/socket.io.js"></script>
 <script src="js/unnei_communication.js"></script>
-<script type="text/javascript">
-var k_left = 37;
-var k_up = 38;
-var k_right = 39;
-var k_down = 40;
-
-var santa = "red";
-
-   $(document).keydown(function(e) {
-   		santa = $("input[name='santa']:checked")[0].value;
-
-   		if(santa == "non"){
-   			return;
-   		}
-
-		switch(e.keyCode){
-			case k_left:
-		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"left"}});
-				break;
-			case k_up:
-		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"up"}});
-		        break;
-			case k_right:
-		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"right"}});
-				break;
-			case k_down:
-		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"down"}});
-				break;
-		}
-
-   });
-
-function init(){
-	SendMsg("message", {method:"init", options:{}});
-}
-
-function preBtn(){
-	SendMsg("message", {method:"pre", options:{}});
-}
-
-function titleBtn(){
-	SendMsg("message", {method:"title", options:{}});
-}
-
-function ruleBtn(){
-	SendMsg("message", {method:"rule", options:{}});
-}
-
-function readyGo(){
-	SendMsg("message", {method:"readyGo", options:{}});
-}
-</script>
 </head>
 <body>
 <div id="connectId"></div><br/>
@@ -76,6 +24,7 @@ function readyGo(){
 <button onclick="ruleBtn()">rule</button>
 <button onclick="init()">init</button>
 <button onclick="readyGo()">readyGo</button>
+<button onclick="timeUp()">time up</button>
 
 </body>
 </html>

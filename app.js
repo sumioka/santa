@@ -91,8 +91,8 @@ var mobile = io.of("/mobile").on("connection", function(socket){
 	
 	// サンタに関するメッセージはビルへ
 	socket.on("santa", function(data){
-//		proj.volatile.emit("message",  {value: data.value});
-		proj.emit("message",  {value: data.value});
+		proj.volatile.emit("message",  {value: data.value});
+		// proj.emit("message",  {value: data.value});
 	});
 	
 
