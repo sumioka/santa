@@ -3,6 +3,7 @@ var obj_window;
 var obj_tonakai;
 var obj_sori;
 var obj_animebox;
+var obj_up;
 var WIDTH;
 var HEIGHT;
 var GOAL_LINE = 150;
@@ -29,7 +30,6 @@ function moveleft(){
 
 
 var _communication_keys = {red:{},blu:{},gre:{},yel:{}};
-
 
 var keys = {};
 var k_left = 37;
@@ -187,9 +187,10 @@ function px2int(pxstr){
 }
 
 function goalAnimation(color){
+
     // とりあえずはゴールの表示だけ
     console.log("goalAnimation");
-    var goal_text = $("<img>").attr("src", "image/goal/goal.png");
+    var goal_text = $("<img class='goal_text'>").attr("src", "image/goal/goal.png");
     goal_text.appendTo(obj_animebox);
     santa_goal1(color);
     // clearInterval(game_timer);
@@ -204,7 +205,8 @@ function goalAnimation(color){
 
     // そりが動く
 
-    // 終わりナレーション？
+    // 終わりナレーション
+
 }
 
 function moveWindowColor(color){
@@ -444,7 +446,7 @@ function warp(){
             obj_santa[color].attr("src","image/warp" + obj_santa[color].id + "/1.png");
             obj_santa[color].css("top", top - 900);
 //            obj_santa[color].show();
-        } 
+        }
     }
     setTimeout(function(){warpAnimation1()},100);
     console.log("warp");
@@ -469,7 +471,7 @@ function rope1(ropeIdx){
         ropeIdx ++;
         setTimeout(function(){rope1(ropeIdx);},100);
     } else {
-        setTimeout(function(){rope2(0);},100);        
+        setTimeout(function(){rope2(0);},100);
     }
 }
 
@@ -488,7 +490,7 @@ function rope2(idx){
             $("#santa_rope").attr("src","image/rope/8.png");
             setTimeout(function(){
                 $("#santa_rope").attr("src","image/rope/9.png");
-                setTimeout(function(){rope3(0)},100);        
+                setTimeout(function(){rope3(0)},100);
                 for(var color in obj_santa){
                     console.log(color);
                     if(obj_santa[color].state == STATE_WAIT){
@@ -527,7 +529,7 @@ function warpAnimation2(color){
         setTimeout(function(){
             obj_santa[color].animate({top:-1440},2000);
             setTimeout(function(){warpAnimation3(color)},2100);
-        },400);   
+        },400);
     }
 }
 
@@ -614,9 +616,25 @@ function soriAnimationBigSoriMove(){
     obj_sori.css("zoom", 3);
 //    sori.css("left", 1100);
     obj_sori.css("top", 100);
-    obj_sori.animate({left:500,top:0},5000);
+    obj_sori.animate({left:500,top:0},5000, xmas);
 }
 
+
+
+function xmas(){
+    $("#anime_box").animate({top:"1080px"}, 1500);
+
+    var now = (+ new Date());
+    $("#screen_fin1").attr('src', 'image/fin1/fin1.gif?' + now);
+    $("#screen_fin1").show();
+
+    setTimeout(function(){
+      $("#screen_fin1").hide();
+      $("#screen_fin2").show();
+      $("#merryxmas").fadeIn("slow");
+    },5000);
+
+}
 
 ///////////////////////////////////////////////////////////////////////
 // signaling
@@ -625,6 +643,7 @@ function init(){
     reset_santa_pos();
     reset_window_pos();
 
+    $("#anime_box").css("top",0);
     obj_sori.css("zoom", 1);
     obj_sori.css("left",150);
     obj_sori.css("top",0);
@@ -640,36 +659,58 @@ function init(){
     initGameTimer();
 
     // プレ、タイトル、説明用画像を消す
-    $("#screen_pre").css("display", "none");
-    $("#screen_title").css("display", "none");
-    $("#screen_rule").css("display", "none");
+    $("#screen_pre").hide();
+    $("#screen_title").hide();
+    $("#screen_rule").hide();
+    $("#screen_ouen").hide();
 
-
+    // エンディング画面を消す
+    $("#screen_fin2").hide();
+    $("#merryxmas").hide();
+    $(".goal_text").remove();
 }
 
 // プレ用
 function pre(){
-    $("#screen_pre").css("display", "inline");
-    $("#screen_title").css("display", "none");
-    $("#screen_rule").css("display", "none");
+    $("#screen_pre").show();
+    $("#screen_title").hide();
+    $("#screen_rule").hide();
+    $("#screen_ouen").hide();
 };
 
 // タイトル用
 function title(){
-    $("#screen_pre").css("display", "none");
-    $("#screen_title").css("display", "inline");
-    $("#screen_rule").css("display", "none");
+    $("#screen_pre").hide();
+    $("#screen_title").show();
+    $("#screen_rule").hide();
+    $("#screen_ouen").hide();
 };
 
 // ルール説明用
 function rule(){
-    $("#screen_pre").css("display", "none");
-    $("#screen_title").css("display", "none");
-    $("#screen_rule").css("display", "inline");
+    $("#screen_pre").hide();
+    $("#screen_title").hide();
+    $("#screen_rule").show();
+    $("#screen_ouen").hide();
+};
+
+// フロンタ応援用
+function ouen(){
+    $("#screen_pre").hide();
+    $("#screen_title").hide();
+    $("#screen_rule").hide();
+    $("#screen_ouen").show();
 };
 
 
 function readyGo(){
+
+    // プレ、タイトル、説明用画像を消す
+    $("#screen_pre").hide();
+    $("#screen_title").hide();
+    $("#screen_rule").hide();
+    $("#screen_ouen").hide();
+
     // よーい
     $("#screen_yoi").show();
 
