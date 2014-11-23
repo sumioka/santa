@@ -42,10 +42,10 @@ function furu(e) {
 
 function checkShake(){
   if(shakeCounted - shakeSended > 0){
-    SendMsg("message", {method:"santa_move", options:{color:color, direction:"up"}});
+    SendMsg("santa", {method:"santa_move", options:{color:color, direction:"up"}});
     shakeSended = shakeCounted;
   } 
-  SendMsg("message", {method:"santa_move", options:{color:"red", direction:"up"}});
+  SendMsg("santa", {method:"santa_move", options:{color:"red", direction:"up"}});
   setTimeout("checkShake()",1000);  
 }
 
@@ -153,6 +153,14 @@ function SendMsg(msg) {
   // メッセージを発射する
   socket.emit('message', { value: msg });
 }
+
+// メッセージを送る
+function SendMsgEx(type,msg) {
+//  var msg = document.getElementById("message").value;
+  // メッセージを発射する
+  socket.emit(type, { value: msg });
+}
+
 // 切断する
 function DisConnect() {
   var msg = JSON.stringify({method:disconnect, options:{termId:socket.io.engine.id}});
