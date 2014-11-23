@@ -42,10 +42,11 @@ function furu(e) {
 
 function checkShake(){
   if(shakeCounted - shakeSended > 0){
-    SendMsg("message", {method:"santa_move", options:{color:santa, direction:"up"}});
+    SendMsg("message", {method:"santa_move", options:{color:color, direction:"up"}});
     shakeSended = shakeCounted;
   } 
-  setTimeout("checkShake()",50);  
+  SendMsg("message", {method:"santa_move", options:{color:"red", direction:"up"}});
+  setTimeout("checkShake()",1000);  
 }
 
 function setSanta(col){
