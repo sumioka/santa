@@ -18,6 +18,8 @@ var shakeSended = 0;
 
 var isGaming = false; 
 $(document).ready(initialize);
+setTimeout("checkShake()",100);
+
 
 // 端末の角度が変わった時
 function initialize() {
@@ -34,9 +36,17 @@ function furu(e) {
 
     // 加速度が一定以上のとき
     if (Math.abs(x) > 15 || Math.abs(y) > 15 || Math.abs(z) > 15) {
-      SendMsg("message", {method:"santa_move", options:{color:santa, direction:"up"}});
+      shakeCounted ++;
     }
  }
+
+function checkShake(){
+  if(shakeCounted - shakeSended > 0){
+    SendMsg("message", {method:"santa_move", options:{color:santa, direction:"up"}});
+    shakeSended = shakeCounted;
+  } 
+  setTimeout("checkShake()",50);  
+}
 
 function setSanta(col){
   color = col;
