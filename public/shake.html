@@ -148,17 +148,8 @@ socket.on('message', function(msg) {
 });
 
 // メッセージを送る
-function SendMsg(msg) {
-//  var msg = document.getElementById("message").value;
-  // メッセージを発射する
-  socket.emit('message', { value: msg });
-}
-
-// メッセージを送る
-function SendMsgEx(type,msg) {
-//  var msg = document.getElementById("message").value;
-  // メッセージを発射する
-  socket.emit(type, { value: msg });
+function SendMsg(target,msg) {
+     socket.emit(target, { value: JSON.stringify(msg) });
 }
 
 // 切断する
