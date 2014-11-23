@@ -89,10 +89,11 @@ var proj = io.of("/proj").on("connection", function(socket){
 // モバイル
 var mobile = io.of("/mobile").on("connection", function(socket){
 	console.log("mobile connection");
-
-	socket.on('message', function(data) {
-		console.log("message");
-		proj.emit("message",  {value: data.value});
+	
+	// サンタに関するメッセージはビルへ
+	socket.on("santa", function(data){
+		proj.volatile.emit("message",  {value: data.value});
+		// proj.emit("message",  {value: data.value});
 		//mobile.emit("message",  {value: data.value});
 	});
 
