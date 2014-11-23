@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8" />
 <title>サンタジェクション</title>
-<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/> 
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=yes"/> 
 <script src="js/config.js"></script>
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/socket.io.js"></script>
@@ -20,6 +20,11 @@ var isGaming = false;
 $(document).ready(initialize);
 setTimeout("checkShake()",100);
 
+if(DEBUG_LEVEL == 0){
+    $("#connectId").hide();
+    $("#receiveMsg").hide();
+    $("#errorMsg").hide();
+}
 
 // 端末の角度が変わった時
 function initialize() {
@@ -74,7 +79,7 @@ function setSanta(col){
 <div id="connectId"></div>
 <div id="receiveMsg"></div>
 <div id="errorMsg"></div>
-<div id="anime_box" style="background-image:url(image/others/wall.png);">
+<div id="anime_box" width="100%">
 <img src="image/setumei/pre.jpg" width="100%" name="screen_pre" id="screen_pre" style="position:absolute;z-index:100000;display:none">
 <img src="image/setumei/title.jpg" width="100%" name="screen_title" id="screen_title" style="position:absolute;z-index:100000;display:none">
 <img src="image/setumei/rule.png" width="100%" name="screen_rule" id="screen_rule" style="position:absolute;z-index:100000;display:none">
