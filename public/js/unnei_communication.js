@@ -63,7 +63,7 @@ function controller(){
         if (direction == k_right){
 		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"right"}});
         }
-		    if (direction == k_down){
+		if (direction == k_down){
 		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"down"}});
         }
     }
@@ -109,6 +109,10 @@ function titleBtn(){
 
 function ruleBtn(){
 	SendMsg("message", {method:"rule", options:{}});
+}
+
+function ouenBtn(){
+	SendMsg("message", {method:"ouen", options:{}});
 }
 
 function readyGo(){
