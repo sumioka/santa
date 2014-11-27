@@ -192,6 +192,7 @@ function goalAnimation(color){
     console.log("goalAnimation");
     var goal_text = $("<img class='goal_text'>").attr("src", "image/goal/goal.png");
     goal_text.appendTo(obj_animebox);
+    // goal_text.appendTo($("#game_box"));
     santa_goal1(color);
     // clearInterval(game_timer);
 

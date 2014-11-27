@@ -17,6 +17,8 @@ img {
 }
 #anime_box{
     position: relative;
+    width:1080px;
+    height:1080px;
 }
 
 .refrect{
