@@ -429,6 +429,7 @@ function timeUp(){
 
 function warp(){
     for(var color in obj_santa){
+        console.log("warp:" + color + ":" +obj_santa[color].state);
         if((obj_santa[color].state == STATE_MOVING) || (obj_santa[color].state == STATE_HITTED)){
             obj_santa[color].state = STATE_WAIT;
             obj_santa[color].warp = 2;
@@ -570,7 +571,7 @@ function warpAnimationEnd(){
 }
 function endAnimationStart(){
     console.log("sori move");
-    $("#sori").animate({left:-2000},2000);
+    $("#sori").animate({left:-100},200);
     for (var color in obj_santa){
         obj_santa[color].animate({left:-200},2000);
     }
@@ -584,7 +585,7 @@ function endAnimationBigSoriMove(){
         console.log("endAnimationBigSori");
         console.log(sori);
         // sori.css("zoom", 3);
-        sori.css("left", "1000px");
+        sori.css("left", 1200);
         sori.css("top", 200);
         // sori.animate({left:-200},3000);
     }
