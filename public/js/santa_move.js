@@ -192,6 +192,7 @@ function goalAnimation(color){
     console.log("goalAnimation");
     var goal_text = $("<img class='goal_text'>").attr("src", "image/goal/goal.png");
     goal_text.appendTo(obj_animebox);
+    // goal_text.appendTo($("#game_box"));
     santa_goal1(color);
     // clearInterval(game_timer);
 
@@ -209,20 +210,44 @@ function goalAnimation(color){
 
 }
 
+var window_anime_step = [
+    [2, 0.1], [3, 0.1], [4, 0.1], [5, 0.1], [6, 0.2], // 0.6
+    [7, 0.1], [8, 0.1], [9, 0.1], [10, 1.0], // 1.3
+    [11, 0.1], [12, 0.1], [13, 0.1], [6, 0.2], // 0.5
+    [14, 0.1], [15, 0.1], [16, 0.1], [17, 0.2], // 0.5
+    [18, 0.1], [19, 0.1], [20, 0.1], [21, 0.1], // 0.4
+    [22, 0.1], [23, 0.1], [24, 0.1], [25, 1.0], // 1.3
+    [24, 0.1], [23, 0.1], [22, 0.1], [21, 0.1], // 0.4
+    [20, 0.1], [19, 0.1], [18, 0.1], [17, 0.1], // 0.4
+    [15, 0.1], [14, 0.1], [26, 0.1], [6, 0.2], // 0.5
+    [5, 0.1], [4, 0.1], [3, 0.1], [2, 0.1] // 0.4
+]; // 全部で6.3sec
+
 function moveWindowColor(color){
     // console.log("movewindow color:"+color + obj_window[color].image_id);
-    if (obj_window[color].image_id >= 26){
+    if (obj_window[color].image_id >= window_anime_step.length){
         obj_window[color].image_id = 1;
         change_image_src(obj_window[color], obj_window[color].image_id);
         obj_window[color].state = STATE_CLOSED;
     }else{
-        obj_window[color].image_id += 1;
-        if (obj_window[color].image_id  >= 20){
+        var image_id = window_anime_step[obj_window[color].image_id][0];
+        var wait_time = window_anime_step[obj_window[color].image_id][1];
+        if (image_id  >= 20 && image_id < 26){
             // 窓が開いた
             obj_window[color].state = STATE_OPENED;
+            // for debug
+            // obj_window[color].css("border-width", "10px");
+            // obj_window[color].css("border-color", "#000000");
+            // obj_window[color].css("border-style", "solid");
+        }else {
+            obj_window[color].state = STATE_CLOSED;
+            // obj_window[color].css("border-width", "");
+            // obj_window[color].css("border-color", "");
+            // obj_window[color].css("border-style", "");
         }
-        change_image_src(obj_window[color], obj_window[color].image_id);
-        setTimeout(function(){moveWindowColor(color);}, 150);
+        change_image_src(obj_window[color], image_id);
+        obj_window[color].image_id += 1;
+        setTimeout(function(){moveWindowColor(color);}, wait_time*1000);
     }
 }
 
@@ -400,7 +425,7 @@ function movestart(){
     });
     game_timer = setInterval(movePlane, 20);
     // moveWindow();
-    window_timer = setInterval(moveWindow, 5000);
+    window_timer = setInterval(moveWindow, 6300);
     // setInterval(moveTonakai, 500);
 }
 

@@ -5,7 +5,7 @@ img {
     //border-color: #000000;
     //border-style: solid;
 }
-div#anime_box{
+.box{
     width:1080px;
     height:1080px;
     border-width: 10px;
@@ -13,6 +13,12 @@ div#anime_box{
     border-color: #000000;
     border-style: solid;
     position: relative;
+    overflow: hidden;
+}
+#anime_box{
+    position: relative;
+    width:1080px;
+    height:1080px;
 }
 
 .refrect{
@@ -23,4 +29,3 @@ div#anime_box{
     filter: FlipH;
     -ms-filter: "FlipH";
 }
-
