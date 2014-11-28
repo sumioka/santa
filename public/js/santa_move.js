@@ -247,7 +247,7 @@ function moveWindowColor(color){
         }
         change_image_src(obj_window[color], image_id);
         obj_window[color].image_id += 1;
-        setTimeout(function(){moveWindowColor(color);}, wait_time*1500);
+        setTimeout(function(){moveWindowColor(color);}, wait_time*1000);
     }
 }
 
