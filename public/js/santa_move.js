@@ -22,6 +22,10 @@ var STATE_CLOSED = 4;
 var STATE_OPENED = 5;
 
 var obj_bgm;
+var bgm_hit = new Audio("image/sound/tonakai_hit.mp3");
+var bgm_goal = new Audio("image/sound/goal.mp3");
+bgm_hit.load();
+bgm_goal.load();
 
 function moveleft(){
     console.log(obj);
@@ -169,6 +173,8 @@ function santa_hitstop(color){
     // console.log(id);
     var down_src = "image/down" + id + "/down" + id + ".gif";
     obj_santa[color].attr({src:down_src});
+    console.log(bgm_hit);
+    bgm_hit.play();
     // setTimeout('function(){obj_santa['+color+'].attr({src:'+prev_src+'});obj_santa['+color+'].state='+STATE_MOVING+';};', 3000);
     setTimeout(function(){obj_santa[color].attr({src:prev_src});obj_santa[color].state=STATE_MOVING;}, 3000);
 }
