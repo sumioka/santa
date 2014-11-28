@@ -232,13 +232,22 @@ function moveWindowColor(color){
     }else{
         var image_id = window_anime_step[obj_window[color].image_id][0];
         var wait_time = window_anime_step[obj_window[color].image_id][1];
-        if (image_id  >= 20){
+        if (image_id  >= 20 && image_id < 26){
             // 窓が開いた
             obj_window[color].state = STATE_OPENED;
+            // for debug
+            // obj_window[color].css("border-width", "10px");
+            // obj_window[color].css("border-color", "#000000");
+            // obj_window[color].css("border-style", "solid");
+        }else {
+            obj_window[color].state = STATE_CLOSED;
+            // obj_window[color].css("border-width", "");
+            // obj_window[color].css("border-color", "");
+            // obj_window[color].css("border-style", "");
         }
         change_image_src(obj_window[color], image_id);
         obj_window[color].image_id += 1;
-        setTimeout(function(){moveWindowColor(color);}, wait_time*1000);
+        setTimeout(function(){moveWindowColor(color);}, wait_time*1500);
     }
 }
 
