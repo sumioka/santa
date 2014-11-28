@@ -21,6 +21,8 @@ var STATE_WAIT = 4;
 var STATE_CLOSED = 4;
 var STATE_OPENED = 5;
 
+var obj_bgm;
+
 function moveleft(){
     console.log(obj);
     // console.log(obj.position().left);
@@ -456,7 +458,11 @@ function timeSpend(){
 function timeUp(){
     if(gameTimer){
         clearInterval(gameTimer);
+        clearInterval(window_timer);
         gameTimer = null;
+    }
+    if(obj_bgm){
+        obj_bgm.pause();
     }
     warp();
 }
@@ -552,6 +558,9 @@ function warpAnimation2(color){
         setTimeout(function(){warpAnimation2(color)},100);
     } else {
         setTimeout(function(){
+            obj_bgm = new Audio("image/sound/warp.mp3");
+            obj_bgm.load();
+            obj_bgm.play();
             obj_santa[color].animate({top:-1440},2000);
             setTimeout(function(){warpAnimation3(color)},2100);
         },400);
@@ -647,6 +656,11 @@ function soriAnimationBigSoriMove(){
 
 
 function xmas(){
+    // 終わりナレーション
+//    obj_bgm.pause();
+    obj_bgm = new Audio("image/sound/fin.mp3");
+    obj_bgm.load();
+    obj_bgm.play();
     $("#anime_box").animate({top:"1080px"}, 1500);
 
     var now = (+ new Date());
@@ -753,6 +767,11 @@ function readyGo(){
         $("#screen_yoi").hide();
         $("#screen_don").show();
         $("#screen_don").fadeOut(3000);
+        //bgm開始
+        obj_bgm = new Audio("image/sound/bgm.mp3");
+        obj_bgm.loop = "true";
+        obj_bgm.load();
+        obj_bgm.play();
     }
 }
 
