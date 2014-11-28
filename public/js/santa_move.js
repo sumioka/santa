@@ -231,7 +231,7 @@ function moveWindowColor(color){
         obj_window[color].image_id = 1;
         change_image_src(obj_window[color], obj_window[color].image_id);
         obj_window[color].state = STATE_CLOSED;
-    }else{
+    }else if (window_timer){
         var image_id = window_anime_step[obj_window[color].image_id][0];
         var wait_time = window_anime_step[obj_window[color].image_id][1];
         if (image_id  >= 20 && image_id < 26){
@@ -458,9 +458,10 @@ function timeSpend(){
 function timeUp(){
     if(gameTimer){
         clearInterval(gameTimer);
-        clearInterval(window_timer);
         gameTimer = null;
     }
+    clearInterval(window_timer);
+    window_timer = null;
     if(obj_bgm){
         obj_bgm.pause();
     }
