@@ -24,8 +24,10 @@ var STATE_OPENED = 5;
 var obj_bgm;
 var bgm_hit = new Audio("image/sound/tonakai_hit.mp3");
 var bgm_goal = new Audio("image/sound/goal.mp3");
+var bgm_yojinobori = new Audio("image/sound/sound02.mp3");
 bgm_hit.load();
 bgm_goal.load();
+bgm_yojinobori.load();
 
 function moveleft(){
     console.log(obj);
@@ -111,11 +113,15 @@ function santa_warp(color){
 }
 
 function santa_goal_anime(color){
+    // サンタよじ登りアニメーション
     // console.log("santa_goal_anime:" + obj_santa[color].image_id);
      if (obj_santa[color].image_id >= 12){
         obj_santa[color].image_id = 0;
         santa_goal_sori_ride(color);
     } else {
+        if (obj_santa[color].image_id % 3 == 0){
+            bgm_yojinobori.play();
+        }
         change_image_src(obj_santa[color], obj_santa[color].image_id);
         obj_santa[color].image_id++;
         setTimeout(function(){santa_goal_anime(color);}, 100);
@@ -137,6 +143,7 @@ function santa_goal1(color){
 
 function santa_goal_sori_ride(color){
     // そりに乗る
+    bgm_goal.play();
     if (obj_santa[color].image_id == 0){
         // 初期化処理
         obj_santa[color].css("left", 370 + 50 * obj_santa[color].id);
