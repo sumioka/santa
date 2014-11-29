@@ -165,9 +165,20 @@ function santa_goal_sori_ride(color){
         // setTimeout("santa_goal_anime("+color+")", 100);
     }
 }
-function santa_goal_end(color){
-    // ゴール処理最後
-    obj_santa[color].state = STATE_GOAL;
+
+var hit_animation_num_iterate = 30;
+function hit_animation(color, prev_src){
+    console.log("HIT_ANIME:" + obj_santa[color].state);
+    if (obj_santa[color].image_id >= hit_animation_num_iterate){
+        obj_santa[color].image_id = 1;
+        obj_santa[color].attr({src:prev_src});
+        obj_santa[color].state=STATE_MOVING;
+    }else{
+        console.log(obj_santa[color]);
+        change_image_src(obj_santa[color], (obj_santa[color].image_id % 2)+1);
+        obj_santa[color].image_id++;
+        setTimeout(function(){hit_animation(color, prev_src);}, 100);
+    }
 }
 
 function santa_hitstop(color){
@@ -178,12 +189,13 @@ function santa_hitstop(color){
     var prev_src = obj_santa[color].attr("src");
     var id = obj_santa[color].id;
     // console.log(id);
-    var down_src = "image/down" + id + "/down" + id + ".gif";
-    obj_santa[color].attr({src:down_src});
+    // var down_src = "image/down" + id + "/down" + id + ".png";
+    obj_santa[color].attr({src:"image/down" + id + "/1.png"});
     console.log(bgm_hit);
     bgm_hit.play();
     // setTimeout('function(){obj_santa['+color+'].attr({src:'+prev_src+'});obj_santa['+color+'].state='+STATE_MOVING+';};', 3000);
-    setTimeout(function(){obj_santa[color].attr({src:prev_src});obj_santa[color].state=STATE_MOVING;}, 3000);
+    hit_animation(color, prev_src);
+    // setTimeout(function(){obj_santa[color].attr({src:prev_src});obj_santa[color].state=STATE_MOVING;}, 3000);
 }
 
 function moveTonakai(){
@@ -269,6 +281,7 @@ function moveWindowColor(color){
 function moveWindow(){
     // ランダムでウインドウを動かす
     var id = getRandomInt(0, 3);
+    // id = 0 // for debug
     var color = Object.keys(obj_window)[id];
     console.log("moveWindow:" + color);
     obj_window[color].id = 1;
@@ -294,6 +307,7 @@ function movePlane() {
             obj_window[color].state == STATE_OPENED &&
             windowpos + 100 <= toppos && toppos <= windowpos + 250){
             // トナカイとぶつかった
+            console.log("HITTED:" + obj_santa[color].state);
             obj_santa[color].state = STATE_HITTED;
             santa_hitstop(color);
         }
