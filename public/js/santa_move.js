@@ -582,7 +582,7 @@ function rope3(idx){
 // santa: 1 ~ 12
 function warpAnimation2(color){
     // console.log(color);
-    console.log("ここがバグとみた！！color=" + color + " warp="+obj_santa[color].warp);
+    // console.log("ここがバグとみた！！color=" + color + " warp="+obj_santa[color].warp);
     obj_santa[color].attr("src","image/warp" + obj_santa[color].id + "/" + obj_santa[color].warp + ".png");
     obj_santa[color].warp = obj_santa[color].warp + 1;
     if(obj_santa[color].warp < 12){
