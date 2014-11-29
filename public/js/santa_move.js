@@ -154,7 +154,7 @@ function santa_goal_sori_ride(color){
     }
      if (obj_santa[color].image_id > 7){
         // obj_santa[color].image_id = 1;
-        santa_goal_end(color);
+        // santa_goal_end(color);
     } else {
         obj_santa[color].attr({
             src:"image/goal" + obj_santa[color].id + "/" + obj_santa[color].image_id + ".png"
@@ -498,6 +498,7 @@ function timeUp(){
 function warp(){
     for(var color in obj_santa){
         if((obj_santa[color].state == STATE_INIT) || (obj_santa[color].state == STATE_MOVING) || (obj_santa[color].state == STATE_HITTED)){
+            console.log("santa:" + color + " warps");
             obj_santa[color].state = STATE_WAIT;
             obj_santa[color].warp = 2;
             var top = parseInt(obj_santa[color].css("top"));
@@ -551,7 +552,7 @@ function rope2(idx){
                 $("#santa_rope").attr("src","image/rope/9.png");
                 setTimeout(function(){rope3(0)},100);
                 for(var color in obj_santa){
-                    console.log(color);
+                    // console.log(color);
                     if(obj_santa[color].state == STATE_WAIT){
                         setTimeout("warpAnimation2(\"" + color + "\")",800);
                     }
@@ -579,7 +580,8 @@ function rope3(idx){
 
 // santa: 1 ~ 12
 function warpAnimation2(color){
-    console.log(color);
+    // console.log(color);
+    console.log("ここがバグとみた！！color=" + color + " warp="+obj_santa[color].warp);
     obj_santa[color].attr("src","image/warp" + obj_santa[color].id + "/" + obj_santa[color].warp + ".png");
     obj_santa[color].warp = obj_santa[color].warp + 1;
     if(obj_santa[color].warp < 12){
