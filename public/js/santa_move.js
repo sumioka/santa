@@ -1,3 +1,9 @@
+var DEBUG_LEVEL = 0;
+var frame_to_change_img = 2; // santaの昇り降り画像の切り替えフレーム数(2の場合2frame毎に画像を差し替え)
+var move_per_frame = 2; // 1フレームごとの移動ピクセル数
+var msec_window_interval = 6300; // トナカイが出てくる感覚(msec)
+
+
 var obj_santa;
 var obj_window;
 var obj_tonakai;
@@ -18,8 +24,9 @@ var STATE_HITTED = 2;
 var STATE_GOAL = 3;
 var STATE_WAIT = 4;
 
-var STATE_CLOSED = 4;
-var STATE_OPENED = 5;
+var STATE_CLOSED_NOT_MOVE = 5; // 窓は閉まっていてアニメーションも動いていない
+var STATE_CLOSED_AND_MOVE = 6; // 窓は閉まっていてアニメーションは動いている
+var STATE_OPENED = 7; // 窓は相手なくアニメーションも動いていない
 
 var obj_bgm;
 var bgm_hit = new Audio("image/sound/tonakai_hit.mp3");
@@ -46,13 +53,10 @@ var k_right = 39;
 var k_down = 40;
 var santa_dir = {red:1,blu:1,gre:1,yel:1};
 var santa_pos = {red:undefined, blu:undefined, gre:undefined, yel:undefined};
-var tonakai_counter = 1;
 // var santaL_src = "image/santa_pack/red_l.png";
 // var santaR_src = "image/santa_pack/red_r.png";
 // var tonakaiL_src = "image/santa_pack/blue_l.png";
 var tonakai_src = "image/tonakai/tonakai";
-var frame_to_change_img = 2; // santaの昇り降り画像の切り替えフレーム数(2の場合2frame毎に画像を差し替え)
-var move_per_frame = 2; // 1フレームごとの移動ピクセル数
 function change_image_src(obj_img, id){
     // 連番の画像ソースについて数字部分をidに変更
     cur_image_src = obj_img.attr("src");
@@ -72,7 +76,7 @@ function next_image_src(cur_image_src, num_image){
     var next_num = (Number(cur_image_src.substring(num_start, num_end)) + 1) % num_image;
     next_num = Math.max(1, next_num);
     // console.log("num_start=" + num_start + " num_end=" + num_end);
-    console.log("next_num="+next_num);
+    // console.log("next_num="+next_num);
     var res = cur_image_src.substring(0, num_start) + next_num + cur_image_src.substring(num_end);
     // console.log(res);
     return res;
@@ -250,7 +254,7 @@ function moveWindowColor(color){
     if (obj_window[color].image_id >= window_anime_step.length){
         obj_window[color].image_id = 1;
         change_image_src(obj_window[color], obj_window[color].image_id);
-        obj_window[color].state = STATE_CLOSED;
+        obj_window[color].state = STATE_CLOSED_NOT_MOVE;
     }else if (window_timer){
         var image_id = window_anime_step[obj_window[color].image_id][0];
         var wait_time = window_anime_step[obj_window[color].image_id][1];
@@ -262,7 +266,7 @@ function moveWindowColor(color){
             // obj_window[color].css("border-color", "#000000");
             // obj_window[color].css("border-style", "solid");
         }else {
-            obj_window[color].state = STATE_CLOSED;
+            obj_window[color].state = STATE_CLOSED_AND_MOVE;
             // obj_window[color].css("border-width", "");
             // obj_window[color].css("border-color", "");
             // obj_window[color].css("border-style", "");
@@ -278,9 +282,13 @@ function moveWindow(){
     var id = getRandomInt(0, 3);
     // id = 0 // for debug
     var color = Object.keys(obj_window)[id];
-    console.log("moveWindow:" + color);
-    obj_window[color].id = 1;
-    moveWindowColor(color);
+    if (obj_window[color].state == STATE_CLOSED_NOT_MOVE) {
+        obj_window[color].id = 1;
+        obj_window[color].state = STATE_CLOSED_AND_MOVE;
+        moveWindowColor(color);
+    } else{
+    console.log("moveWindow:" + color + " was selected, but it still be running");
+    }
 }
 
 function movePlane() {
@@ -415,7 +423,7 @@ function movestart(){
     }
     for (var color in obj_window){
         obj_window[color].image_id = 1;
-        obj_window[color].state = STATE_CLOSED;
+        obj_window[color].state = STATE_CLOSED_NOT_MOVE;
     }
     // obj_tonakai = $("#tonakai");
 
@@ -449,7 +457,9 @@ function movestart(){
     });
     game_timer = setInterval(movePlane, 20);
     // moveWindow();
-    window_timer = setInterval(moveWindow, 6300);
+    if (DEBUG_LEVEL > 0){
+        window_timer = setInterval(moveWindow, 2300);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -779,6 +789,7 @@ function readyGo(){
 
     // どん!
     setTimeout("go()",3000);
+    window_timer = setInterval(moveWindow, msec_window_interval);
 }
 
 // よーいどん用
