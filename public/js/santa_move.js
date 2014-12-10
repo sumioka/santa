@@ -394,7 +394,7 @@ function reset_santa_pos(){
     // サンタの位置を初期値（中央に移動）
     var MARGIN = 50;
     var step = (WIDTH - 2 * MARGIN) / 4;
-    var top  = 800;
+    var top  = 700;
     var left = MARGIN;
     console.log("step" + step);
     for (var color in obj_santa){
@@ -747,7 +747,7 @@ function xmas(){
 ///////////////////////////////////////////////////////////////////////
 // signaling
 ///////////////////////////////////////////////////////////////////////
-function init(){
+function init(names){
     reset_santa_pos();
     reset_window_pos();
 
@@ -762,7 +762,10 @@ function init(){
         obj_santa[color].show();
         obj_santa[color].attr("src","image/santa" + obj_santa[color].id + "/1.png");
         obj_santa[color].state = STATE_INIT;
+        obj_name[color].text(names[color]);
+        // console.log();
     }
+    // console.log(names);
 
     initGameTimer();
 
