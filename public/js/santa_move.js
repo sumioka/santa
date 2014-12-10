@@ -1,4 +1,4 @@
-var DEBUG_LEVEL = 0;
+var DEBUG_LEVEL = 1;
 var frame_to_change_img = 2; // santaの昇り降り画像の切り替えフレーム数(2の場合2frame毎に画像を差し替え)
 var move_per_frame = 2; // 1フレームごとの移動ピクセル数
 var msec_window_interval = 6300; // トナカイが出てくる感覚(msec)
@@ -149,6 +149,7 @@ function santa_goal1(color){
 function santa_goal_sori_ride(color){
     // そりに乗るまではサンタはそりの前面にいるが
     // そりに乗る時はサンタはそりの背面にいるようにする
+    obj_name[color].hide();
     obj_santa[color].css('z-index', Number($("#sori").css('z-index'))-1);
     console.log("color's z-index" + obj_santa[color].css('z-index'));
     // そりに乗る
@@ -196,6 +197,7 @@ function santa_hitstop(color){
     // 操作不可
 	  var pos_top = px2int(obj_santa[color].css("top"));
     obj_santa[color].animate({top: pos_top + 200}, 300);
+    set_name_pos(color);
     var prev_src = obj_santa[color].attr("src");
     var id = obj_santa[color].id;
     // console.log(id);
@@ -351,14 +353,10 @@ function movePlane() {
                 if (px2int(obj_santa[color].css("left")) < 0) obj_santa[color].css("left", 0);
                 if (px2int(obj_santa[color].css("top")) > HEIGHT - px2int(obj_santa[color].css("height"))) obj_santa[color].css("top", HEIGHT - px2int(obj_santa[color].css("height")));
                 if (px2int(obj_santa[color].css("left")) > WIDTH - px2int(obj_santa[color].css("width"))) obj_santa[color].css("left", WIDTH - px2int(obj_santa[color].css("width")));
-                set_name_pos(color);
 
-                // if (px2int(obj_name[color].css("top")) < 0) obj_name[color].css("top", 0);
-                // if (px2int(obj_name[color].css("left")) < 0) obj_name[color].css("left", 0);
-                // if (px2int(obj_name[color].css("top")) > HEIGHT - px2int(obj_name[color].css("height"))) obj_name[color].css("top", HEIGHT - px2int(obj_name[color].css("height")));
-                // if (px2int(obj_name[color].css("left")) > WIDTH - px2int(obj_name[color].css("width"))) obj_name[color].css("left", WIDTH - px2int(obj_name[color].css("width")));
             }
         }
+        set_name_pos(color);
     }
 }
 
@@ -382,6 +380,7 @@ function move_from_textarea(str){
 }
 
 function set_name_pos(color){
+    // console.log(obj_santa[color].css("left"));
     var left = px2int(obj_santa[color].css("left")) + 30;
     // console.log(obj_santa[color].css("left"));
     var top = px2int(obj_santa[color].css("top")) + px2int(obj_santa[color].css("height")) + 30;
@@ -631,6 +630,7 @@ function warpAnimation2(color){
             obj_bgm.load();
             obj_bgm.play();
             obj_santa[color].animate({top:-1440},2000);
+            obj_name[color].animate({top:-1440},2800);
             setTimeout(function(){warpAnimation3(color);},2100);
         },400);
     }
