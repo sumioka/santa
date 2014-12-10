@@ -6,6 +6,7 @@ var msec_window_interval = 6300; // トナカイが出てくる感覚(msec)
 
 var obj_santa;
 var obj_window;
+var obj_name;
 var obj_tonakai;
 var obj_sori;
 var obj_animebox;
@@ -323,24 +324,39 @@ function movePlane() {
                 if (!move_keys[color].hasOwnProperty(direction)) continue;
                 if (direction == k_left) {
 	                  pos_left = Math.max(0, pos_left - move_per_frame);
-                    obj_santa[color].animate({left: ""+pos_left}, 0);
+                    obj_santa[color].animate({left: "-="+move_per_frame}, 0);
+                    // obj_name[color].animate({left:"-="+move_per_frame}, 0);
                     santamove(color);
                 }
                 if (direction == k_up) {
-                    pos_top = Math.max(0, pos_top - move_per_frame);
-                    obj_santa[color].animate({top: pos_top}, 0);
+                    if ((pos_top - move_per_frame) > 0){
+                    obj_santa[color].animate({top: "-="+move_per_frame}, 0);
+                    // obj_name[color].animate({top:"-="+move_per_frame}, 0);
                     santamove(color);
+                    }
                 }
                 if (direction == k_right) {
 	                  pos_left = Math.min(WIDTH - px2int(obj_santa[color].css("width")), pos_left + move_per_frame);
-                    obj_santa[color].animate({left: pos_left}, 0);
+                    obj_santa[color].animate({left: "+="+move_per_frame}, 0);
+                    // obj_name[color].animate({left:"+="+move_per_frame}, 0);
                     santamove(color);
                 }
                 if (direction == k_down) {
 	                  pos_top = Math.min(HEIGHT - px2int(obj_santa[color].css("height")), pos_top + move_per_frame);
-                    obj_santa[color].animate({top: pos_top}, 0);
+                    obj_santa[color].animate({top: "+="+move_per_frame}, 0);
+                    // obj_name[color].animate({top:"+="+move_per_frame}, 0);
                     santamove(color);
                 }
+                if (px2int(obj_santa[color].css("top")) < 0) obj_santa[color].css("top", 0);
+                if (px2int(obj_santa[color].css("left")) < 0) obj_santa[color].css("left", 0);
+                if (px2int(obj_santa[color].css("top")) > HEIGHT - px2int(obj_santa[color].css("height"))) obj_santa[color].css("top", HEIGHT - px2int(obj_santa[color].css("height")));
+                if (px2int(obj_santa[color].css("left")) > WIDTH - px2int(obj_santa[color].css("width"))) obj_santa[color].css("left", WIDTH - px2int(obj_santa[color].css("width")));
+                set_name_pos(color);
+
+                // if (px2int(obj_name[color].css("top")) < 0) obj_name[color].css("top", 0);
+                // if (px2int(obj_name[color].css("left")) < 0) obj_name[color].css("left", 0);
+                // if (px2int(obj_name[color].css("top")) > HEIGHT - px2int(obj_name[color].css("height"))) obj_name[color].css("top", HEIGHT - px2int(obj_name[color].css("height")));
+                // if (px2int(obj_name[color].css("left")) > WIDTH - px2int(obj_name[color].css("width"))) obj_name[color].css("left", WIDTH - px2int(obj_name[color].css("width")));
             }
         }
     }
@@ -365,6 +381,15 @@ function move_from_textarea(str){
     move_list(eval(str));
 }
 
+function set_name_pos(color){
+    var left = px2int(obj_santa[color].css("left")) + 30;
+    // console.log(obj_santa[color].css("left"));
+    var top = px2int(obj_santa[color].css("top")) + px2int(obj_santa[color].css("height")) + 30;
+    // console.log(obj_name[color].css("left") + " " + left);
+    obj_name[color].css("left", left);
+    obj_name[color].css("top", top);
+}
+
 function reset_santa_pos(){
     // サンタの位置を初期値（中央に移動）
     var MARGIN = 50;
@@ -375,6 +400,10 @@ function reset_santa_pos(){
     for (var color in obj_santa){
         obj_santa[color].css("left", left);
         obj_santa[color].css("top", top);
+        set_name_pos(color);
+        // obj_name[color].css("left", left + 30);
+        // var santa_bottom_pos = px2int(obj_santa[color].css("top")) + px2int(obj_santa[color].css("height"));
+        // obj_name[color].css("top", santa_bottom_pos + 30);
         left += step;
     }
 }
@@ -412,6 +441,12 @@ function movestart(){
         blu : $("#window_blu"),
         gre : $("#window_gre"),
         yel : $("#window_yel")
+    };
+    obj_name = {
+        red : $("#name_red"),
+        blu : $("#name_blu"),
+        gre : $("#name_gre"),
+        yel : $("#name_yel")
     };
     obj_santa["red"].id = 1; // 個別画像フォルダを参照するためのid
     obj_santa["blu"].id = 2; // santa[id], down[id]等
