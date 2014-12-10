@@ -216,7 +216,7 @@ function px2int(pxstr){
 }
 
 function goalAnimation(color){
-
+    obj_name[color].hide();
     // とりあえずはゴールの表示だけ
     console.log("goalAnimation");
     var goal_text = $("<img class='goal_text'>").attr("src", "image/goal/goal.png");
@@ -355,8 +355,10 @@ function movePlane() {
                 if (px2int(obj_santa[color].css("left")) > WIDTH - px2int(obj_santa[color].css("width"))) obj_santa[color].css("left", WIDTH - px2int(obj_santa[color].css("width")));
 
             }
+            if (obj_santa[color].state != STATE_WAIT){
+                set_name_pos(color);
+            }
         }
-        set_name_pos(color);
     }
 }
 
