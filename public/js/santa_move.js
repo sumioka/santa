@@ -51,7 +51,7 @@ var tonakai_counter = 1;
 // var santaR_src = "image/santa_pack/red_r.png";
 // var tonakaiL_src = "image/santa_pack/blue_l.png";
 var tonakai_src = "image/tonakai/tonakai";
-var move_threshold = 5;
+var move_threshold = 2;
 var move_tonakai_threshold = 12;
 function change_image_src(obj_img, id){
     // 連番の画像ソースについて数字部分をidに変更
@@ -142,6 +142,10 @@ function santa_goal1(color){
 }
 
 function santa_goal_sori_ride(color){
+    // そりに乗るまではサンタはそりの前面にいるが
+    // そりに乗る時はサンタはそりの背面にいるようにする
+    obj_santa[color].css('z-index', Number($("#sori").css('z-index'))-1);
+    console.log("color's z-index" + obj_santa[color].css('z-index'));
     // そりに乗る
     bgm_goal.play();
     if (obj_santa[color].image_id == 0){
@@ -325,7 +329,7 @@ function movePlane() {
                     santamove(color);
                 }
                 if (direction == k_up) {
-                    pos_top = Math.max(0, pos_top - 5);
+                    pos_top = Math.max(0, pos_top - 2);
                     obj_santa[color].animate({top: pos_top}, 0);
                     santamove(color);
                 }
@@ -335,7 +339,7 @@ function movePlane() {
                     santamove(color);
                 }
                 if (direction == k_down) {
-	                  pos_top = Math.min(HEIGHT - px2int(obj_santa[color].css("height")), pos_top + 5);
+	                  pos_top = Math.min(HEIGHT - px2int(obj_santa[color].css("height")), pos_top + 2);
                     obj_santa[color].animate({top: pos_top}, 0);
                     santamove(color);
                 }
@@ -586,14 +590,14 @@ function warpAnimation2(color){
     obj_santa[color].attr("src","image/warp" + obj_santa[color].id + "/" + obj_santa[color].warp + ".png");
     obj_santa[color].warp = obj_santa[color].warp + 1;
     if(obj_santa[color].warp < 12){
-        setTimeout(function(){warpAnimation2(color)},100);
+        setTimeout(function(){warpAnimation2(color);},100);
     } else {
         setTimeout(function(){
             obj_bgm = new Audio("image/sound/warp.mp3");
             obj_bgm.load();
             obj_bgm.play();
             obj_santa[color].animate({top:-1440},2000);
-            setTimeout(function(){warpAnimation3(color)},2100);
+            setTimeout(function(){warpAnimation3(color);},2100);
         },400);
     }
 }
