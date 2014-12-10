@@ -51,8 +51,8 @@ var tonakai_counter = 1;
 // var santaR_src = "image/santa_pack/red_r.png";
 // var tonakaiL_src = "image/santa_pack/blue_l.png";
 var tonakai_src = "image/tonakai/tonakai";
-var move_threshold = 2;
-var move_tonakai_threshold = 12;
+var frame_to_change_img = 2; // santaの昇り降り画像の切り替えフレーム数(2の場合2frame毎に画像を差し替え)
+var move_per_frame = 2; // 1フレームごとの移動ピクセル数
 function change_image_src(obj_img, id){
     // 連番の画像ソースについて数字部分をidに変更
     cur_image_src = obj_img.attr("src");
@@ -96,7 +96,7 @@ function debug(){
 function santamove(color){
     // 動きカウンタがしきい値以上ならば次の画像に差し替え
     // console.log("src="+obj_santa[color].attr("src"));
-    if (santa_dir[color] > move_threshold){
+    if (santa_dir[color] > frame_to_change_img){
         obj_santa[color].attr({
             src: next_image_src(obj_santa[color].attr("src"), 10)
         });
@@ -203,16 +203,6 @@ function santa_hitstop(color){
     // setTimeout(function(){obj_santa[color].attr({src:prev_src});obj_santa[color].state=STATE_MOVING;}, 3000);
 }
 
-function moveTonakai(){
-    if (tonakai_counter < move_tonakai_threshold){
-        obj_tonakai.attr({
-            src: tonakai_src + tonakai_counter + ".png"
-        });
-    }else{
-        tonakai_counter = 0;
-    }
-    tonakai_counter++;
-}
 
 function px2int(pxstr){
     return Number(pxstr.substr(0, pxstr.length-2));
@@ -324,22 +314,22 @@ function movePlane() {
 	              var pos_top = px2int(obj_santa[color].css("top"));
                 if (!move_keys[color].hasOwnProperty(direction)) continue;
                 if (direction == k_left) {
-	                  pos_left = Math.max(0, pos_left - 5);
+	                  pos_left = Math.max(0, pos_left - move_per_frame);
                     obj_santa[color].animate({left: ""+pos_left}, 0);
                     santamove(color);
                 }
                 if (direction == k_up) {
-                    pos_top = Math.max(0, pos_top - 2);
+                    pos_top = Math.max(0, pos_top - move_per_frame);
                     obj_santa[color].animate({top: pos_top}, 0);
                     santamove(color);
                 }
                 if (direction == k_right) {
-	                  pos_left = Math.min(WIDTH - px2int(obj_santa[color].css("width")), pos_left + 5);
+	                  pos_left = Math.min(WIDTH - px2int(obj_santa[color].css("width")), pos_left + move_per_frame);
                     obj_santa[color].animate({left: pos_left}, 0);
                     santamove(color);
                 }
                 if (direction == k_down) {
-	                  pos_top = Math.min(HEIGHT - px2int(obj_santa[color].css("height")), pos_top + 2);
+	                  pos_top = Math.min(HEIGHT - px2int(obj_santa[color].css("height")), pos_top + move_per_frame);
                     obj_santa[color].animate({top: pos_top}, 0);
                     santamove(color);
                 }
@@ -460,7 +450,6 @@ function movestart(){
     game_timer = setInterval(movePlane, 20);
     // moveWindow();
     window_timer = setInterval(moveWindow, 6300);
-    // setInterval(moveTonakai, 500);
 }
 
 ///////////////////////////////////////////////////////////////////////
