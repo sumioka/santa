@@ -96,7 +96,13 @@ function controller(){
 //    });
 
 function init(){
-	SendMsg("message", {method:"init", options:{}});
+    console.log();
+	SendMsg("message", {method:"init",
+                      options:{},
+                      names:{"red":$("#name_red").val(),
+                             "blu":$("#name_blu").val(),
+                             "gre":$("#name_gre").val(),
+                             "yel":$("#name_yel").val()}});
 }
 
 function preBtn(){

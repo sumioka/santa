@@ -29,3 +29,10 @@ img {
     filter: FlipH;
     -ms-filter: "FlipH";
 }
+
+.name{
+    border-color: #000000;
+    border-style: solid;
+    background-color: #FFFFFF;
+    font-size: 200%;
+}
