@@ -389,7 +389,7 @@ function move_from_textarea(str){
 
 function set_name_pos(color){
     // console.log(obj_santa[color].css("left"));
-    var left = px2int(obj_santa[color].css("left")) + 30;
+    var left = px2int(obj_santa[color].css("left")) + px2int(obj_santa[color].css("width")) / 2 - px2int(obj_name[color].css("width")) / 2;
     // console.log(obj_santa[color].css("left"));
     var top = px2int(obj_santa[color].css("top")) + px2int(obj_santa[color].css("height")) + 30;
     // console.log(obj_name[color].css("left") + " " + left);
@@ -802,6 +802,7 @@ function init(names){
     $("#screen_fin2").hide();
     $("#merryxmas").hide();
     $(".goal_text").remove();
+    toujou_end();
 }
 
 // プレ用
@@ -811,6 +812,7 @@ function pre(){
     $("#screen_rule").hide();
     $("#screen_ouen").hide();
     $("#screen_intro_bg").hide();
+    toujou_end();
 };
 
 // タイトル用
@@ -820,6 +822,7 @@ function title(){
     $("#screen_rule").hide();
     $("#screen_ouen").hide();
     $("#screen_intro_bg").hide();
+    toujou_end();
 };
 
 // ルール説明用
@@ -829,6 +832,7 @@ function rule(){
     $("#screen_rule").show();
     $("#screen_ouen").hide();
     $("#screen_intro_bg").hide();
+    toujou_end();
 };
 
 // フロンタ応援用
@@ -838,6 +842,7 @@ function ouen(){
     $("#screen_rule").hide();
     $("#screen_ouen").show();
     $("#screen_intro_bg").hide();
+    toujou_end();
 };
 
 function stopintrotimer(){
