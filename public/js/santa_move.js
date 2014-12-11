@@ -1,4 +1,4 @@
-var DEBUG_LEVEL = 0;
+var DEBUG_LEVEL = 1;
 var frame_to_change_img = 2; // santaの昇り降り画像の切り替えフレーム数(2の場合2frame毎に画像を差し替え)
 var move_per_frame = 2; // 1フレームごとの移動ピクセル数
 var msec_window_interval = 6300; // トナカイが出てくる感覚(msec)
@@ -355,10 +355,10 @@ function movePlane() {
                 if (px2int(obj_santa[color].css("left")) > WIDTH - px2int(obj_santa[color].css("width"))) obj_santa[color].css("left", WIDTH - px2int(obj_santa[color].css("width")));
 
             }
+        }
             if (obj_santa[color].state != STATE_WAIT){
                 set_name_pos(color);
             }
-        }
     }
 }
 
@@ -413,11 +413,12 @@ function getRandomInt(min, max) {
 }
 function reset_window_pos(){
     // サンタの位置を初期値（中央に移動）
+    console.log("reset_window_pos");
     var MARGIN = 50;
     var step = (WIDTH - 2 * MARGIN) / 4;
     var left = MARGIN;
     for (var color in obj_window){
-        console.log("step" + step);
+        // console.log("step" + step);
         obj_window[color].css("left", left);
         obj_window[color].css("top", getRandomInt(GOAL_LINE + MARGIN * 2, 500));
         left += step;
@@ -750,8 +751,10 @@ function xmas(){
 // signaling
 ///////////////////////////////////////////////////////////////////////
 function init(names){
+    console.log("init");
     reset_santa_pos();
     reset_window_pos();
+    // set_name_pos();
 
     $("#anime_box").css("top",0);
     obj_sori.css("zoom", 1);
@@ -760,12 +763,23 @@ function init(names){
     obj_sori.attr("src","image/sleigh1/sleigh.png");
     obj_sori.removeClass("refrect");
 
+    // console.log("fugafuga");
     for(var color in obj_santa){
+        console.log("hogehoge");
         obj_santa[color].show();
         obj_santa[color].attr("src","image/santa" + obj_santa[color].id + "/1.png");
         obj_santa[color].state = STATE_INIT;
-        obj_name[color].text(names[color]);
         // console.log();
+        // set_name_pos(color);
+        // console.log(obj_santa[color]);
+    }
+    for (var color in obj_name){
+        obj_name[color].text(names[color]);
+        obj_name[color].show();
+        set_name_pos(color);
+
+        obj_window[color].id=1;
+        obj_window[color].state = STATE_CLOSED_NOT_MOVE;
     }
     // console.log(names);
 
