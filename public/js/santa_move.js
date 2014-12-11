@@ -469,6 +469,7 @@ function movestart(){
         obj_window[color].state = STATE_CLOSED_NOT_MOVE;
     }
     intro_santa = $("#santa_intro");
+    intro_name = $("#name_intro");
     // obj_tonakai = $("#tonakai");
 
     obj_sori = $("#sori");
@@ -758,6 +759,7 @@ function xmas(){
 // signaling
 ///////////////////////////////////////////////////////////////////////
 function init(names){
+    reset_screen();
     console.log("init");
     reset_santa_pos();
     reset_window_pos();
@@ -792,70 +794,60 @@ function init(names){
 
     initGameTimer();
 
+    toujou_end();
+};
+
+function reset_screen(){
     // プレ、タイトル、説明用画像を消す
     $("#screen_pre").hide();
     $("#screen_title").hide();
     $("#screen_rule").hide();
     $("#screen_ouen").hide();
+    $("#screen_intro_bg").hide();
+    toujou_end();
 
     // エンディング画面を消す
     $("#screen_fin2").hide();
     $("#merryxmas").hide();
     $(".goal_text").remove();
-    toujou_end();
-}
+};
 
 // プレ用
 function pre(){
+    reset_screen();
     $("#screen_pre").show();
-    $("#screen_title").hide();
-    $("#screen_rule").hide();
-    $("#screen_ouen").hide();
-    $("#screen_intro_bg").hide();
-    toujou_end();
 };
 
 // タイトル用
 function title(){
-    $("#screen_pre").hide();
+    reset_screen();
     $("#screen_title").show();
-    $("#screen_rule").hide();
-    $("#screen_ouen").hide();
-    $("#screen_intro_bg").hide();
-    toujou_end();
 };
 
 // ルール説明用
 function rule(){
-    $("#screen_pre").hide();
-    $("#screen_title").hide();
+    reset_screen();
     $("#screen_rule").show();
-    $("#screen_ouen").hide();
-    $("#screen_intro_bg").hide();
-    toujou_end();
 };
 
 // フロンタ応援用
 function ouen(){
-    $("#screen_pre").hide();
-    $("#screen_title").hide();
-    $("#screen_rule").hide();
+    reset_screen();
     $("#screen_ouen").show();
-    $("#screen_intro_bg").hide();
-    toujou_end();
 };
 
 function stopintrotimer(){
     clearInterval(intro_santa_timer);
-}
+};
 
 function toujou_end(){
+    console.log("toujou_end");
     // clearInterval(intro_santa_timer);
     toujou_animation_moving = 0;
     intro_santa.hide();
     intro_name.hide();
     $("#screen_intro_bg").hide();
-}
+};
 function toujou_start(color, name){
     console.log("toujou_start");
     $("#screen_intro_bg").show();
@@ -864,7 +856,7 @@ function toujou_start(color, name){
         toujou_animation_moving = 1;
         toujou_animation();
     }
-}
+};
 
 function toujouall(){
     $("#screen_intro_bg").show();
@@ -883,7 +875,7 @@ function toujouall(){
     //     break;
     // }
     // $("#screen_intro_bg").hide();
-}
+};
 
 var toujou_anime_step = [
      // dummy
@@ -950,7 +942,6 @@ var intro_santa_pos = [
 function toujou(id, name){
     console.log("toujou " + id);
     // if (id <= 4){
-    intro_name = $("#name_intro");
     intro_name.text(name);
     intro_santa.id = id;
     intro_santa.attr("src", "image/introduction/introduction" + id + "/1.png");
