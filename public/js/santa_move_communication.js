@@ -54,6 +54,9 @@ socket.on('message', function(msg) {
             case "timeUp":
                timeUp();
                break;
+            case "toujouall":
+             toujouall();
+             break;
             case "end":
             default:
          }

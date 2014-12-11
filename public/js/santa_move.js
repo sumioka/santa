@@ -1,4 +1,4 @@
-var DEBUG_LEVEL = 1;
+var DEBUG_LEVEL = 0;
 var frame_to_change_img = 2; // santaの昇り降り画像の切り替えフレーム数(2の場合2frame毎に画像を差し替え)
 var move_per_frame = 2; // 1フレームごとの移動ピクセル数
 var msec_window_interval = 6300; // トナカイが出てくる感覚(msec)
@@ -11,11 +11,13 @@ var obj_tonakai;
 var obj_sori;
 var obj_animebox;
 var obj_up;
+var intro_santa;
 var WIDTH;
 var HEIGHT;
 var GOAL_LINE = 150;
 var game_timer;
 var window_timer;
+var intro_santa_timer;
 var GAMETIME_DEFAULT = 30;
 var gametime = GAMETIME_DEFAULT;
 var gameTimer = null;
@@ -60,10 +62,12 @@ var santa_pos = {red:undefined, blu:undefined, gre:undefined, yel:undefined};
 var tonakai_src = "image/tonakai/tonakai";
 function change_image_src(obj_img, id){
     // 連番の画像ソースについて数字部分をidに変更
+    // console.log("change_image_src:"+id);
     cur_image_src = obj_img.attr("src");
     var num_start = cur_image_src.lastIndexOf("/") + 1;
     var num_end = cur_image_src.lastIndexOf(".png");
     var new_src = cur_image_src.substring(0, num_start) + id + cur_image_src.substring(num_end);
+    // console.log("new_src:"+new_src);
     obj_img.attr({
         src: new_src
     });
@@ -803,6 +807,7 @@ function pre(){
     $("#screen_title").hide();
     $("#screen_rule").hide();
     $("#screen_ouen").hide();
+    $("#screen_intro_bg").hide();
 };
 
 // タイトル用
@@ -811,6 +816,7 @@ function title(){
     $("#screen_title").show();
     $("#screen_rule").hide();
     $("#screen_ouen").hide();
+    $("#screen_intro_bg").hide();
 };
 
 // ルール説明用
@@ -819,6 +825,7 @@ function rule(){
     $("#screen_title").hide();
     $("#screen_rule").show();
     $("#screen_ouen").hide();
+    $("#screen_intro_bg").hide();
 };
 
 // フロンタ応援用
@@ -827,7 +834,118 @@ function ouen(){
     $("#screen_title").hide();
     $("#screen_rule").hide();
     $("#screen_ouen").show();
+    $("#screen_intro_bg").hide();
 };
+
+function stopintrotimer(){
+    clearInterval(intro_santa_timer);
+}
+
+function toujou_end(){
+    // clearInterval(intro_santa_timer);
+    toujou_animation_moving = 0;
+    intro_santa.hide();
+    $("#screen_intro_bg").hide();
+}
+
+function toujouall(){
+    $("#screen_intro_bg").show();
+    // return;
+    intro_santa = $("#santa_intro");
+    // console.log(intro_santa);
+    toujou(1);
+    toujou_animation_moving = 1;
+    // intro_santa.id = 1;
+    toujou_animation();
+    // intro_santa_timer = setInterval(function(){toujou_animation();}, 100);
+    setTimeout(function(){toujou_end();},30000);
+    
+    // for (var color in obj_santa){
+    //     toujou(color);
+    //     break;
+    // }
+    // $("#screen_intro_bg").hide();
+}
+
+var toujou_anime_step = [
+    // dummy
+    [],
+    // red
+    [[1, 0.1], [2, 0.1], [3, 0.1], [4, 0.1]],
+    // blu
+    [[1, 0.1], [2, 0.1], [3, 0.1], [4, 0.1],
+     [5, 0.1], [6, 0.1], [7, 0.1], [8, 0.1]],
+    // yel
+    [[1, 0.1], [2, 0.1], [3, 0.1], [4, 0.1]],
+    // gre
+    [[1, 0.2], [2, 0.2], [3, 0.2], [4, 0.2],
+     [5, 0.2], [6, 0.2], [7, 0.2], [8, 0.2],
+     [9, 0.1], [10, 0.1], [11, 0.1],
+     [12, 0.5],
+     [13, 0.1], [14, 0.1], [15, 0.1],[16, 0.1],
+     [17, 1.0],
+     [16, 0.1], [15, 0.1], [14, 0.1],[13, 0.1],
+     [12, 0.5],
+     [18, 0.1]]
+];
+var toujou_animation_num_iterate = 30;
+var toujou_animation_moving = 0;
+function toujou_animation(){
+    if (toujou_animation_moving > 0){
+        console.log("toujou_animation");
+    // console.log("img.id:"+intro_santa.image_id);
+    // console.log(intro_santa);
+    // console.log("toujou_animation:" + intro_santa.attr("src"));
+    // if (intro_santa.image_id >= toujou_animation_num_iterate){
+    //     intro_santa.image_id = 1;
+    //     // intro_santa.attr({src:prev_src});
+    //     // intro_santa.state=STATE_MOVING;
+    // }else{
+        // console.log(intro_santa);
+        var anime_idx = intro_santa.image_id % toujou_anime_step[intro_santa.id].length;
+        // console.log("anime_idx"+anime_idx);
+        var next_img_id = toujou_anime_step[intro_santa.id][anime_idx][0];
+        var next_img_wait = toujou_anime_step[intro_santa.id][anime_idx][1];
+        console.log("santa id=" + intro_santa.id + " next_img_id="+next_img_id + " wait=" + next_img_wait);
+        change_image_src(intro_santa, next_img_id);
+        intro_santa.image_id++;
+        setTimeout(function(){toujou_animation();}, next_img_wait * 1000);
+    }
+    // }
+    // console.log("hogetoujou_animation:" + intro_santa.attr("src"));
+}
+
+function toujou(id){
+    console.log("toujou " + id);
+    if (id <= 4){
+        var intro_name = $("#name_intro");
+        intro_santa.id = id;
+        intro_santa.attr("src", "image/introduction/introduction" + id + "/1.png");
+        intro_santa.show();
+        intro_santa.image_id = 1;
+        intro_name.show();
+
+        // console.log("img height" + px2int(intro_santa.css("height")));
+        // console.log(HEIGHT);
+        // console.log(HEIGHT / 2 - px2int(intro_santa.css("height")));
+        // intro_santa.boxCenter();
+
+        var toujou_top_pos = HEIGHT / 2 - px2int(intro_santa.css("height")) / 2 - 200;
+        var toujou_left_pos = WIDTH / 2 - px2int(intro_santa.css("width")) / 2 - 200;
+        intro_santa.css("top", toujou_top_pos);
+        intro_santa.css("left", toujou_left_pos);
+
+        intro_name.css("top", toujou_top_pos + px2int(intro_santa.css("height")) + 250);
+        intro_name.css("left", toujou_left_pos + 200);
+        // toujou_animation(intro_santa);
+        console.log("hoge");
+        setTimeout(function(){toujou(id+1);}, 3000);
+        // setTimeOut("function(){toujou(id+1);}", 100);
+        // toujou(id+1);
+        // setTimeOut("toujou(id+1)", 100);
+    }
+
+}
 
 
 function readyGo(){

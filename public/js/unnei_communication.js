@@ -116,6 +116,9 @@ function titleBtn(){
 function ruleBtn(){
 	SendMsg("message", {method:"rule", options:{}});
 }
+function toujouBtn(){
+	SendMsg("message", {method:"toujouall", options:{}});
+}
 
 function ouenBtn(){
 	SendMsg("message", {method:"ouen", options:{}});

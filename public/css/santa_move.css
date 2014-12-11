@@ -39,3 +39,13 @@ img {
     padding-left: 10px;
     padding-right: 10px;
 }
+
+.name_intro{
+    border-color: #000000;
+    border-style: solid;
+    background-color: #FFFFFF;
+    font-size: 400%;
+    border-radius: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
