@@ -12,6 +12,7 @@ var obj_sori;
 var obj_animebox;
 var obj_up;
 var intro_santa;
+var intro_name;
 var WIDTH;
 var HEIGHT;
 var GOAL_LINE = 150;
@@ -55,6 +56,7 @@ var k_up = 38;
 var k_right = 39;
 var k_down = 40;
 var santa_dir = {red:1,blu:1,gre:1,yel:1};
+var color_id = {red:1,blu:2,gre:4,yel:3};
 var santa_pos = {red:undefined, blu:undefined, gre:undefined, yel:undefined};
 // var santaL_src = "image/santa_pack/red_l.png";
 // var santaR_src = "image/santa_pack/red_r.png";
@@ -466,6 +468,7 @@ function movestart(){
         obj_window[color].image_id = 1;
         obj_window[color].state = STATE_CLOSED_NOT_MOVE;
     }
+    intro_santa = $("#santa_intro");
     // obj_tonakai = $("#tonakai");
 
     obj_sori = $("#sori");
@@ -845,7 +848,17 @@ function toujou_end(){
     // clearInterval(intro_santa_timer);
     toujou_animation_moving = 0;
     intro_santa.hide();
+    intro_name.hide();
     $("#screen_intro_bg").hide();
+}
+function toujou_start(color, name){
+    console.log("toujou_start");
+    $("#screen_intro_bg").show();
+    toujou(color_id[color], name);
+    if (toujou_animation_moving == 0){
+        toujou_animation_moving = 1;
+        toujou_animation();
+    }
 }
 
 function toujouall(){
@@ -858,7 +871,7 @@ function toujouall(){
     // intro_santa.id = 1;
     toujou_animation();
     // intro_santa_timer = setInterval(function(){toujou_animation();}, 100);
-    setTimeout(function(){toujou_end();},30000);
+    // setTimeout(function(){toujou_end();},30000);
     
     // for (var color in obj_santa){
     //     toujou(color);
@@ -868,7 +881,7 @@ function toujouall(){
 }
 
 var toujou_anime_step = [
-    // dummy
+     // dummy
     [],
     // red
     [[1, 0.1], [2, 0.1], [3, 0.1], [4, 0.1]],
@@ -892,7 +905,7 @@ var toujou_animation_num_iterate = 30;
 var toujou_animation_moving = 0;
 function toujou_animation(){
     if (toujou_animation_moving > 0){
-        console.log("toujou_animation");
+        // console.log("toujou_animation");
     // console.log("img.id:"+intro_santa.image_id);
     // console.log(intro_santa);
     // console.log("toujou_animation:" + intro_santa.attr("src"));
@@ -906,7 +919,7 @@ function toujou_animation(){
         // console.log("anime_idx"+anime_idx);
         var next_img_id = toujou_anime_step[intro_santa.id][anime_idx][0];
         var next_img_wait = toujou_anime_step[intro_santa.id][anime_idx][1];
-        console.log("santa id=" + intro_santa.id + " next_img_id="+next_img_id + " wait=" + next_img_wait);
+        // console.log("santa id=" + intro_santa.id + " next_img_id="+next_img_id + " wait=" + next_img_wait);
         change_image_src(intro_santa, next_img_id);
         intro_santa.image_id++;
         setTimeout(function(){toujou_animation();}, next_img_wait * 1000);
@@ -915,35 +928,36 @@ function toujou_animation(){
     // console.log("hogetoujou_animation:" + intro_santa.attr("src"));
 }
 
-function toujou(id){
+function toujou(id, name){
     console.log("toujou " + id);
-    if (id <= 4){
-        var intro_name = $("#name_intro");
-        intro_santa.id = id;
-        intro_santa.attr("src", "image/introduction/introduction" + id + "/1.png");
-        intro_santa.show();
-        intro_santa.image_id = 1;
-        intro_name.show();
+    // if (id <= 4){
+    intro_name = $("#name_intro");
+    intro_name.text(name);
+    intro_santa.id = id;
+    intro_santa.attr("src", "image/introduction/introduction" + id + "/1.png");
+    intro_santa.show();
+    intro_santa.image_id = 1;
+    intro_name.show();
 
-        // console.log("img height" + px2int(intro_santa.css("height")));
-        // console.log(HEIGHT);
-        // console.log(HEIGHT / 2 - px2int(intro_santa.css("height")));
-        // intro_santa.boxCenter();
+    // console.log("img height" + px2int(intro_santa.css("height")));
+    // console.log(HEIGHT);
+    // console.log(HEIGHT / 2 - px2int(intro_santa.css("height")));
+    // intro_santa.boxCenter();
 
-        var toujou_top_pos = HEIGHT / 2 - px2int(intro_santa.css("height")) / 2 - 200;
-        var toujou_left_pos = WIDTH / 2 - px2int(intro_santa.css("width")) / 2 - 200;
-        intro_santa.css("top", toujou_top_pos);
-        intro_santa.css("left", toujou_left_pos);
+    var toujou_top_pos = HEIGHT / 2 - px2int(intro_santa.css("height")) / 2 - 200;
+    var toujou_left_pos = WIDTH / 2 - px2int(intro_santa.css("width")) / 2 - 200;
+    intro_santa.css("top", toujou_top_pos);
+    intro_santa.css("left", toujou_left_pos);
 
-        intro_name.css("top", toujou_top_pos + px2int(intro_santa.css("height")) + 250);
-        intro_name.css("left", toujou_left_pos + 200);
-        // toujou_animation(intro_santa);
-        console.log("hoge");
-        setTimeout(function(){toujou(id+1);}, 3000);
-        // setTimeOut("function(){toujou(id+1);}", 100);
-        // toujou(id+1);
-        // setTimeOut("toujou(id+1)", 100);
-    }
+    intro_name.css("top", toujou_top_pos + px2int(intro_santa.css("height")) + 250);
+    intro_name.css("left", toujou_left_pos + 200);
+    // toujou_animation(intro_santa);
+    // console.log("hoge");
+    // setTimeout(function(){toujou(id+1);}, 3000);
+    // setTimeOut("function(){toujou(id+1);}", 100);
+    // toujou(id+1);
+    // setTimeOut("toujou(id+1)", 100);
+    // }
 
 }
 

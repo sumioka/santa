@@ -116,8 +116,11 @@ function titleBtn(){
 function ruleBtn(){
 	SendMsg("message", {method:"rule", options:{}});
 }
-function toujouBtn(){
-	SendMsg("message", {method:"toujouall", options:{}});
+function toujouBtn(color){
+    console.log("toujou send " + color);
+	SendMsg("message", {method:"toujou",
+                      options:{}, color:color,
+                      name:$("#name_"+color).val()});
 }
 
 function ouenBtn(){
