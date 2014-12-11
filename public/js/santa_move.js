@@ -928,6 +928,20 @@ function toujou_animation(){
     // console.log("hogetoujou_animation:" + intro_santa.attr("src"));
 }
 
+var intro_santa_wh = [
+    [],
+    [530*1.5, 400*1.5],
+    [530*1.5, 400*1.5],
+    [530*1.5, 400*1.5],
+    [450*1.5, 530*1.5]
+    ];
+var intro_santa_pos = [
+    [],
+    [50, 150],
+    [50, 150],
+    [50, 150],
+    [100, 100]
+    ];
 function toujou(id, name){
     console.log("toujou " + id);
     // if (id <= 4){
@@ -938,19 +952,30 @@ function toujou(id, name){
     intro_santa.show();
     intro_santa.image_id = 1;
     intro_name.show();
+    // intro_santa.css("height");
+    // intro_santa.css("width");
 
     // console.log("img height" + px2int(intro_santa.css("height")));
     // console.log(HEIGHT);
     // console.log(HEIGHT / 2 - px2int(intro_santa.css("height")));
     // intro_santa.boxCenter();
 
-    var toujou_top_pos = HEIGHT / 2 - px2int(intro_santa.css("height")) / 2 - 200;
-    var toujou_left_pos = WIDTH / 2 - px2int(intro_santa.css("width")) / 2 - 200;
+    // intro_santa.bind("load", function(){
+    console.log("height:" + intro_santa.css("height") + " width"+intro_santa.css("width"));
+    // var toujou_top_pos = HEIGHT / 2 - intro_santa_wh[intro_santa.id][1] / 2 - 300;
+    var toujou_top_pos = HEIGHT / 2 - intro_santa_wh[intro_santa.id][0] / 2;
+    var toujou_left_pos = WIDTH / 2 - intro_santa_wh[intro_santa.id][1] / 2;
+    console.log("top:" + toujou_top_pos + " left:"+toujou_left_pos);
     intro_santa.css("top", toujou_top_pos);
     intro_santa.css("left", toujou_left_pos);
+    intro_santa.css("top", intro_santa_pos[intro_santa.id][0]);
+    intro_santa.css("left", intro_santa_pos[intro_santa.id][1]);
 
-    intro_name.css("top", toujou_top_pos + px2int(intro_santa.css("height")) + 250);
-    intro_name.css("left", toujou_left_pos + 200);
+    intro_name.css("top", intro_santa_pos[intro_santa.id][0] + intro_santa_wh[intro_santa.id][0]);
+    console.log([intro_santa_pos[intro_santa.id][1], intro_santa_wh[intro_santa.id][1], intro_name.css("width")]);
+    intro_name.css("left", intro_santa_pos[intro_santa.id][1] + intro_santa_wh[intro_santa.id][1]/2 - px2int(intro_name.css("width")) /2 + 50);
+    // intro_name.css("left", toujou_left_pos + 200);
+        // });
     // toujou_animation(intro_santa);
     // console.log("hoge");
     // setTimeout(function(){toujou(id+1);}, 3000);
