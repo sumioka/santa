@@ -331,20 +331,20 @@ function movePlane() {
 	              var pos_top = px2int(obj_santa[color].css("top"));
                 if (!move_keys[color].hasOwnProperty(direction)) continue;
                 if (direction == k_left) {
-	                  pos_left = Math.max(0, pos_left - move_per_frame);
+	                  // pos_left = Math.max(0, pos_left - move_per_frame);
                     obj_santa[color].animate({left: "-="+move_per_frame}, 0);
                     // obj_name[color].animate({left:"-="+move_per_frame}, 0);
                     santamove(color);
                 }
                 if (direction == k_up) {
-                    if ((pos_top - move_per_frame) > 0){
+                    // if ((pos_top - move_per_frame) > 0){
                     obj_santa[color].animate({top: "-="+move_per_frame}, 0);
                     // obj_name[color].animate({top:"-="+move_per_frame}, 0);
                     santamove(color);
-                    }
+                    // }
                 }
                 if (direction == k_right) {
-	                  pos_left = Math.min(WIDTH - px2int(obj_santa[color].css("width")), pos_left + move_per_frame);
+	                  // pos_left = Math.min(WIDTH - px2int(obj_santa[color].css("width")), pos_left + move_per_frame);
                     obj_santa[color].animate({left: "+="+move_per_frame}, 0);
                     // obj_name[color].animate({left:"+="+move_per_frame}, 0);
                     santamove(color);
