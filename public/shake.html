@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>サンタジェクション</title>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=yes"/> 
+<script src="js/config.js"></script>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/socket.io.js"></script>
+
+<script type="text/javascript">
+
+var color = "わからん";
+
+var shakeCounted = 0;
+var shakeSended = 0;
+
+var isGaming = false; 
+$(document).ready(initialize);
+setTimeout("checkShake()",100);
+
+if(DEBUG_LEVEL == 0){
+    $("#connectId").hide();
+    $("#receiveMsg").hide();
+    $("#errorMsg").hide();
+}
+
+// 端末の角度が変わった時
+function initialize() {
+  window.addEventListener('devicemotion', function (e) {
+    return furu(e);
+  }, true);
+
+  init();
+}
+
+// 端末を振ったときの挙動
+function furu(e) {
+    var x = e.accelerationIncludingGravity.x; // X方向の加速度
+    var y = e.accelerationIncludingGravity.y; // Y方向の加速度
+    var z = e.accelerationIncludingGravity.z; // Z方向の加速度
+
+    // 加速度が一定以上のとき
+    if (Math.abs(x) > 15 || Math.abs(y) > 15 || Math.abs(z) > 15) {
+      shakeCounted ++;
+    }
+ }
+
+function checkShake(){
+  if(shakeCounted - shakeSended > 0){
+    SendMsg("santa", {method:"santa_move", options:{color:color, direction:"up", times: shakeCounted - shakeSended}});
+    shakeSended = shakeCounted;
+  } 
+  // SendMsg("santa", {method:"santa_move", options:{color:"red", direction:"up"}});
+  setTimeout("checkShake()",50);  
+}
+
+function setSanta(col){
+  color = col;
+  $("input[name='santa']").val([col]);
+  //$("input[name='santa']:checked")[0].value;
+}
+</script>
+
+<style type="text/css">
+
+  input[type=radio] {
+    -webkit-transform-origin: right bottom;
+    -webkit-transform: scale( 1 , 1 );
+    -moz-transform-origin: right bottom;
+    -moz-transform: scale( 1 , 1 );
+  }
+
+</style>
+
+</head>
+<body>
+<div id="connectId"></div>
+<div id="receiveMsg"></div>
+<div id="errorMsg"></div>
+<div id="anime_box">
+<img src="image/setumei/pre.jpg" width="100%" name="screen_pre" id="screen_pre" style="position:absolute;z-index:100000;display:none"/>
+<img src="image/setumei/title.jpg" width="100%" name="screen_title" id="screen_title" style="position:absolute;z-index:100000;display:none"/>
+<img src="image/setumei/rule.png" width="100%" name="screen_rule" id="screen_rule" style="position:absolute;z-index:100000;display:none"/>
+<div id="screen_select" height="100%" style="position:absolute;left:0px;top:0px;display:none;">
+  <image src="image/select.png" width="100%"/><br/>
+    
+  &nbsp;  &nbsp;
+  <input type="radio" name="santa" value="red" onclick="setSanta('red')" checked="checked">
+    <img src="image/santa1/1.png" width="100px" onclick="setSanta('red')"/>
+  </input>
+  &nbsp;
+  <input type="radio" name="santa" value="blu" onclick="setSanta('blu')">
+    <img src="image/santa2/1.png" width="100px" onclick="setSanta('blu')"/>
+  </input><br/>
+    
+  &nbsp;  &nbsp;  
+  <input type="radio" name="santa" value="gre" onclick="setSanta('gre')">
+    <img src="image/santa3/1.png" width="100px" onclick="setSanta('gre')"/>
+  </input>
+  &nbsp;  
+  <input type="radio" name="santa" value="yel" onclick="setSanta('yel')">
+    <img src="image/santa4/1.png" width="100px" onclick="setSanta('yel')"/>
+  </input>
+</div>
+
+<img id="screen_yoi" src="image/setumei/yoi.png" width="100%" style="position:absolute;left:0px;top:0px;display:none;">
+<img id="screen_don" src="image/setumei/don.png" width="100%" style="position:absolute;left:0px;top:0px;display:none;">
+<img id="screen_fure" src="image/shake.png" width="100%" style="position:absolute;left:0px;top:0px;display:none;">
+</div>
+
+
+
+<script lang="javascript">
+
+// 　サーバとのコネクションの作成
+var socket = io.connect(SERVER + "/mobile");
+// var socket = io.connect('http://192.168.0.5:3000');
+socket.on('connect', function(msg) {
+  console.log("connect");
+  document.getElementById("connectId").innerHTML = "あなたの接続ID::" + socket.io.engine.id;
+
+});
+
+
+// メッセージを受けたとき
+socket.on('message', function(msg) {
+   // メッセージを画面に表示する
+   document.getElementById("receiveMsg").innerHTML = msg.value;
+   if(msg.value){
+      try{
+         var msgObj = JSON.parse(msg.value);
+         switch(msgObj.method){
+            case "init":
+               init();
+               break;
+            case "pre":
+               pre();
+               break;
+            case "title":
+               title();
+               break;
+            case "rule":
+               rule();
+               break;
+            case "readyGo":
+               readyGo();
+               break;
+            case "end":
+            default:
+         }
+      } catch (error){
+         document.getElementById("errorMsg").innerHTML = error;
+      }
+   }
+});
+
+// メッセージを送る
+function SendMsg(target,msg) {
+     socket.emit(target, { value: JSON.stringify(msg) });
+}
+
+// 切断する
+function DisConnect() {
+  var msg = JSON.stringify({method:disconnect, options:{termId:socket.io.engine.id}});
+  // メッセージを発射する
+  socket.emit('message', { value: msg });
+  // socketを切断する
+  socket.disconnect();
+}
+
+
+
+
+///////////////////////////////////////////////////////////////////////
+// signaling
+///////////////////////////////////////////////////////////////////////
+function init(){
+    // プレ、タイトル、説明用画像を消す
+    $("#screen_pre").css("display", "none");
+    $("#screen_title").css("display", "none");
+    $("#screen_rule").css("display", "none");
+    $("#screen_select").show();
+    $("#screen_fure").hide();
+}
+
+// プレ用
+function pre(){
+    $("#screen_pre").css("display", "inline");
+    $("#screen_title").css("display", "none");
+    $("#screen_rule").css("display", "none");
+    $("#screen_select").hide();
+    $("#screen_fure").hide();
+};
+
+// タイトル用
+function title(){
+    $("#screen_pre").css("display", "none");
+    $("#screen_title").css("display", "inline");
+    $("#screen_rule").css("display", "none");
+    $("#screen_select").hide();
+    $("#screen_fure").hide();
+};
+
+// ルール説明用
+function rule(){
+    $("#screen_pre").css("display", "none");
+    $("#screen_title").css("display", "none");
+    $("#screen_rule").css("display", "inline");
+    $("#screen_select").hide();
+    $("#screen_fure").hide();
+};
+
+
+function readyGo(){
+    // よーい
+    $("#screen_yoi").show();
+
+    // どん!
+    setTimeout("go()",3000);
+}
+
+// よーいどん用
+{
+    function go(){
+
+        $("#screen_yoi").hide();
+        $("#screen_don").show();
+        $("#screen_don").fadeOut(3000);
+        // 振れ!
+        setTimeout("fureView()",3000);
+    }
+
+    function fureView(){
+        $("#screen_fure").show();
+    }
+}
+
+
+
+function end(){
+
+}
+
+
+//-->
+</script>
+
+</body>
+</html>
