@@ -350,14 +350,15 @@ function movePlane() {
                     santamove(color);
                 }
                 if (direction == k_down) {
-	                  pos_top = Math.min(HEIGHT - px2int(obj_santa[color].css("height")), pos_top + move_per_frame);
+	                  // pos_top = Math.min(HEIGHT - px2int(obj_santa[color].css("height")), pos_top + move_per_frame);
                     obj_santa[color].animate({top: "+="+move_per_frame}, 0);
                     // obj_name[color].animate({top:"+="+move_per_frame}, 0);
                     santamove(color);
                 }
                 if (px2int(obj_santa[color].css("top")) < 0) obj_santa[color].css("top", 0);
                 if (px2int(obj_santa[color].css("left")) < 0) obj_santa[color].css("left", 0);
-                if (px2int(obj_santa[color].css("top")) > HEIGHT - px2int(obj_santa[color].css("height"))) obj_santa[color].css("top", HEIGHT - px2int(obj_santa[color].css("height")));
+                // 下方向だけははみ出しても良いようにする？
+                // if (px2int(obj_santa[color].css("top")) > HEIGHT - px2int(obj_santa[color].css("height"))) obj_santa[color].css("top", HEIGHT - px2int(obj_santa[color].css("height")));
                 if (px2int(obj_santa[color].css("left")) > WIDTH - px2int(obj_santa[color].css("width"))) obj_santa[color].css("left", WIDTH - px2int(obj_santa[color].css("width")));
 
             }
@@ -763,6 +764,7 @@ function init(names){
     console.log("init");
     reset_santa_pos();
     reset_window_pos();
+    clearInterval(window_timer);
     // set_name_pos();
 
     $("#anime_box").css("top",0);
@@ -810,6 +812,7 @@ function reset_screen(){
     $("#screen_fin2").hide();
     $("#merryxmas").hide();
     $(".goal_text").remove();
+    // console.log("test");
 };
 
 // プレ用
