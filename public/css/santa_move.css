@@ -35,4 +35,7 @@ img {
     border-style: solid;
     background-color: #FFFFFF;
     font-size: 200%;
+    border-radius: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
