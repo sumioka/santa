@@ -851,14 +851,32 @@ function toujou_end(){
     intro_name.hide();
     $("#screen_intro_bg").hide();
 };
+
+var first_animation = 0;
 function toujou_start(color, name){
     console.log("toujou_start");
     $("#screen_intro_bg").show();
+
+    if (toujou_animation_moving == 1){
+        intro_santa.animate({left:"-=" + 600}, 1000, 'linear');
+        intro_name.animate({left:"-=" + 1000}, 1100, 'linear');
+        setTimeout(function(){toujou_animation_moving = 0; toujou_start(color, name);}, 1200);
+        return;
+    }
     toujou(color_id[color], name);
     if (toujou_animation_moving == 0){
         toujou_animation_moving = 1;
-        toujou_animation();
+        if (first_animation == 0){
+            toujou_animation();
+            first_animation = 1;
+        }
     }
+    // intro_santa.css("left", 1100);
+    intro_santa.animate({left:"+=" + 500}, 0);
+    intro_santa.animate({left:"-=" + 500}, 1000, 'linear');
+    intro_name.animate({left:"+=" + 700}, 0);
+    intro_name.animate({left:"-=" + 700}, 1000, 'linear');
+    // intro_santa.animate({left:intro_santa.left_pos}, 1000);
 };
 
 function toujouall(){
@@ -951,19 +969,11 @@ function toujou(id, name){
     intro_santa.show();
     intro_santa.image_id = 1;
     intro_name.show();
-    // intro_santa.css("height");
-    // intro_santa.css("width");
-
-    // console.log("img height" + px2int(intro_santa.css("height")));
-    // console.log(HEIGHT);
-    // console.log(HEIGHT / 2 - px2int(intro_santa.css("height")));
-    // intro_santa.boxCenter();
-
-    // intro_santa.bind("load", function(){
     console.log("height:" + intro_santa.css("height") + " width"+intro_santa.css("width"));
-    // var toujou_top_pos = HEIGHT / 2 - intro_santa_wh[intro_santa.id][1] / 2 - 300;
     var toujou_top_pos = HEIGHT / 2 - intro_santa_wh[intro_santa.id][0] / 2;
     var toujou_left_pos = WIDTH / 2 - intro_santa_wh[intro_santa.id][1] / 2;
+    intro_santa.top_pos = toujou_top_pos;
+    intro_santa.left_pos = toujou_left_pos;
     console.log("top:" + toujou_top_pos + " left:"+toujou_left_pos);
     intro_santa.css("top", toujou_top_pos);
     intro_santa.css("left", toujou_left_pos);
@@ -973,15 +983,6 @@ function toujou(id, name){
     intro_name.css("top", intro_santa_pos[intro_santa.id][0] + intro_santa_wh[intro_santa.id][0]);
     console.log([intro_santa_pos[intro_santa.id][1], intro_santa_wh[intro_santa.id][1], intro_name.css("width")]);
     intro_name.css("left", intro_santa_pos[intro_santa.id][1] + intro_santa_wh[intro_santa.id][1]/2 - px2int(intro_name.css("width")) /2 + 50);
-    // intro_name.css("left", toujou_left_pos + 200);
-        // });
-    // toujou_animation(intro_santa);
-    // console.log("hoge");
-    // setTimeout(function(){toujou(id+1);}, 3000);
-    // setTimeOut("function(){toujou(id+1);}", 100);
-    // toujou(id+1);
-    // setTimeOut("toujou(id+1)", 100);
-    // }
 
 }
 
