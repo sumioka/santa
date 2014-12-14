@@ -1,0 +1,1040 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"up",
+				"upMultiple"
+			],
+			[
+				"clo",
+				"colorToGadgetMap"
+			],
+			[
+				"ga",
+				"gadgetToColorMap"
+			],
+			[
+				"gad",
+				"gadgetNum"
+			],
+			[
+				"proj",
+				"projects"
+			],
+			[
+				"pro",
+				"project"
+			],
+			[
+				"sh",
+				"shakeCounted"
+			],
+			[
+				"sha",
+				"shakeSended"
+			],
+			[
+				"goal",
+				"goal_text"
+			],
+			[
+				"obj",
+				"obj_sori"
+			],
+			[
+				"sori",
+				"soriAnimation"
+			],
+			[
+				"santa",
+				"santa_rope"
+			],
+			[
+				"in",
+				"inline"
+			],
+			[
+				"rop",
+				"ropeIdx"
+			],
+			[
+				"sta",
+				"STATE_WAIT"
+			],
+			[
+				"set",
+				"setTimeout"
+			],
+			[
+				"St",
+				"STATE_MOVING"
+			],
+			[
+				"co",
+				"color"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"get",
+				"getQueryVariable"
+			],
+			[
+				"qu",
+				"queryGroupS"
+			],
+			[
+				"gr",
+				"groupName"
+			],
+			[
+				"qe",
+				"queryGroups"
+			],
+			[
+				"temp",
+				"template_id"
+			],
+			[
+				"grop",
+				"groups"
+			],
+			[
+				"template",
+				"template_id"
+			],
+			[
+				"poli",
+				"policy"
+			],
+			[
+				"condi",
+				"condition"
+			],
+			[
+				"app",
+				"appPolicyMap"
+			],
+			[
+				"child",
+				"childNodes"
+			],
+			[
+				"mat",
+				"matchedTr"
+			],
+			[
+				"tr",
+				"trCollection"
+			],
+			[
+				"tick",
+				"ticketObjList"
+			],
+			[
+				"testT",
+				"testTargetURI"
+			],
+			[
+				"tike",
+				"ticketObjList"
+			],
+			[
+				"con",
+				"condition"
+			],
+			[
+				"new",
+				"newAppID"
+			],
+			[
+				"po",
+				"policyIdx"
+			],
+			[
+				"pori",
+				"priorityPolicyMap"
+			],
+			[
+				"wh",
+				"wheight"
+			],
+			[
+				"polic",
+				"policy"
+			],
+			[
+				"data",
+				"dataType"
+			],
+			[
+				"render",
+				"renderA"
+			],
+			[
+				"pri",
+				"priority"
+			],
+			[
+				"policyAr",
+				"policyArray"
+			],
+			[
+				"da",
+				"dataShaping"
+			],
+			[
+				"pol",
+				"policyArray"
+			],
+			[
+				"target",
+				"targetURI"
+			],
+			[
+				"va",
+				"value"
+			],
+			[
+				"re",
+				"rewriteURI"
+			],
+			[
+				"policy",
+				"policyID"
+			],
+			[
+				"tar",
+				"targetURI"
+			],
+			[
+				"m",
+				"MAX_VALUE"
+			],
+			[
+				"priorit",
+				"priorityPolicyArray"
+			],
+			[
+				"plicy",
+				"policyID"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"prio",
+				"priority"
+			],
+			[
+				"priorityP",
+				"priorityPolicyMap"
+			],
+			[
+				"ta",
+				"targetURI"
+			],
+			[
+				"prior",
+				"priorityPolicyMap"
+			],
+			[
+				"d",
+				"display"
+			],
+			[
+				"husei",
+				"huseikaiEffect"
+			],
+			[
+				"seikai",
+				"seikaiEffect"
+			],
+			[
+				"cre",
+				"createBall"
+			],
+			[
+				"socke",
+				"sockets"
+			],
+			[
+				"so",
+				"socket"
+			],
+			[
+				"on",
+				"onMouseDown"
+			],
+			[
+				"onm",
+				"onmousedown"
+			],
+			[
+				"cli",
+				"clientX"
+			],
+			[
+				"rewrite",
+				"rewriteURI"
+			],
+			[
+				"Ba",
+				"base64"
+			],
+			[
+				"a",
+				"ascii"
+			],
+			[
+				"base",
+				"base64ticket"
+			],
+			[
+				"ti",
+				"ticket"
+			],
+			[
+				"redire",
+				"redirectURI"
+			],
+			[
+				"redi",
+				"redirectURI"
+			],
+			[
+				"ticket",
+				"ticketList"
+			],
+			[
+				"tab",
+				"tableData"
+			],
+			[
+				"table",
+				"table_div"
+			],
+			[
+				"end",
+				"endAt"
+			],
+			[
+				"begin",
+				"beginAt"
+			],
+			[
+				"activate",
+				"activate_parallel"
+			],
+			[
+				"not",
+				"not_loop_fork"
+			],
+			[
+				"gate",
+				"gateway"
+			],
+			[
+				"ln",
+				"latLng"
+			],
+			[
+				"make",
+				"markerOpts"
+			],
+			[
+				"html",
+				"innerHTML"
+			],
+			[
+				"mar",
+				"markerOpt"
+			],
+			[
+				"cr",
+				"crCls"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "public/index.html",
+			"settings":
+			{
+				"buffer_size": 4006,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "public/js/santa_move.js",
+			"settings":
+			{
+				"buffer_size": 26495,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "public/js/unnei_communication.js",
+			"settings":
+			{
+				"buffer_size": 5838,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app.js",
+			"settings":
+			{
+				"buffer_size": 3176,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/work/hackathon/santa/WristDeviceComponentXmas/wearable/wristdevice.properties",
+			"settings":
+			{
+				"buffer_size": 290,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "public/unnei.html",
+			"settings":
+			{
+				"buffer_size": 3009,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "public/js/santa_move_communication.js",
+			"settings":
+			{
+				"buffer_size": 2998,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "public/js/config.js",
+			"settings":
+			{
+				"buffer_size": 871,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/work/spd/flowshare/src/models/models.rb",
+		"/C/work/spd/flowshare/src/views/project.erb",
+		"/C/work/spd/flowshare/src/main.rb",
+		"/C/work/hackathon/santa/santa/public/shake.html",
+		"/C/work/hackathon/santa/TestWebApp2/WristDeviceComponentXmas/FJWristDeviceComponent/src/com/fujitsu/interstage/ar/mobileclient/android/interaction/wd/device/bluetooth/BluetoothConnectionManager.java",
+		"/C/work/hackathon/santa/TestWebApp2/WristDeviceComponentXmas/FJWristDeviceComponent/src/com/fujitsu/interstage/ar/mobileclient/android/interaction/wd/SystemDefinitions.java",
+		"/C/work/hackathon/santa/TestWebApp2/WristDeviceComponentXmas/FJWristDeviceComponent/src/com/fujitsu/labs/cp/component/wristdevice/FJWristDeviceComponent.java",
+		"/C/work/hackathon/santa/santa/public/js/santa_move.js",
+		"/C/work/hackathon/santa/santa/public/css/santa_move.css",
+		"/C/work/spd/flowshare/src/views/_project_intro.erb",
+		"/C/Users/sumioka/AppData/Local/Microsoft/Windows/INetCache/IE/5EVPG8UY/wristdevice[1].properties",
+		"/C/work/hackathon/santa/santa/public/js/unnei_communication.js",
+		"/C/work/hackathon/santa/santa/public/unnei.html",
+		"/C/work/hpm/quickfix/human_programming/hptrd/vendor/assets/components/robicch-jQueryGantt/ganttDrawerSVG.js",
+		"/C/work/hpm/quickfix/human_programming/hptrd/vendor/assets/components/robicch-jQueryGantt/ganttMaster.js",
+		"/C/work/hpm/human_programming/hptrd/vendor/assets/components/robicch-jQueryGantt/ganttMaster.js",
+		"/C/work/hpm/human_programming/hptrd/vendor/assets/components/robicch-jQueryGantt/ganttDrawerSVG.js",
+		"/C/work/hpm/human_programming/hptrd/vendor/assets/components/robicch-jQueryGantt/gantt.css",
+		"/C/work/hpm/human_programming/hptrd/vendor/assets/components/robicch-jQueryGantt/gantt.html",
+		"/C/work/hackathon/santa/santajection/app.js",
+		"/C/work/spd/public/flowedit.html",
+		"/C/work/adn/repos/ADNSimpleCryptoServer/ADNSimpleCryptoServer/src/simple/CryptoServer.java",
+		"/C/work/spd/public/login.html",
+		"/C/work/spd/public/login.css",
+		"/C/work/spd/public/objective.css",
+		"/C/work/hpm/human_programming/hptrd/app/views/ganttchart/show.html.erb",
+		"/C/work/hpm/human_programming/hptrd/app/controllers/dashboard2_controller.rb",
+		"/C/work/adn/maintainance/worker-checkout.bat",
+		"/C/work/adn/maintainance/worker-gitinit.bat",
+		"/C/work/adn/maintainance/worker-update.bat",
+		"/C/work/adn/maintainance/repos/readme.md",
+		"/C/work/adn/repos/ADNTicketServer/ADNTicketServer/public/index.html",
+		"/C/work/adn/maintainance/repos/install.sh",
+		"/C/work/adn/maintainance/checkout.bat",
+		"/C/work/adn/maintainance/test.bat",
+		"/C/work/adn/maintainance/gitinit.bat",
+		"/C/work/adn/maintainance/repos/.gitignore",
+		"/C/work/adn/reposGit/ADNTicketServer/ADNTicketServer/public/stylesheets/style.css",
+		"/C/work/hackathon/projection/projection/public/m.html",
+		"/C/work/adn/reposGit/ADNTicketServer/ADNTicketServer/public/index.html",
+		"/c/tmp/adn-ticket.log",
+		"/C/work/adn/reposGit/ADNTicketServer/ADNTicketServer/app.js",
+		"/C/Users/sumioka/Downloads/SmartExtension_SDK_version1.0.4/SmartExtension_SDK_version1.0.4/Code_examples/SampleNotificationExtension/src/com/sonyericsson/extras/liveware/extension/notificationsample/SampleRegistrationInformation.java",
+		"/C/Users/sumioka/Downloads/SmartExtension_SDK_version1.0.4/SmartExtension_SDK_version1.0.4/Code_examples/SampleNotificationExtension/src/com/sonyericsson/extras/liveware/extension/notificationsample/SamplePreferenceActivity.java",
+		"/C/Users/sumioka/Downloads/SmartExtension_SDK_version1.0.4/SmartExtension_SDK_version1.0.4/Code_examples/SampleNotificationExtension/src/com/sonyericsson/extras/liveware/extension/notificationsample/SampleExtensionService.java",
+		"/C/Users/sumioka/Downloads/SmartExtension_SDK_version1.0.4/SmartExtension_SDK_version1.0.4/Code_examples/SampleNotificationExtension/src/com/sonyericsson/extras/liveware/extension/notificationsample/ExtensionReceiver.java",
+		"/C/Users/sumioka/Downloads/sample16-1set/sample16-1set/honttoni16-1.html",
+		"/C/work/adn/repos/ADNTicketServer/ADNTicketServer/app.js",
+		"/C/work/hackathon/projection/projection/public/quiz.html",
+		"/C/work/hackathon/workstyle/web/public/index.html",
+		"/C/work/hackathon/workstyle/web/public/demo.html",
+		"/C/work/hackathon/workstyle/web/public/req.html",
+		"/C/work/hackathon/workstyle/web/app.js",
+		"/C/work/hackathon/workstyle/web/public/demo.htm",
+		"/C/work/hackathon/workstyle/web/public/a.html",
+		"/C/work/hackathon/workstyle/web/public/m.html",
+		"/C/work/hackathon/projection/projection/app.js",
+		"/C/work/hackathon/projection/projection/public/a.html",
+		"/C/work/diagram/diagram-js/Gruntfile.js",
+		"/C/Users/sumioka/.bowerrc",
+		"/C/work/hpmCrlf/human_programming/a",
+		"/C/work/hpm0819/human_programming/hptrd/app/models/project.rb",
+		"/C/work/hpm0819/human_programming/hptrd/app/controllers/ganttchart_controller.rb",
+		"/C/work/hpm0819/human_programming/hptrd/app/views/layouts/application.html.erb",
+		"/C/work/hpm_0723/human_programming/hptrd/app/views/projects/edit.html.erb",
+		"/C/work/hpm_0723/human_programming/hptrd/app/views/projects/show.html.erb",
+		"/C/work/hpm_0723/human_programming/hptrd/app/models/project.rb",
+		"/C/work/hpm_0723/human_programming/hptrd/app/views/ganttchart/show.html.erb",
+		"/C/work/hpm_0723/human_programming/hptrd/app/views/layouts/ganttchart.html.erb",
+		"/c/work/hpm/human_programming/hptrd/Gemfile-windows8",
+		"/c/work/hpm/human_programming/hptrd/Gemfile-windows8.orig",
+		"/C/work/hpm_0723/human_programming/hptrd/app/views/ganttchart/index.html.erb",
+		"/C/work/hpm_0723/human_programming/hptrd/app/controllers/projects_controller.rb",
+		"/C/work/hpm_0723/human_programming/hptrd/config/routes.rb",
+		"/C/work/hpm_0723/human_programming/hptrd/app/views/projects/index.html.erb",
+		"/C/work/hpm_0723/human_programming/hptrd/app/views/projects/_form.html.erb",
+		"/C/work/hpm_0723/human_programming/hptrd/app/views/layouts/application.html.erb",
+		"/C/work/hpm_0723/human_programming/hptrd/app/views/dashboard2/index.html.erb",
+		"/c/work/adn/repos/ADNTicketServer/ADNTicketServer/data/policy.json",
+		"/C/work/adn/repos/ADNTicketServer/ADNTicketServer/data/policy-.json",
+		"/C/work/adn/repos/server-proxy/test/test2.js",
+		"/C/work/hackathon/projection/projection/public/index.html",
+		"/C/work/hackathon/projection/projection/public/mobile.html",
+		"/C/work/hpm_0723/human_programming/hptrd/app/views/events/_form.html.erb",
+		"/C/work/hpm_0723/human_programming/hptrd/app/api/HumanPro.rb",
+		"/C/work/hpm/human_programming/hptrd/app/views/dashboard2/index.html.erb",
+		"/C/work/hpm/human_programming/hptrd/app/views/dashboard/index.html.erb",
+		"/C/work/hpm/human_programming/hptrd/app/views/layouts/_header.html.erb",
+		"/C/work/hpm/human_programming/hptrd/app/views/layouts/application.html.erb",
+		"/c/work/hackathon/projection/projection/ProcFile",
+		"/C/work/hackathon/projection/projection/views/index.ejs",
+		"/c/work/hackathon/projection/projection/app.js",
+		"/C/work/hackathon/projection/projection/canvas.html",
+		"/C/work/hackathon/projection/projection/views/index.jade",
+		"/C/work/hackathon/projection/canvas - コピー.html",
+		"/C/work/tmpserver/public/red/index.html",
+		"/C/work/adn/reposGit/test/step1.1-red/index.html",
+		"/C/work/adn/reposGit/server-proxy/plugins/ticket-verifier.js",
+		"/C/work/adn/reposGit/test/step1.1-red/test-delete-tickets.js",
+		"/C/work/hpm/human_programming/hptrd/app/controllers/ganttchart_controller.rb",
+		"/C/work/hpm/fst20140703/app/api/HumanPro.rb",
+		"/C/work/hpm/human_programming/hptrd/app/models/task.rb",
+		"/C/work/hpm/human_programming/hptrd/app/controllers/dashboard3_controller.rb",
+		"/C/work/adn/reposGit/test/step1.1-red/test-register-tickets.js",
+		"/C/work/adn/reposGit/test/step1.1-red/test-red.js",
+		"/C/work/adn/reposGit/server-proxy/src/service-access.js",
+		"/C/work/adn/reposGit/server-proxy/server-proxy.js",
+		"/C/work/adn/reposGit/test/step1.1-red/registerPolicy.js",
+		"/C/work/adn/reposGit/test/step1.1-red/policy.json",
+		"/C/work/adn/reposGit/server-proxy/test/test-server-proxy.js",
+		"/C/work/adn/reposGit/ADNTicketServer/ADNTicketServer/public/setting.js",
+		"/C/work/adn/reposGit/ADNTicketServer/ADNTicketServer/public/policy.html",
+		"/C/work/adn/reposGit/test/step1.1-red/redirectApp/config.xml",
+		"/C/work/adn/reposGit/test/step1.1-red/redirectApp/index.html",
+		"/c/work/hpm/human_programming/hptrd/app/controllers/dashboard3_controller.rb",
+		"/c/work/hpm/human_programming/hptrd/app/controllers/a",
+		"/C/work/hpm_0627debug/human_programming/hptrd/app/controllers/dashboard3_controller.rb",
+		"/C/work/hpm/human_programming/hptrd/app/models/project.rb",
+		"/C/work/hpm/human_programming/hptrd3/Gemfile",
+		"/C/work/hpm_gantt_win/hptrd/Gemfile",
+		"/C/work/hpm/human_programming/hptrd/Gemfile",
+		"/C/work/hpm/human_programming/hptrd/app/views/projects/index.html.erb",
+		"/C/work/hpm/human_programming/hptrd/spec/controllers/dashboard2_controller_spec.rb",
+		"/C/work/hpm/human_programming/hptrd3/app/views/dashboard/index.html.erb",
+		"/C/work/hpm/human_programming/hptrd/app/controllers/dashboard_controller.rb",
+		"/C/work/hpm/human_programming/hptrd/app/models/sequence.rb",
+		"/C/work/hpm/human_programming/hptrd/config/routes.rb",
+		"/C/work/hpm/human_programming/hptrd2/app/views/layouts/application.html.erb"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"C:\\work\\hpm\\human_programming\\hptrd"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"set",
+			"delete",
+			"png",
+			"up",
+			"wearable",
+			"weara",
+			"try",
+			"sendmsg",
+			"recent",
+			"comments",
+			"projects",
+			"SendMsg",
+			"goalanimation",
+			"up",
+			"tonakai",
+			"left",
+			"image_id",
+			"santa_goal",
+			"goal",
+			"moveSt",
+			"debug",
+			"p",
+			"\"re",
+			"px",
+			".id",
+			"obj_santa[color].id",
+			"ch",
+			"obj_santa[color].warp",
+			"warp",
+			"state",
+			"goal",
+			"\"q\"",
+			"template_id",
+			"フィルタ",
+			"loadganttfromserver",
+			"月",
+			"vSplitBar",
+			"vsplitbar",
+			"iterate",
+			"sem",
+			"createGantt",
+			"workspace",
+			"100",
+			"11111",
+			"password",
+			"after",
+			"border",
+			"center",
+			"username",
+			"radius",
+			"input",
+			"form",
+			"input",
+			"rsa",
+			"res",
+			"rest",
+			"filter",
+			"div class=\"buttons\"",
+			"get_data_ganttchart_index_path",
+			"get_data_ganttchart_index_path()",
+			"url_get",
+			"get_data",
+			"あり",
+			"createGroupTreeMap",
+			"treemap",
+			"registerpolicy",
+			"priority =",
+			"priority=",
+			"ffbbbb",
+			"children.",
+			"tr.poli",
+			"match",
+			"構文チェック",
+			"matchedpolicy",
+			"getmatchedpolicy",
+			"getmatchedpolicy ",
+			"console",
+			"width",
+			"getpo",
+			"getplicy",
+			"処理ルール",
+			"unregister",
+			"unregisterPolicy",
+			"registerP",
+			"errorTh",
+			"registerpo",
+			"checkConditionSyntax",
+			"conditionSyntax",
+			"registerPolicy",
+			"condition",
+			"priorityIdx",
+			"priority",
+			"onclick",
+			"更新",
+			"=",
+			"var ",
+			",",
+			":",
+			"AppID",
+			"prepair",
+			"unregister",
+			"delete",
+			"deletePolicy",
+			"deletepolicy",
+			"registerPolicy",
+			"tbody",
+			"getPolicy",
+			"app.get",
+			"targetPolicyMap",
+			"        var targetPolicyMap = {};\npriorityPolicyMap",
+			"priorityPolicyMap",
+			"r",
+			"apppolic",
+			"getPolicy",
+			"GET",
+			"getmatched",
+			"policyMap",
+			"policy",
+			"answerre",
+			"answerresult",
+			"answer",
+			"team",
+			"seikai",
+			"start",
+			"touch",
+			"touchstart",
+			"draggable",
+			"r"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"rotate",
+			"byebye",
+			"priority",
+			"conditionIdx",
+			"condition",
+			"ondblclick",
+			":",
+			"",
+			";",
+			"=",
+			"priorityPolicyMap",
+			"priorityPolicyArray",
+			"rewrite",
+			"writeFileSync(",
+			"service"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "public/index.html",
+					"settings":
+					{
+						"buffer_size": 4006,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								560,
+								570
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 260.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "public/js/santa_move.js",
+					"settings":
+					{
+						"buffer_size": 26495,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								48,
+								48
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "public/js/unnei_communication.js",
+					"settings":
+					{
+						"buffer_size": 5838,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5602,
+								5602
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1287.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app.js",
+					"settings":
+					{
+						"buffer_size": 3176,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2830,
+								2830
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1282.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/C/work/hackathon/santa/WristDeviceComponentXmas/wearable/wristdevice.properties",
+					"settings":
+					{
+						"buffer_size": 290,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								109,
+								109
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/JavaProperties.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "public/unnei.html",
+					"settings":
+					{
+						"buffer_size": 3009,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1436,
+								1436
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 322.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "public/js/santa_move_communication.js",
+					"settings":
+					{
+						"buffer_size": 2998,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								566,
+								566
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 61.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "public/js/config.js",
+					"settings":
+					{
+						"buffer_size": 871,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								842,
+								842
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 200.0,
+	"status_bar_visible": true
+}

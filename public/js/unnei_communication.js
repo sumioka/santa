@@ -9,6 +9,8 @@ var k_down = 40;
 
 var santa = "red";
 
+var receivedCount = {"red":[0,0],"blu":[0,0],"gre":[0,0],"yel":[0,0]};
+
 // 　サーバとのコネクションの作成
 var socket = io.connect(SERVER + "/unnei");
 // var socket = io.connect('http://192.168.0.5:3000');
@@ -36,6 +38,27 @@ socket.on('message', function(msg) {
                  keys[k_up] = true;
                if(direction == "down")
                  keys[k_down] = true;
+               break;
+            case "gadget_move":
+               var gesture = msgObj.options["gesture"];
+               var gadgetNum = msgObj.options["gadgetNum"];
+               var count = msgObj.options["count"];
+               var color = gadgetToColorAndIdx(gadgetNum).color;
+               var index = gadgetToColorAndIdx(gadgetNum).index;
+
+               receivedCount[color][index]++;
+
+               $("#" + color + index + gesture)[0].innerHTML = count;
+               $("#" + color + index + "recv")[0].innerHTML = receivedCount[color][index]; 
+               break;
+            case "gadget_alive":
+               var gadgetNum = msgObj.options["gadgetNum"];
+               var color = gadgetToColorAndIdx(gadgetNum).color;
+               var index = gadgetToColorAndIdx(gadgetNum).index;
+               $("#" + color + index + "alive")[0].innerHTML = "●";
+               break;
+            case "gadget_register_unnei":
+               var gadgetNum = msgObj.options["gadget"];
                break;
             default:
          }
@@ -137,7 +160,7 @@ function SendMsg(target,msg) {
 function DisConnect() {
   var msg = JSON.stringify({method:disconnect, options:{termId:socket.io.engine.id}});
   // メッセージを発射する
-  socket.volatile.emit('message', { value: msg });
+  socket.emit('message', { value: msg });
   // socketを切断する
   socket.disconnect();
 }
@@ -157,5 +180,56 @@ $(
    	        }
         });
         setInterval(controller, 20);
+
+        // gadget の初期値を読込
+        for (var color in colorToGadgetMap){
+          $("#" + color + "0gadget")[0].value = colorToGadgetMap[color][0]; 
+          $("#" + color + "1gadget")[0].value = colorToGadgetMap[color][1]; 
+        }
+
+        // checkAliveする
+        checkAlive()
     }
+
+    // TODO: keyをqwerにして、red blu gre yel　を全部移動できるようにする
 );
+
+
+/////////////////////////////////////////////////////
+//  ガジェットの管理に関する部分
+/////////////////////////////////////////////////////
+function setGadget(color, index){
+  var gadgetNum = $("#" + color + index + "gadget")[0].value;
+  if(0 < gadgetNum  && gadgetNum < 100){
+    colorToGadgetMap[color][index] = gadgetNum; 
+    updateGadegetColor(gadgetNum,color,index); 
+  }
+}
+
+// index.htmlとsantaのgadgetNumを同期
+// color: red blu gre yel, index: 0 or 1
+function updateGadegetColor(gadgetNum,color,index){
+  SendMsg("message", {method:"gadget_color_update", options:{gadgetNum:gadgetNum,color:color,index:index}});
+}
+
+
+function gestureStart(){
+  SendMsg("gadget", {method:"gStart", options:{}});  
+}
+
+function gestureStop(){
+  SendMsg("gadget", {method:"gStop", options:{}});  
+}
+
+function clearCount(){
+  SendMsg("gadget", {method:"clearCount", options:{}});  
+}
+
+function checkAlive(){
+  var colors = ["red","blu","gre","yel"];
+  for(var color in colors){
+    $("#" + colors[color] + "0" + "alive")[0].innerHTML = "";
+    $("#" + colors[color] + "1" + "alive")[0].innerHTML = "";
+  }
+  SendMsg("gadget", {method:"checkAlive", options:{}});  
+}
