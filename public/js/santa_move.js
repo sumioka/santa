@@ -756,6 +756,13 @@ function soriAnimationBigSoriMove(){
 function xmas(){
     // 終わりナレーション
 //    obj_bgm.pause();
+
+    SendMsg("gadget", {method:"gStop", options:{}});  
+
+    if(obj_bgm){
+       obj_bgm.stop();
+       delete obj_bgm;
+    }
     obj_bgm = new Audio("image/sound/fin.mp3");
     obj_bgm.load();
     obj_bgm.play();
@@ -777,6 +784,12 @@ function xmas(){
 // signaling
 ///////////////////////////////////////////////////////////////////////
 function init(names){
+
+
+    if(obj_bgm){
+       obj_bgm.stop();
+       delete obj_bgm;
+    }
     reset_santa_pos();
     reset_window_pos();
 
@@ -870,6 +883,11 @@ function readyGo(){
         $("#screen_don").show();
         $("#screen_don").fadeOut(3000);
         //bgm開始
+
+        if(obj_bgm){
+           obj_bgm.stop();
+           delete obj_bgm;
+        }
         obj_bgm = new Audio("image/sound/bgm.mp3");
         obj_bgm.loop = "true";
         obj_bgm.load();

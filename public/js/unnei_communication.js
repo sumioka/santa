@@ -53,9 +53,10 @@ socket.on('message', function(msg) {
                break;
             case "gadget_alive":
                var gadgetNum = msgObj.options["gadgetNum"];
+               var state = msgObj.options["state"];
                var color = gadgetToColorAndIdx(gadgetNum).color;
                var index = gadgetToColorAndIdx(gadgetNum).index;
-               $("#" + color + index + "alive")[0].innerHTML = "●";
+               $("#" + color + index + "alive")[0].innerHTML = state;
                break;
             case "gadget_register_unnei":
                var gadgetNum = msgObj.options["gadget"];
@@ -126,6 +127,7 @@ function init(){
                              "blu":$("#name_blu").val(),
                              "gre":$("#name_gre").val(),
                              "yel":$("#name_yel").val()}});
+  gestureStop();
 }
 
 function preBtn(){
@@ -146,6 +148,7 @@ function ouenBtn(){
 
 function readyGo(){
 	SendMsg("message", {method:"readyGo", options:{}});
+  setTimeout(gestureStart,2000)
 }
 
 function timeUp(){
@@ -222,6 +225,17 @@ function gestureStop(){
 }
 
 function clearCount(){
+  var colors = ["red","blu","gre","yel"];
+  for(var cidx in colors){
+    var color = colors[cidx];
+    for(var index in [0,1]){
+      $("#" + color + index + "up")[0].innerHTML = 0;
+      $("#" + color + index + "byebye")[0].innerHTML = 0;
+      $("#" + color + index + "rotate")[0].innerHTML = 0;
+      $("#" + color + index + "recv")[0].innerHTML = 0;
+      receivedCount[color][index] = 0; 
+    }
+  }
   SendMsg("gadget", {method:"clearCount", options:{}});  
 }
 

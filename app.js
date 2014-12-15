@@ -97,6 +97,10 @@ var proj = io.of("/proj").on("connection", function(socket){
 	socket.on('disconnect',function(){
 		console.log("proj disconnect");
 	});
+
+	socket.on('gadget', function(data) {
+		gadget.emit("message",  {value: data.value});
+	});
 });
 
 // モバイル

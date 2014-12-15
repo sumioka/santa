@@ -79,8 +79,9 @@ socket.on('message', function(msg) {
 
 // メッセージを送る
 function SendMsg(target,msg) {
-     socket.emit(target, { value: msg });
+     socket.emit(target, { value: JSON.stringify(msg) });
 }
+
 // 切断する
 function DisConnect() {
   var msg = JSON.stringify({method:disconnect, options:{termId:socket.io.engine.id}});
