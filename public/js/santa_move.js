@@ -1,6 +1,6 @@
 var DEBUG_LEVEL = 0;
-var frame_to_change_img = 2; // santaの昇り降り画像の切り替えフレーム数(2の場合2frame毎に画像を差し替え)
-var move_per_frame = 2; // 1フレームごとの移動ピクセル数
+var frame_to_change_img = 1; // santaの昇り降り画像の切り替えフレーム数(2の場合2frame毎に画像を差し替え)
+var move_per_frame = 6; // 1フレームごとの移動ピクセル数
 var msec_window_interval = 6300; // トナカイが出てくる感覚(msec)
 
 
@@ -393,6 +393,7 @@ function set_name_pos(color){
     var left = px2int(obj_santa[color].css("left")) + px2int(obj_santa[color].css("width")) / 2 - px2int(obj_name[color].css("width")) / 2;
     // console.log(obj_santa[color].css("left"));
     var top = px2int(obj_santa[color].css("top")) + px2int(obj_santa[color].css("height")) + 30;
+
     // console.log(obj_name[color].css("left") + " " + left);
     obj_name[color].css("left", left);
     obj_name[color].css("top", top);
@@ -403,6 +404,7 @@ function reset_santa_pos(){
     var MARGIN = 50;
     var step = (WIDTH - 2 * MARGIN) / 4;
     var top  = 700;
+    // var top  = 900;
     var left = MARGIN;
     console.log("step" + step);
     for (var color in obj_santa){

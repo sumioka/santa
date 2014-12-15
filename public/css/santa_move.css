@@ -34,10 +34,12 @@ img {
     border-color: #000000;
     border-style: solid;
     background-color: #FFFFFF;
+    /* background-color: #FF0000; */
     font-size: 200%;
     border-radius: 15px;
     padding-left: 10px;
     padding-right: 10px;
+    /* font-color: #FFFFFF; */
 }
 
 .name_intro{
