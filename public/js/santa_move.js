@@ -2,6 +2,7 @@ var DEBUG_LEVEL = 0;
 var frame_to_change_img = 1; // santaの昇り降り画像の切り替えフレーム数(2の場合2frame毎に画像を差し替え)
 var move_per_frame = 6; // 1フレームごとの移動ピクセル数
 var msec_window_interval = 6300; // トナカイが出てくる感覚(msec)
+var DIST_WINDOW_SANTA = 100; // サンタと窓がこのピクセル以下の時窓のトナカイが動き出す
 
 
 var obj_santa;
@@ -31,6 +32,7 @@ var STATE_WAIT = 4;
 var STATE_CLOSED_NOT_MOVE = 5; // 窓は閉まっていてアニメーションも動いていない
 var STATE_CLOSED_AND_MOVE = 6; // 窓は閉まっていてアニメーションは動いている
 var STATE_OPENED = 7; // 窓は相手なくアニメーションも動いていない
+var STATE_CLOSED_AND_FINISHED = 8; // 窓は一回相手もうずっと閉まっている状態
 
 var obj_bgm;
 var bgm_hit = new Audio("image/sound/tonakai_hit.mp3");
@@ -263,8 +265,8 @@ function moveWindowColor(color){
     if (obj_window[color].image_id >= window_anime_step.length){
         obj_window[color].image_id = 1;
         change_image_src(obj_window[color], obj_window[color].image_id);
-        obj_window[color].state = STATE_CLOSED_NOT_MOVE;
-    }else if (window_timer){
+        obj_window[color].state = STATE_CLOSED_AND_FINISHED;
+    }else {
         var image_id = window_anime_step[obj_window[color].image_id][0];
         var wait_time = window_anime_step[obj_window[color].image_id][1];
         if (image_id  >= 20 && image_id < 26){
@@ -311,6 +313,21 @@ function movePlane() {
     for(var color in obj_santa){
         var toppos = px2int(obj_santa[color].css("top"));
         var windowpos = px2int(obj_window[color].css("top"));
+        var window_bottom_pos = windowpos + px2int(obj_window[color].css("height"));
+
+        // console.log(obj_window[color].state);
+        // if (color == "red"){
+        // console.log("toppos="+toppos + " windowpos="+windowpos);
+        //     }
+        if (obj_window[color].state != STATE_CLOSED_AND_FINISHED &&
+            obj_window[color].state == STATE_CLOSED_NOT_MOVE &&
+            Math.abs(toppos - window_bottom_pos) < DIST_WINDOW_SANTA) {
+            // console.log("hoge");
+            obj_window[color].id = 1;
+            obj_window[color].state = STATE_CLOSED_AND_MOVE;
+            moveWindowColor(color);
+        }
+
         if (toppos <= GOAL_LINE && obj_santa[color].state == STATE_MOVING){
             goalAnimation(color);
             // alert();
@@ -489,13 +506,6 @@ function movestart(){
     reset_santa_pos();
     reset_window_pos();
 
-	// for(var tmp_color in obj_santa){
-	//     reset_santa_pos(tmp_color);
-	//     console.log("width=" + WIDTH + " height=" + HEIGHT);
-	//     console.log(obj_santa[tmp_color].css("left") + " " + obj_santa[tmp_color].css("top"));
-	//     console.log($("body").css("height"));
-	// }
-
     $(document).keydown(function(e) {
         keys[e.keyCode] = true;
 
@@ -505,9 +515,9 @@ function movestart(){
     });
     game_timer = setInterval(movePlane, 20);
     // moveWindow();
-    if (DEBUG_LEVEL > 0){
-        window_timer = setInterval(moveWindow, 2300);
-    }
+    // if (DEBUG_LEVEL > 0){
+    //     window_timer = setInterval(moveWindow, 2300);
+    // }
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -1006,7 +1016,7 @@ function readyGo(){
 
     // どん!
     setTimeout("go()",3000);
-    window_timer = setInterval(moveWindow, msec_window_interval);
+    // window_timer = setInterval(moveWindow, msec_window_interval);
 }
 
 // よーいどん用
