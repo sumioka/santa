@@ -19,6 +19,7 @@ img {
     position: relative;
     width:1080px;
     height:1080px;
+    overflow: hidden;
 }
 
 .refrect{
@@ -50,5 +51,11 @@ img {
     border-radius: 15px;
     padding-left: 10px;
     padding-right: 10px;
+    text-align: center;
+    /* overflow: hidden; */
+    /* text-overflow: clip; */
+    /* overflow-x: hidden; */
     overflow: hidden;
+    width: 400px;
+    /* text-overflow: ellipsis; */
 }

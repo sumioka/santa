@@ -856,6 +856,7 @@ function toujou_end(){
 
 var first_animation = 0;
 function toujou_start(color, name){
+    reset_screen();
     console.log("toujou_start");
     $("#screen_intro_bg").show();
 
