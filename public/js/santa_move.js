@@ -48,16 +48,16 @@ function moveleft(){
 }
 
 
-var _communication_keys = {red:{},blu:{},gre:{},yel:{}};
+var _communication_keys = {red:{},blu:{},yel:{},gre:{}};
 
 var keys = {};
 var k_left = 37;
 var k_up = 38;
 var k_right = 39;
 var k_down = 40;
-var santa_dir = {red:1,blu:1,gre:1,yel:1};
-var color_id = {red:1,blu:2,gre:4,yel:3};
-var santa_pos = {red:undefined, blu:undefined, gre:undefined, yel:undefined};
+var santa_dir = {red:1,blu:1,yel:1,gre:1};
+var color_id = {red:1,blu:2,yel:3,gre:4};
+var santa_pos = {red:undefined, blu:undefined, yel:undefined, gre:undefined};
 // var santaL_src = "image/santa_pack/red_l.png";
 // var santaR_src = "image/santa_pack/red_r.png";
 // var tonakaiL_src = "image/santa_pack/blue_l.png";
@@ -307,7 +307,7 @@ function movePlane() {
         if (!keys.hasOwnProperty(direction)) continue;
         move_keys.red[direction] = true;
     }
-    _communication_keys = {red:{},blu:{},gre:{},yel:{}};
+    _communication_keys = {red:{},blu:{},yel:{},gre:{}};
     for(var color in obj_santa){
         var toppos = px2int(obj_santa[color].css("top"));
         var windowpos = px2int(obj_window[color].css("top"));
@@ -444,20 +444,20 @@ function movestart(){
     obj_santa = {
         red : $("#santa_red"),
         blu : $("#santa_blu"),
-        gre : $("#santa_gre"),
-        yel : $("#santa_yel")
+        yel : $("#santa_yel"),
+        gre : $("#santa_gre")
     };
     obj_window = {
         red : $("#window_red"),
         blu : $("#window_blu"),
-        gre : $("#window_gre"),
-        yel : $("#window_yel")
+        yel : $("#window_yel"),
+        gre : $("#window_gre")
     };
     obj_name = {
         red : $("#name_red"),
         blu : $("#name_blu"),
-        gre : $("#name_gre"),
-        yel : $("#name_yel")
+        yel : $("#name_yel"),
+        gre : $("#name_gre")
     };
     obj_santa["red"].id = 1; // 個別画像フォルダを参照するためのid
     obj_santa["blu"].id = 2; // santa[id], down[id]等
@@ -856,29 +856,32 @@ function toujou_end(){
 
 var first_animation = 0;
 function toujou_start(color, name){
-    reset_screen();
     console.log("toujou_start");
-    $("#screen_intro_bg").show();
+    console.log("toujou_animation_moving=" + toujou_animation_moving);
 
     if (toujou_animation_moving == 1){
+        console.log(toujou_animation_moving);
         intro_santa.animate({left:"-=" + 600}, 1000, 'linear');
         intro_name.animate({left:"-=" + 1000}, 1100, 'linear');
         setTimeout(function(){toujou_animation_moving = 0; toujou_start(color, name);}, 1200);
         return;
-    }
-    toujou(color_id[color], name);
-    if (toujou_animation_moving == 0){
-        toujou_animation_moving = 1;
-        if (first_animation == 0){
-            toujou_animation();
-            first_animation = 1;
+    }else {
+        reset_screen();
+        $("#screen_intro_bg").show();
+        toujou(color_id[color], name);
+        if (toujou_animation_moving == 0){
+            toujou_animation_moving = 1;
+            if (first_animation == 0){
+                toujou_animation();
+                first_animation = 1;
+            }
         }
+        // intro_santa.css("left", 1100);
+        intro_santa.animate({left:"+=" + 500}, 0);
+        intro_santa.animate({left:"-=" + 500}, 1000, 'linear');
+        intro_name.animate({left:"+=" + 700}, 0);
+        intro_name.animate({left:"-=" + 700}, 1000, 'linear');
     }
-    // intro_santa.css("left", 1100);
-    intro_santa.animate({left:"+=" + 500}, 0);
-    intro_santa.animate({left:"-=" + 500}, 1000, 'linear');
-    intro_name.animate({left:"+=" + 700}, 0);
-    intro_name.animate({left:"-=" + 700}, 1000, 'linear');
     // intro_santa.animate({left:intro_santa.left_pos}, 1000);
 };
 

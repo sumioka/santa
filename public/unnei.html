@@ -14,8 +14,8 @@
 <input type="radio" name="santa" value="non" checked="checked">なし</input>
 <input type="radio" name="santa" value="red">赤サンタ</input>
 <input type="radio" name="santa" value="blu">青サンタ</input>
-<input type="radio" name="santa" value="gre">緑サンタ</input>
 <input type="radio" name="santa" value="yel">黄サンタ</input>
+<input type="radio" name="santa" value="gre">緑サンタ</input>
 
 <!-- ゲーム全体の進行 -->
 <h2>ゲームの進行</h2>
@@ -34,12 +34,17 @@
 青サンタ：<input id="name_blu" type="text" name="name_blu" value="すみおか君"></input>
 <button onclick="toujouBtn('blu')">登場（青）</button>
 </br>
-緑サンタ：<input id="name_gre" type="text" name="name_gre" value="むらた君"></input>
-<button onclick="toujouBtn('gre')">登場（緑）</button>
-</br>
 黃サンタ：<input id="name_yel" type="text" name="name_yel" value="ささき君"></input>
 <button onclick="toujouBtn('yel')">登場（黃）</button>
 </br>
+緑サンタ：<input id="name_gre" type="text" name="name_gre" value="むらた君"></input>
+<button onclick="toujouBtn('gre')">登場（緑）</button>
+</br>
+
+名前欄を固定幅にしているので，
+名前は６文字まででお願いします．
+</br>
+それ以上指定すると表示が崩れます．
 <!-- <button onclick="toujouBtn(reset)">登場リセット</button> -->
 </body>
 </html>
