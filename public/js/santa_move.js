@@ -4,6 +4,8 @@ var move_per_frame = 6; // 1フレームごとの移動ピクセル数
 var msec_window_interval = 6300; // トナカイが出てくる感覚(msec)
 var DIST_WINDOW_SANTA = 100; // サンタと窓がこのピクセル以下の時窓のトナカイが動き出す
 
+var SANTA_MARGIN = 80; // 各サンタのマージン
+
 
 var obj_santa;
 var obj_window;
@@ -418,11 +420,11 @@ function set_name_pos(color){
 
 function reset_santa_pos(){
     // サンタの位置を初期値（中央に移動）
-    var MARGIN = 50;
-    var step = (WIDTH - 2 * MARGIN) / 4;
+    // var MARGIN = 50;
+    var step = (WIDTH - SANTA_MARGIN) / 4;
     var top  = 700;
     // var top  = 900;
-    var left = MARGIN;
+    var left = SANTA_MARGIN;
     console.log("step" + step);
     for (var color in obj_santa){
         obj_santa[color].css("left", left);
@@ -440,15 +442,14 @@ function getRandomInt(min, max) {
 function reset_window_pos(){
     // サンタの位置を初期値（中央に移動）
     console.log("reset_window_pos");
-    var MARGIN = 80;
     // var step = (WIDTH - 2 * MARGIN) / 4;
-    var step = (WIDTH -  MARGIN) / 4;
-    var left = MARGIN;
+    var step = (WIDTH -  SANTA_MARGIN) / 4;
+    var left = SANTA_MARGIN;
     for (var color in obj_window){
         // console.log("step" + step);
         obj_window[color].css("left", left);
         // obj_window[color].css("top", getRandomInt(GOAL_LINE + MARGIN * 2, 500));
-        obj_window[color].css("top", getRandomInt(GOAL_LINE + MARGIN * 2, 500));
+        obj_window[color].css("top", getRandomInt(GOAL_LINE + SANTA_MARGIN * 2, 500));
         left += step;
     }
 }
