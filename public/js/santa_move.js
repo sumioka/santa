@@ -424,6 +424,10 @@ function set_name_pos(color){
 
     // console.log(obj_name[color].css("left") + " " + left);
     obj_name[color].css("left", left);
+    var name_height = px2int(obj_name[color].css("height"));
+    if (top + name_height > HEIGHT){
+        top = HEIGHT - name_height;
+    }
     obj_name[color].css("top", top);
 }
 
@@ -431,8 +435,8 @@ function reset_santa_pos(){
     // サンタの位置を初期値（中央に移動）
     // var MARGIN = 50;
     var step = (WIDTH - SANTA_MARGIN) / 4;
-    var top  = 700;
-    // var top  = 900;
+    // var top  = 700;
+    var top  = 900;
     var left = SANTA_MARGIN;
     console.log("step" + step);
     for (var color in obj_santa){
