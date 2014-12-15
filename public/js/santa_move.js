@@ -174,6 +174,7 @@ function santa_goal_sori_ride(color){
     }
      if (obj_santa[color].image_id > 7){
          obj_santa[color].state = STATE_GOAL;
+         showGoalText(color);
         // obj_santa[color].image_id = 1;
         // santa_goal_end(color);
     } else {
@@ -185,6 +186,17 @@ function santa_goal_sori_ride(color){
         setTimeout(function(){santa_goal_sori_ride(color);}, 100);
         // setTimeout("santa_goal_anime("+color+")", 100);
     }
+}
+
+function showGoalText(color){
+    var goal_text = $("<img class='goal_text'>").attr("src", "image/goal/goal.png");
+    goal_text.css("position", "absolute");
+    var step = (WIDTH - SANTA_MARGIN) / 4;
+    goal_text.appendTo(obj_animebox);
+    goal_text.css("top", 200);
+    console.log("color_id["+color+"]="+color_id[color] + " margin="+SANTA_MARGIN);
+    console.log(color_id[color] * step);
+    goal_text.css("left", 20 + SANTA_MARGIN + (color_id[color]-1) * step );
 }
 
 var hit_animation_num_iterate = 30;
@@ -227,10 +239,7 @@ function px2int(pxstr){
 
 function goalAnimation(color){
     obj_name[color].hide();
-    // とりあえずはゴールの表示だけ
-    console.log("goalAnimation");
-    var goal_text = $("<img class='goal_text'>").attr("src", "image/goal/goal.png");
-    goal_text.appendTo(obj_animebox);
+    // とりあえずはゴールの表示だ
     // goal_text.appendTo($("#game_box"));
     santa_goal1(color);
     // clearInterval(game_timer);
