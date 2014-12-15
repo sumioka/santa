@@ -441,11 +441,13 @@ function reset_window_pos(){
     // サンタの位置を初期値（中央に移動）
     console.log("reset_window_pos");
     var MARGIN = 80;
-    var step = (WIDTH - 2 * MARGIN) / 4;
+    // var step = (WIDTH - 2 * MARGIN) / 4;
+    var step = (WIDTH -  MARGIN) / 4;
     var left = MARGIN;
     for (var color in obj_window){
         // console.log("step" + step);
         obj_window[color].css("left", left);
+        // obj_window[color].css("top", getRandomInt(GOAL_LINE + MARGIN * 2, 500));
         obj_window[color].css("top", getRandomInt(GOAL_LINE + MARGIN * 2, 500));
         left += step;
     }
