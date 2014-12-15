@@ -440,7 +440,7 @@ function getRandomInt(min, max) {
 function reset_window_pos(){
     // サンタの位置を初期値（中央に移動）
     console.log("reset_window_pos");
-    var MARGIN = 50;
+    var MARGIN = 80;
     var step = (WIDTH - 2 * MARGIN) / 4;
     var left = MARGIN;
     for (var color in obj_window){
