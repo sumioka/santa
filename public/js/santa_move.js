@@ -532,7 +532,9 @@ function movestart(){
             delete keys[e.keyCode];
         });
     });
-    game_timer = setInterval(movePlane, 20);
+    if (game_timer == undefined){
+        game_timer = setInterval(movePlane, 20);
+    }
     // moveWindow();
     // if (DEBUG_LEVEL > 0){
     //     window_timer = setInterval(moveWindow, 2300);
@@ -552,7 +554,9 @@ function initGameTimer(){
 }
 
 function startGameTimer(){
-    gameTimer = setInterval("timeSpend()",1000);
+    if (!gameTimer){
+        gameTimer = setInterval("timeSpend()",1000);
+    }
 }
 
 function timeSpend(){
@@ -804,6 +808,9 @@ function init(names){
     obj_sori.css("top",0);
     obj_sori.attr("src","image/sleigh1/sleigh.png");
     obj_sori.removeClass("refrect");
+    if(obj_bgm){
+        obj_bgm.pause();
+    }
 
     // console.log("fugafuga");
     for(var color in obj_santa){
@@ -1034,26 +1041,27 @@ function readyGo(){
     $("#screen_yoi").show();
 
     // どん!
-    setTimeout("go()",3000);
+    setTimeout("readyGo2()",3000);
     // window_timer = setInterval(moveWindow, msec_window_interval);
 }
 
 // よーいどん用
-{
-    function go(){
-        startGameTimer();
-        for(var color in obj_santa){
-            obj_santa[color].state = STATE_MOVING;
-        }
-        $("#screen_yoi").hide();
-        $("#screen_don").show();
-        $("#screen_don").fadeOut(3000);
-        //bgm開始
-        obj_bgm = new Audio("image/sound/bgm.mp3");
-        obj_bgm.loop = "true";
-        obj_bgm.load();
-        obj_bgm.play();
+function readyGo2(){
+    startGameTimer();
+    for(var color in obj_santa){
+        obj_santa[color].state = STATE_MOVING;
     }
+    $("#screen_yoi").hide();
+    $("#screen_don").show();
+    $("#screen_don").fadeOut(3000);
+    //bgm開始
+    if (!obj_bgm){
+        obj_bgm = new Audio("image/sound/bgm.mp3");
+    }
+    obj_bgm.loop = "true";
+    obj_bgm.load();
+    obj_bgm.pause();
+    obj_bgm.play();
 }
 
 function end(){
