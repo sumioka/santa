@@ -62,6 +62,9 @@ var k_down = 40;
 var santa_dir = {red:1,blu:1,yel:1,gre:1};
 var color_id = {red:1,blu:2,yel:3,gre:4};
 var santa_pos = {red:undefined, blu:undefined, yel:undefined, gre:undefined};
+var santa_speed = {};
+var santa_lock = {red:false, blu:false, gre:false, yel:false};
+
 // var santaL_src = "image/santa_pack/red_l.png";
 // var santaR_src = "image/santa_pack/red_r.png";
 // var tonakaiL_src = "image/santa_pack/blue_l.png";
@@ -229,13 +232,13 @@ function showGoalText(color){
 
 var hit_animation_num_iterate = 30;
 function hit_animation(color, prev_src){
-    console.log("HIT_ANIME:" + obj_santa[color].state);
+    // console.log("HIT_ANIME:" + obj_santa[color].state);
     if (obj_santa[color].image_id >= hit_animation_num_iterate){
         obj_santa[color].image_id = 1;
         obj_santa[color].attr({src:prev_src});
         obj_santa[color].state=STATE_MOVING;
     }else{
-        console.log(obj_santa[color]);
+        // console.log(obj_santa[color]);
         change_image_src(obj_santa[color], (obj_santa[color].image_id % 2)+1);
         obj_santa[color].image_id++;
         setTimeout(function(){hit_animation(color, prev_src);}, 100);
@@ -839,10 +842,6 @@ function xmas(){
 
     SendMsg("gadget", {method:"gStop", options:{}});  
 
-    if(obj_bgm){
-       obj_bgm.stop();
-       delete obj_bgm;
-    }
     obj_bgm = new Audio("image/sound/fin.mp3");
     obj_bgm.load();
     obj_bgm.play();
