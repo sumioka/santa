@@ -859,52 +859,6 @@ function xmas(){
 
 }
 
-///////////////////////////////////////////////////////////////////////
-// signaling
-///////////////////////////////////////////////////////////////////////
-function init_bak(names){
-    reset_screen();
-    console.log("init");
-    reset_santa_pos();
-    reset_window_pos();
-    clearInterval(window_timer);
-    // set_name_pos();
-
-    $("#anime_box").css("top",0);
-    obj_sori.css("zoom", 1);
-    obj_sori.css("left",150);
-    obj_sori.css("top",0);
-    obj_sori.attr("src","image/sleigh1/sleigh.png");
-    obj_sori.removeClass("refrect");
-    if(obj_bgm){
-        obj_bgm.pause();
-    }
-
-    // console.log("fugafuga");
-    for(var color in obj_santa){
-        console.log("hogehoge");
-        obj_santa[color].show();
-        obj_santa[color].attr("src","image/santa" + obj_santa[color].id + "/1.png");
-        obj_santa[color].state = STATE_INIT;
-        // console.log();
-        // set_name_pos(color);
-        // console.log(obj_santa[color]);
-    }
-    for (var color in obj_name){
-        obj_name[color].text(names[color]);
-        obj_name[color].show();
-        set_name_pos(color);
-
-        obj_window[color].id=1;
-        obj_window[color].state = STATE_CLOSED_NOT_MOVE;
-    }
-    // console.log(names);
-
-    initGameTimer();
-
-    toujou_end();
-};
-
 function reset_screen(){
     // プレ、タイトル、説明用画像を消す
     $("#screen_pre").hide();
