@@ -174,7 +174,10 @@ function santa_goal_sori_ride(color){
     }
      if (obj_santa[color].image_id > 7){
          obj_santa[color].state = STATE_GOAL;
-         showGoalText(color);
+         if (gameTimer){
+             // 時間切れでなくそりに乗る時はゴールテキストを表示
+             showGoalText(color);
+         }
         // obj_santa[color].image_id = 1;
         // santa_goal_end(color);
     } else {
