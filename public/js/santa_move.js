@@ -69,6 +69,11 @@ var santa_lock = {red:false, blu:false, gre:false, yel:false};
 // var santaR_src = "image/santa_pack/red_r.png";
 // var tonakaiL_src = "image/santa_pack/blue_l.png";
 var tonakai_src = "image/tonakai/tonakai";
+
+
+var cache_images = {
+    };
+
 function change_image_src(obj_img, id){
     // 連番の画像ソースについて数字部分をidに変更
     // console.log("change_image_src:"+id);
@@ -636,8 +641,8 @@ function initGameTimer(){
 
 function startGameTimer(){
     if (!gameTimer){
-        // gameTimer = setInterval("timeSpend()",1000);
-        gameTimer = setInterval("timeSpend()",300); // for debug
+        gameTimer = setInterval("timeSpend()",1000);
+        // gameTimer = setInterval("timeSpend()",300); // for debug
     }
 }
 
