@@ -142,7 +142,7 @@ function santamove(color){
         }
         setTimeout(function(){
             santa_lock[color] = false; 
-        },500)
+        },500);
 
     }else{
         santa_dir[color] += 1;
@@ -232,7 +232,10 @@ function showGoalText(color){
 
 var hit_animation_num_iterate = 30;
 function hit_animation(color, prev_src){
-    // console.log("HIT_ANIME:" + obj_santa[color].state);
+    if (!gameTimer) {
+        // 時間切れの時には強制終了
+        return;
+    }
     if (obj_santa[color].image_id >= hit_animation_num_iterate){
         obj_santa[color].image_id = 1;
         obj_santa[color].attr({src:prev_src});
@@ -258,9 +261,7 @@ function santa_hitstop(color){
     obj_santa[color].attr({src:"image/down" + id + "/1.png"});
     console.log(bgm_hit);
     bgm_hit.play();
-    // setTimeout('function(){obj_santa['+color+'].attr({src:'+prev_src+'});obj_santa['+color+'].state='+STATE_MOVING+';};', 3000);
     hit_animation(color, prev_src);
-    // setTimeout(function(){obj_santa[color].attr({src:prev_src});obj_santa[color].state=STATE_MOVING;}, 3000);
 }
 
 
@@ -346,6 +347,10 @@ function moveWindow(){
 
 function movePlane() {
     debug();
+    if (!gameTimer){
+        // タイマーが動いていない時は何もしない
+        return;
+    }
     var move_keys = _communication_keys;
     for(var direction in keys){
         if (!keys.hasOwnProperty(direction)) continue;
@@ -449,7 +454,7 @@ function move_from_textarea(str){
 
 function set_name_pos(color){
     // console.log(obj_santa[color].css("left"));
-    var left = px2int(obj_santa[color].css("left")) + px2int(obj_santa[color].css("width")) / 2 - px2int(obj_name[color].css("width")) / 2;
+    var left = px2int(obj_santa[color].css("left")) + px2int(obj_santa[color].css("width")) / 2 - px2int(obj_name[color].css("width")) / 2 - 10;
     // console.log(obj_santa[color].css("left"));
     var top = px2int(obj_santa[color].css("top")) + px2int(obj_santa[color].css("height")) + 30;
 
@@ -620,7 +625,8 @@ function initGameTimer(){
 
 function startGameTimer(){
     if (!gameTimer){
-        gameTimer = setInterval("timeSpend()",1000);
+        // gameTimer = setInterval("timeSpend()",1000);
+        gameTimer = setInterval("timeSpend()",300); // for debug
     }
 }
 
@@ -637,16 +643,24 @@ function timeUp(){
         clearInterval(gameTimer);
         gameTimer = null;
     }
+    if (game_timer){
+        clearInterval(game_timer);
+        game_timer = null;
+    }
     clearInterval(window_timer);
     window_timer = null;
     if(obj_bgm){
         obj_bgm.pause();
     }
-    warp();
+
+    // ヒット時のアニメーションの完了を待ってワープモーションに移る
+    setTimeout(function(){warp();}, 500);
+    
 }
 
 function warp(){
     for(var color in obj_santa){
+        console.log("warp santa:" + color + " state is " + obj_santa[color].state);
         if((obj_santa[color].state == STATE_INIT) || (obj_santa[color].state == STATE_MOVING) || (obj_santa[color].state == STATE_HITTED)){
             console.log("santa:" + color + " warps");
             obj_santa[color].state = STATE_WAIT;
@@ -658,7 +672,7 @@ function warp(){
 //            obj_santa[color].show();
         }
     }
-    setTimeout(function(){warpAnimation1()},100);
+    setTimeout(function(){warpAnimation1();},100);
     console.log("warp");
 }
 
@@ -1077,9 +1091,10 @@ function readyGo2(){
     $("#screen_don").show();
     $("#screen_don").fadeOut(3000);
     //bgm開始
-    if (!obj_bgm){
-        obj_bgm = new Audio("image/sound/bgm.mp3");
-    }
+    // if (!obj_bgm){
+    if (obj_bgm){obj_bgm.pause();}
+    obj_bgm = new Audio("image/sound/bgm.mp3");
+    // }
     obj_bgm.loop = "true";
     obj_bgm.load();
     obj_bgm.pause();
