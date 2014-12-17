@@ -503,6 +503,17 @@ function reset_window_pos(){
     }
 }
 
+function show_santa_stats(){
+    for (var color in obj_santa){
+        var top = obj_santa[color].css("top");
+        var left = obj_santa[color].css("left");
+        var width = obj_santa[color].css("width");
+        var height = obj_santa[color].css("height");
+
+        console.log("top=" + top + " left=" + left + " width=" + width + " height"+ height);
+    }
+}
+
 function init(names){
     if(DEBUG_LEVEL == 0){
         $("#connectId").hide();
@@ -660,9 +671,9 @@ function timeUp(){
 
 function warp(){
     for(var color in obj_santa){
-        console.log("warp santa:" + color + " state is " + obj_santa[color].state);
+        // console.log("warp santa:" + color + " state is " + obj_santa[color].state);
         if((obj_santa[color].state == STATE_INIT) || (obj_santa[color].state == STATE_MOVING) || (obj_santa[color].state == STATE_HITTED)){
-            console.log("santa:" + color + " warps");
+            // console.log("santa:" + color + " warps");
             obj_santa[color].state = STATE_WAIT;
             obj_santa[color].warp = 2;
             var top = parseInt(obj_santa[color].css("top"));
