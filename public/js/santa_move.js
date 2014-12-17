@@ -1,6 +1,6 @@
 var DEBUG_LEVEL = 0;
-var frame_to_change_img = 1; // santaの昇り降り画像の切り替えフレーム数(2の場合2frame毎に画像を差し替え)
-var move_per_frame = 6; // 1フレームごとの移動ピクセル数
+var frame_to_change_img = 5; // santaの昇り降り画像の切り替えフレーム数(2の場合2frame毎に画像を差し替え)
+var move_per_frame = 2; // 1フレームごとの移動ピクセル数
 var msec_window_interval = 6300; // トナカイが出てくる感覚(msec)
 var DIST_WINDOW_SANTA = 100; // サンタと窓がこのピクセル以下の時窓のトナカイが動き出す
 
@@ -109,13 +109,38 @@ function debug(){
 }
 
 function santamove(color){
+
+    if(santa_lock[color]){
+        santa_dir[color] += 1;
+        return;
+    }
     // 動きカウンタがしきい値以上ならば次の画像に差し替え
     // console.log("src="+obj_santa[color].attr("src"));
     if (santa_dir[color] > frame_to_change_img){
-        obj_santa[color].attr({
-            src: next_image_src(obj_santa[color].attr("src"), 10)
-        });
-        santa_dir[color] = 1;
+        santa_lock[color] = true;
+
+        santa_speed[color] = 1;
+
+        if(santa_dir[color] > frame_to_change_img * 2){
+            santa_dir[color] -= frame_to_change_img * 2;
+            santa_speed[color] = 2;
+        } else {
+            santa_dir[color] -= frame_to_change_img;
+        }
+
+        for(var idx = 1; idx < 5 * santa_speed[color]; idx++){
+            setTimeout(function(){
+                if(obj_santa[color].state == STATE_MOVING){
+                    obj_santa[color].attr({
+                        src: next_image_src(obj_santa[color].attr("src"), 10)
+                    });
+                }
+            },100 / santa_speed[color] * idx);
+        }
+        setTimeout(function(){
+            santa_lock[color] = false; 
+        },500)
+
     }else{
         santa_dir[color] += 1;
     }
@@ -774,6 +799,13 @@ function soriAnimationBigSoriMove(){
 function xmas(){
     // 終わりナレーション
 //    obj_bgm.pause();
+
+    SendMsg("gadget", {method:"gStop", options:{}});  
+
+    if(obj_bgm){
+       obj_bgm.stop();
+       delete obj_bgm;
+    }
     obj_bgm = new Audio("image/sound/fin.mp3");
     obj_bgm.load();
     obj_bgm.play();

@@ -18,7 +18,7 @@ app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
 app.set('view engine', 'ejs');
 app.use(express.favicon());
-app.use(express.logger('dev'));
+//app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
@@ -30,7 +30,14 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+/////////////////////////////
+// global variables
+/////////////////////////////
 
+
+/////////////////////////////
+// server logics
+/////////////////////////////
 
 // server起動
 var server = http.createServer(app);
@@ -65,9 +72,16 @@ var unnei = io.of("/unnei").on("connection", function(socket){
 	socket.on('message', function(data) {
 		console.log("message");
 		proj.emit("message",  {value: data.value});
+		mobile.emit("message",  {value: data.value});
+		gadget.emit("message",  {value: data.value});
 		//mobile.emit("message",  {value: data.value});
 	});
 	
+	socket.on('gadget', function(data) {
+		console.log("message to gadget");
+		gadget.emit("message",  {value: data.value});
+	});
+
 	// 切断
 	socket.on('disconnect',function(){
 		console.log("unnei disconnect");
@@ -83,6 +97,10 @@ var proj = io.of("/proj").on("connection", function(socket){
 	socket.on('disconnect',function(){
 		console.log("proj disconnect");
 	});
+
+	socket.on('gadget', function(data) {
+		gadget.emit("message",  {value: data.value});
+	});
 });
 
 // モバイル
@@ -91,11 +109,18 @@ var mobile = io.of("/mobile").on("connection", function(socket){
 	
 	// サンタに関するメッセージはビルへ
 	socket.on("santa", function(data){
-		proj.volatile.emit("message",  {value: data.value});
-		// proj.emit("message",  {value: data.value});
+		//proj.volatile.emit("message",  {value: data.value});
+		proj.emit("message",  {value: data.value});
+		console.log(data.value);
+		//mobile.emit("message",  {value: data.value});
+	});
+
+	socket.on('unnei', function(data) {
+		console.log("message");
+		unnei.emit("message",  {value: data.value});
+		//mobile.emit("message",  {value: data.value});
 	});
 	
-
 	// 切断
 	socket.on('disconnect',function(){
 		console.log("mobile disconnect");
@@ -103,6 +128,32 @@ var mobile = io.of("/mobile").on("connection", function(socket){
 	
 });
 
+
+// ガジェットモバイル
+var gadget = io.of("/gadget").on("connection", function(socket){
+	console.log("gadget connection");
+	
+	// サンタに関するメッセージはビルへ
+	socket.on("santa", function(data){
+		//proj.volatile.emit("message",  {value: data.value});
+		proj.emit("message",  {value: data.value});
+		unnei.emit("message",  {value: data.value});
+		console.log(data.value);
+		//mobile.emit("message",  {value: data.value});
+	});
+
+	socket.on('unnei', function(data) {
+		console.log("message");
+		unnei.emit("message",  {value: data.value});
+		//mobile.emit("message",  {value: data.value});
+	});
+	
+	// 切断
+	socket.on('disconnect',function(){
+		console.log("mobile disconnect");
+	});
+	
+});
 
 
 
