@@ -2,7 +2,6 @@
 // 通信
 //////////////////////////////////////////////////////////
 
-
 // 　サーバとのコネクションの作成
 var socket = io.connect(SERVER + "/proj");
 // var socket = io.connect('http://192.168.0.5:3000');
@@ -29,9 +28,24 @@ socket.on('message', function(msg) {
                if(direction == "right")
                  _communication_keys[color][k_right] = true;
                if(direction == "up")
+//                upMultiple(20, color);
                  _communication_keys[color][k_up] = true;
                if(direction == "down")
                  _communication_keys[color][k_down] = true;
+               break;
+            case "gadget_move":
+               var gesture = msgObj.options["gesture"];
+               var gadgetNum = msgObj.options["gadgetNum"];
+               var color = gadgetToColor(gadgetNum);
+               if(gesture == "up" || gesture == "byebye"){
+                 _communication_keys[color][k_up] = true;
+               }
+               break;
+            case "gadget_color_update":
+               var gadgetNum = msgObj.options["gadgetNum"];
+               var color = msgObj.options["color"];
+               var index = msgObj.options["index"];
+               colorToGadgetMap[color][index] = gadgetNum;
                break;
             case "init":
                init(msgObj.names);
@@ -65,8 +79,9 @@ socket.on('message', function(msg) {
 
 // メッセージを送る
 function SendMsg(target,msg) {
-     socket.emit(target, { value: msg });
+     socket.emit(target, { value: JSON.stringify(msg) });
 }
+
 // 切断する
 function DisConnect() {
   var msg = JSON.stringify({method:disconnect, options:{termId:socket.io.engine.id}});
@@ -76,3 +91,12 @@ function DisConnect() {
   socket.disconnect();
 }
 
+function upMultiple(times, color){
+  for(var idx = 0; idx < times; idx++){
+      setTimeout(function(){upOnetime(color)}, 20 * idx);
+  }
+}
+
+function upOnetime(color){
+   _communication_keys[color][k_up] = true;
+}
