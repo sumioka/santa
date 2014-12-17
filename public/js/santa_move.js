@@ -495,13 +495,22 @@ function reset_window_pos(){
     }
 }
 
-function movestart(){
+function init(names){
     if(DEBUG_LEVEL == 0){
         $("#connectId").hide();
         $("#receiveMsg").hide();
         $("#errorMsg").hide();
     }
 
+    // 各種オブジェクトの初期化
+    if (!names){
+        names = {
+            red : $("#name_red").text(),
+            blu : $("#name_blu").text(),
+            yel : $("#name_yel").text(),
+            gre : $("#name_gre").text()
+        };
+    }
     obj_santa = {
         red : $("#santa_red"),
         blu : $("#santa_blu"),
@@ -525,13 +534,23 @@ function movestart(){
     obj_santa["yel"].id = 3;
     obj_santa["gre"].id = 4;
     for (var color in obj_santa){
-        obj_santa[color].state = STATE_MOVING;
+        obj_santa[color].attr("src","image/santa" + obj_santa[color].id + "/1.png");
+        obj_santa[color].state = STATE_INIT;
         obj_santa[color].image_id = 1; // 各種アニメーション用
+        obj_santa[color].show();
     }
     for (var color in obj_window){
+        // name
+        obj_name[color].text(names[color]);
+        obj_name[color].show();
+        set_name_pos(color);
+
+        // window
         obj_window[color].image_id = 1;
         obj_window[color].state = STATE_CLOSED_NOT_MOVE;
     }
+
+
     intro_santa = $("#santa_intro");
     intro_name = $("#name_intro");
     // obj_tonakai = $("#tonakai");
@@ -547,8 +566,23 @@ function movestart(){
             santa_pos[color].appendTo(obj_animebox);
         }
     }
+
+    // 画面配置
+    reset_screen();
     reset_santa_pos();
     reset_window_pos();
+    toujou_end();
+
+    $("#anime_box").css("top",0);
+    // ソリ
+    obj_sori.css("zoom", 1);
+    obj_sori.css("left",150);
+    obj_sori.css("top",0);
+    obj_sori.attr("src","image/sleigh1/sleigh.png");
+    obj_sori.removeClass("refrect");
+    if(obj_bgm){
+        obj_bgm.pause();
+    }
 
     $(document).keydown(function(e) {
         keys[e.keyCode] = true;
@@ -557,6 +591,9 @@ function movestart(){
             delete keys[e.keyCode];
         });
     });
+
+    // timer
+    initGameTimer();
     if (game_timer == undefined){
         game_timer = setInterval(movePlane, 20);
     }
@@ -826,7 +863,7 @@ function xmas(){
 ///////////////////////////////////////////////////////////////////////
 // signaling
 ///////////////////////////////////////////////////////////////////////
-function init(names){
+function init_bak(names){
     reset_screen();
     console.log("init");
     reset_santa_pos();
