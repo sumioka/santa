@@ -68,6 +68,10 @@ socket.on('message', function(msg) {
             case "timeUp":
                timeUp();
                break;
+            case "toujou":
+             console.log("color" + msgObj.color + " name=" +msgObj.name);
+             toujou_start(msgObj.color, msgObj.name);
+             break;
             case "end":
             default:
          }
