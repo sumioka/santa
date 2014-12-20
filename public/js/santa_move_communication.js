@@ -23,7 +23,7 @@ socket.on('message', function(msg) {
             case "santa_move":
              for (var color in _communication_keys){
                  if (msgObj.options["santa_keys"][color]){
-             console.log(color + ":"+msgObj.options["santa_keys"][color]);
+             // console.log(color + ":"+msgObj.options["santa_keys"][color]);
                  _communication_keys[color][k_up] = msgObj.options["santa_keys"][color];
                      }
              }

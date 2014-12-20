@@ -1,6 +1,6 @@
 var DEBUG_LEVEL = 0;
 var frame_to_change_img = 5; // santaの昇り降り画像の切り替えフレーム数(2の場合2frame毎に画像を差し替え)
-var move_per_frame = 2; // 1フレームごとの移動ピクセル数
+var move_per_frame = 10; // 1フレームごとの移動ピクセル数
 var msec_window_interval = 6300; // トナカイが出てくる感覚(msec)
 var DIST_WINDOW_SANTA = 100; // サンタと窓がこのピクセル以下の時窓のトナカイが動き出す
 
@@ -210,6 +210,18 @@ function santa_goal_sori_ride(color){
          if (gameTimer){
              // 時間切れでなくそりに乗る時はゴールテキストを表示
              showGoalText(color);
+             var all_player_goal = true;
+             for(var color2 in obj_santa){
+                 if (obj_santa[color2].state != STATE_GOAL) {
+                     all_player_goal = false;
+                 }
+             }
+             if (all_player_goal) {
+                 // 全員がゴールしたなら
+                 // 若干のタイムラグ後，タイムアップする
+                 timeUp();
+                 // setTimeout(function(){timeUp();}, 500);
+             }
          }
         // obj_santa[color].image_id = 1;
         // santa_goal_end(color);
@@ -642,7 +654,6 @@ function initGameTimer(){
 function startGameTimer(){
     if (!gameTimer){
         gameTimer = setInterval("timeSpend()",1000);
-        // gameTimer = setInterval("timeSpend()",300); // for debug
     }
 }
 
@@ -670,8 +681,18 @@ function timeUp(){
     }
 
     // ヒット時のアニメーションの完了を待ってワープモーションに移る
-    setTimeout(function(){warp();}, 500);
-    
+
+    var all_player_goal = true;
+    for(var color2 in obj_santa){
+        if (obj_santa[color2].state != STATE_GOAL) {
+            all_player_goal = false;
+        }
+    }
+    if (!all_player_goal){
+        setTimeout(function(){warp();}, 1000);
+    }else{
+        setTimeout(function(){soriAnimationStart();}, 1000);
+    }
 }
 
 function warp(){
