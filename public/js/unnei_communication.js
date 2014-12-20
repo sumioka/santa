@@ -91,11 +91,11 @@ function controller(){
 		//         SendMsg("message", {method:"santa_move", options:{color:santa, direction:"down"}});
     //     }
 
-    var santa_keys = {red:keys[k_red], blu:keys[k_blu], yel:keys[k_yel], gre:keys[k_gre]};
-    if (santa_keys["red"] || santa_keys["blu"] ||
-        santa_keys["yel"] || santa_keys["gre"]){
+    // var santa_keys = {red:keys[k_red], blu:keys[k_blu], yel:keys[k_yel], gre:keys[k_gre]};
+    // if (santa_keys["red"] || santa_keys["blu"] ||
+    //     santa_keys["yel"] || santa_keys["gre"]){
         SendMsg("message", {method:"santa_move", options:{santa_keys:santa_keys}});
-    }
+    // }
 }
 
 

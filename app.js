@@ -70,7 +70,7 @@ var unnei = io.of("/unnei").on("connection", function(socket){
 	console.log("unnei connection");
 	
 	socket.on('message', function(data) {
-		console.log("message");
+		// console.log("message");
 		proj.emit("message",  {value: data.value});
 		mobile.emit("message",  {value: data.value});
 		gadget.emit("message",  {value: data.value});
