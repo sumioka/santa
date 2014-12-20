@@ -617,13 +617,10 @@ function init(names){
     });
 
     // timer
-    initGameTimer();
-    if (game_timer == undefined){
-        game_timer = setInterval(movePlane, 20);
-    }
-    // moveWindow();
-    // if (DEBUG_LEVEL > 0){
-    //     window_timer = setInterval(moveWindow, 2300);
+    // 一時的にコメントアウト
+    // initGameTimer();
+    // if (game_timer == undefined){
+    //     game_timer = setInterval(movePlane, 20);
     // }
 }
 
