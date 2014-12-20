@@ -18,7 +18,6 @@
 <!-- <input type="radio" name="santa" value="yel">黄サンタ</input> -->
 <!-- <input type="radio" name="santa" value="gre">緑サンタ</input> -->
 <h2>サンタコントローラー</h2>
-20msecでキー情報を送信．押しっぱなしでもキー情報を送信し続ける
 <table border="1">
 	<tr>
 		<th><font color="red" id="cnt_red">赤Q</font></th>
@@ -31,6 +30,7 @@
 
 <!-- ゲーム全体の進行 -->
 <h2>ゲームの進行</h2>
+<<<<<<< HEAD
 ①タイトル，②ルール，③応援画面，</br>
 <font color="red">④サンタ登場（忘れずに）</font></br>
 ⑤初期状態，⑥ゲームスタート</br>
@@ -42,6 +42,15 @@
 <button onclick="init()">初期状態にする（名前を反映させる）</button>
 <button onclick="readyGo()">ゲームスタート：よういどん</button>  </br> </br>
 <button onclick="timeUp()">強制時間切れ</button>  </br>
+=======
+<button onclick="preBtn()">pre</button>
+<button onclick="titleBtn()">title</button>
+<button onclick="ruleBtn()">rule</button>
+<button onclick="init()">init</button>
+<button onclick="ouenBtn()">ouen</button>
+<button onclick="readyGo()">readyGo</button>
+<button onclick="timeUp()">time up</button>
+>>>>>>> parent of c0ed39b... 運営側注意事項付け足し
 
 <h2>サンタの登場</h2>
 赤サンタ：<input id="name_red" type="text" name="name_red" value="ごとう君"></input>
@@ -58,7 +67,7 @@
 </br>
 
 名前欄を固定幅にしているので，
-名前は７文字まででお願いします．
+名前は６文字まででお願いします．
 </br>
 それ以上指定すると表示が崩れます．
 <!-- <button onclick="toujouBtn(reset)">登場リセット</button> -->
