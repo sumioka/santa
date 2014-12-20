@@ -71,8 +71,117 @@ var santa_lock = {red:false, blu:false, gre:false, yel:false};
 var tonakai_src = "image/tonakai/tonakai";
 
 
-var cache_images = {
-    };
+var cache_images = {};
+
+// 画像のonloadにLoaderを渡すことにより
+// 画像のロード完了数をカウント
+// expectedCntに達したならばcallback関数を呼ぶ
+var Loader = function(expectedCnt, callback){
+  var cnt = 0;
+  return function(){
+    if(++cnt == expectedCnt){ callback(); }
+  };
+};
+
+function change_cache_image(obj, src){
+    if (obj.img) obj.img.hide();
+    obj.img = cache_images[src];
+    obj.img.show();
+}
+
+function change_cache_next_image(obj, image_id){
+    var cur_image_src = obj.img.attr("src");
+    var num_start = cur_image_src.lastIndexOf("/") + 1;
+    var num_end = cur_image_src.lastIndexOf(".png");
+    var new_src = cur_image_src.substring(0, num_start) + image_id + cur_image_src.substring(num_end);
+    change_cache_image(obj, obj.id + new_src);
+}
+function new_image(src){
+    var res = $("<img>").attr("src", src);
+    res.css("position", "absolute");
+    res.css("left", "0px");
+    res.css("top", "0px");
+    res.css("z-index", "5000");
+    // res.appendTo($("#anime_box"));
+    res.hide();
+    return res;
+}
+function load_images(){
+    var img_dir = "image/";
+    for (var color in color_id){
+        var i = color_id[color];
+    // for (var i = 1; i <= 4; i++){
+        // introduction
+        if (i == 4){
+            for (var j = 1; j <= 18; j++){
+                var src = img_dir + "introduction/introduction"+i+"/" +j +".png";
+                cache_images[i+src] = new_image(src);
+                // cache_images[i+src].css("z-index", 150000);
+            }
+        }else{
+            for (var j = 1; j <= 4; j++){
+                var src = img_dir + "introduction/introduction"+i+"/" +j +".png";
+                cache_images[i+src] = new_image(src);
+                // cache_images[i+src].css("z-index", 150000);
+            }
+        }
+        // window
+        for (var j = 1; j <= 26; j++){
+            var src = img_dir + "window/" +j +".png";
+            cache_images[i+src] = new_image(src);
+        }
+
+        // santa 本体
+        for (var j = 1; j <= 10; j++){
+            var src = img_dir + "santa" + i + "/"+ j +".png";
+            cache_images[i+src] = new_image(src);
+            cache_images[i+src].appendTo(obj_santa[color]);
+        }
+
+        // santa hit
+        for (var j = 1; j <= 2; j++){
+            var src = img_dir + "down" + i + "/"+ j +".png";
+            cache_images[i+src] = new_image(src);
+            cache_images[i+src].appendTo(obj_santa[color]);
+            // cache_images[i+src].appendTo($("santa_"+color));
+        }
+
+        // santa goal
+        for (var j = 1; j <= 7; j++){
+            var src = img_dir + "goal" + i + "/"+ j +".png";
+            cache_images[i+src] = new_image(src);
+            cache_images[i+src].appendTo(obj_santa[color]);
+            // cache_images[i+src].appendTo($("santa_"+color));
+        }
+        // santa warp
+        for (var j = 1; j <= 11; j++){
+            var src = img_dir + "warp" + i + "/"+ j +".png";
+            cache_images[i+src] = new_image(src);
+            // cache_images[i+src].appendTo($("santa_"+color));
+            cache_images[i+src].appendTo(obj_santa[color]);
+        }
+    }
+    // sleigh
+    for (var j = 1; j <= 8; j++){
+        var src = img_dir + "sleigh1/"+ j +".png";
+        cache_images[i+src] = new_image(src);
+    }
+    // sleigh
+    for (var j = 1; j <= 13; j++){
+        var src = img_dir + "rope/"+ j +".png";
+        cache_images[i+src] = new_image(src);
+    }
+    // num timer
+    for (var j = 0; j <= 30; j++){
+        var src = img_dir + "num/"+ j +".png";
+        cache_images[i+src] = new_image(src);
+    }
+
+    //　共通設定 
+//     for (var key in cache_images){
+// //        position:absolute;left:0px;top:16px;z-index:5000;
+//         }
+}
 
 function change_image_src(obj_img, id){
     // 連番の画像ソースについて数字部分をidに変更
@@ -459,13 +568,13 @@ function move_from_textarea(str){
 
 function set_name_pos(color){
     // console.log(obj_santa[color].css("left"));
-    var left = px2int(obj_santa[color].css("left")) + px2int(obj_santa[color].css("width")) / 2 - px2int(obj_name[color].css("width")) / 2 - 10;
+    var left = px2int(obj_santa[color].css("left")) + obj_santa[color].width() / 2 - obj_name[color].width() / 2 - 10;
     // console.log(obj_santa[color].css("left"));
-    var top = px2int(obj_santa[color].css("top")) + px2int(obj_santa[color].css("height")) + 30;
+    var top = px2int(obj_santa[color].css("top")) + obj_santa[color].height() + 30;
 
     // console.log(obj_name[color].css("left") + " " + left);
     obj_name[color].css("left", left);
-    var name_height = px2int(obj_name[color].css("height"));
+    var name_height = obj_name[color].height();
     if (top + name_height > HEIGHT){
         top = HEIGHT - name_height;
     }
@@ -557,17 +666,31 @@ function init(names){
     obj_santa["blu"].id = 2; // santa[id], down[id]等
     obj_santa["yel"].id = 3;
     obj_santa["gre"].id = 4;
+
+    load_images();
+    console.log("cache images = " + Object.keys(cache_images).length);
+    // var loader = Loader(Object.keys(cache_images).length, function(){alert("loaded");});
+    // for (var key in cache_images){
+    //     cache_images[key].onload = loader;
+    // }
     for (var color in obj_santa){
-        obj_santa[color].attr("src","image/santa" + obj_santa[color].id + "/1.png");
+        // obj_santa[color].attr("src","image/santa" + obj_santa[color].id + "/1.png");
+        var image_src = obj_santa[color].id + "image/santa" + obj_santa[color].id + "/1.png";
+        change_cache_image(obj_santa[color], image_src);
         obj_santa[color].state = STATE_INIT;
         obj_santa[color].image_id = 1; // 各種アニメーション用
-        obj_santa[color].show();
+        obj_santa[color].hide();
+        obj_santa[color].width = function(){
+            return obj_santa[color].img.width();
+        };
+        obj_santa[color].height = function(){
+            return obj_santa[color].img.height();
+        };
     }
     for (var color in obj_window){
         // name
         obj_name[color].text(names[color]);
         obj_name[color].show();
-        set_name_pos(color);
 
         // window
         obj_window[color].image_id = 1;
@@ -592,10 +715,16 @@ function init(names){
     }
 
     // 画面配置
+    setTimeout(function(){
     reset_screen();
     reset_santa_pos();
     reset_window_pos();
     toujou_end();
+    for (color in obj_name){
+        obj_santa[color].show();
+        set_name_pos(color);
+    }
+        }, 1000);
 
     $("#anime_box").css("top",0);
     // ソリ
