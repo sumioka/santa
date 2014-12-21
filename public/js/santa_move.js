@@ -921,7 +921,7 @@ function xmas(){
 
     setTimeout(function(){
       var now = (+ new Date());
-      // $("#screen_fin1").attr('src', 'image/fin1/fin.gif?' + now);
+      $("#screen_fin1").attr('src', 'image/fin1/fin.gif?' + now);
       $("#screen_fin1").fadeIn("slow");
 
       setTimeout(function(){
@@ -946,6 +946,12 @@ function reset_screen(){
     $("#screen_rule").hide();
     $("#screen_ouen").hide();
     $("#screen_intro_bg").hide();
+    $("#screen_fin1").hide();
+    $("#screen_white").hide();
+    $("#screen_fin2").hide();
+    $("#anime_box").css({
+        "left": "0px",
+        "top": "0px"});
     toujou_end();
 
     // エンディング画面を消す
