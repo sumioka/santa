@@ -990,6 +990,7 @@ function toujou_end(){
     intro_santa.hide();
     intro_name.hide();
     $("#screen_intro_bg").hide();
+    // first_animation = 0;
 };
 
 var first_animation = 0;
@@ -1010,8 +1011,8 @@ function toujou_start(color, name){
         if (toujou_animation_moving == 0){
             toujou_animation_moving = 1;
             if (first_animation == 0){
-                toujou_animation();
                 first_animation = 1;
+                toujou_animation();
             }
         }
         // intro_santa.css("left", 1100);
@@ -1067,6 +1068,7 @@ var toujou_animation_num_iterate = 30;
 var toujou_animation_moving = 0;
 function toujou_animation(){
     if (toujou_animation_moving > 0){
+    // if (first_animation > 0){
         // console.log("toujou_animation");
     // console.log("img.id:"+intro_santa.image_id);
     // console.log(intro_santa);
@@ -1085,6 +1087,8 @@ function toujou_animation(){
         change_image_src(intro_santa, next_img_id);
         intro_santa.image_id++;
         setTimeout(function(){toujou_animation();}, next_img_wait * 1000);
+    }else {
+        first_animation = 0;
     }
     // }
     // console.log("hogetoujou_animation:" + intro_santa.attr("src"));
