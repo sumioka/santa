@@ -207,7 +207,7 @@ $(
         }
 
         // checkAliveする
-        checkAlive()
+        setInterval(checkAlive, 5000);
     }
 
     // TODO: keyをqwerにして、red blu gre yel　を全部移動できるようにする
