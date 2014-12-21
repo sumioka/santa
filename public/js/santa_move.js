@@ -1,6 +1,6 @@
 var DEBUG_LEVEL = 0;
 var frame_to_change_img = 5; // santaの昇り降り画像の切り替えフレーム数(2の場合2frame毎に画像を差し替え)
-var move_per_frame = 10; // 1フレームごとの移動ピクセル数
+var move_per_frame = 2; // 1フレームごとの移動ピクセル数
 var msec_window_interval = 6300; // トナカイが出てくる感覚(msec)
 var DIST_WINDOW_SANTA = 100; // サンタと窓がこのピクセル以下の時窓のトナカイが動き出す
 
@@ -146,7 +146,7 @@ function santamove(color){
             },100 / santa_speed[color] * idx);
         }
         setTimeout(function(){
-            santa_lock[color] = false; 
+            santa_lock[color] = false;
         },500);
 
     }else{
@@ -685,18 +685,8 @@ function timeUp(){
     }
 
     // ヒット時のアニメーションの完了を待ってワープモーションに移る
+    setTimeout(function(){warp();}, 500);
 
-    var all_player_goal = true;
-    for(var color2 in obj_santa){
-        if (obj_santa[color2].state != STATE_GOAL) {
-            all_player_goal = false;
-        }
-    }
-    if (!all_player_goal){
-        setTimeout(function(){warp();}, 1000);
-    }else{
-        setTimeout(function(){soriAnimationStart();}, 1000);
-    }
 }
 
 function warp(){
@@ -857,7 +847,7 @@ function soriAnimationStart(){
     obj_sori.attr("src","image/sleigh1/1.png");
     //$("#sori").animate({left:-1080},2000,endAnimationBigSoriMove);
     //$("#santa_rope").animate({left:-1080},2000);
-    
+
     $("#santa_rope").hide();
     for (var color in obj_santa){
         obj_santa[color].hide();
@@ -875,7 +865,7 @@ function soriAnimation(){
         setTimeout("soriAnimation()",100)
     } else {
         //obj_sori.animate({left:-1080},1000,soriAnimationBigSoriMove);
-        setTimeout("soriAnimationBigSoriMove()",1000);    
+        setTimeout("soriAnimationBigSoriMove()",1000);
     }
 }
 
@@ -895,22 +885,28 @@ function xmas(){
     // 終わりナレーション
 //    obj_bgm.pause();
 
-    SendMsg("gadget", {method:"gStop", options:{}});  
+    SendMsg("gadget", {method:"gStop", options:{}});
 
     obj_bgm = new Audio("image/sound/fin.mp3");
     obj_bgm.load();
     obj_bgm.play();
     $("#anime_box").animate({top:"1080px"}, 1500);
 
-    var now = (+ new Date());
-    $("#screen_fin1").attr('src', 'image/fin1/fin1.gif?' + now);
-    $("#screen_fin1").show();
+    $("#screen_fin2").show();
 
     setTimeout(function(){
-      $("#screen_fin1").hide();
-      $("#screen_fin2").show();
-      $("#merryxmas").fadeIn("slow");
-    },5000);
+      var now = (+ new Date());
+      $("#screen_fin1").attr('src', 'image/fin1/fin.gif?' + now);
+      $("#screen_fin1").fadeIn("slow");
+
+      setTimeout(function(){
+        $("#screen_fin1").fadeOut("1300");
+
+        setTimeout(function(){
+          $("#merryxmas").fadeIn("slow");
+        },1000);
+      },4900);
+    },1000);
 
 }
 
@@ -1009,7 +1005,7 @@ function toujouall(){
     toujou_animation();
     // intro_santa_timer = setInterval(function(){toujou_animation();}, 100);
     // setTimeout(function(){toujou_end();},30000);
-    
+
     // for (var color in obj_santa){
     //     toujou(color);
     //     break;
