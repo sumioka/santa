@@ -210,6 +210,18 @@ function santa_goal_sori_ride(color){
          if (gameTimer){
              // 時間切れでなくそりに乗る時はゴールテキストを表示
              showGoalText(color);
+             var all_player_goal = true;
+             for(var color2 in obj_santa){
+                 if (obj_santa[color2].state != STATE_GOAL) {
+                     all_player_goal = false;
+                 }
+             }
+             if (all_player_goal) {
+                 // 全員がゴールしたなら
+                 // 若干のタイムラグ後，タイムアップする
+                 timeUp();
+                 // setTimeout(function(){timeUp();}, 500);
+             }
          }
         // obj_santa[color].image_id = 1;
         // santa_goal_end(color);
@@ -563,16 +575,29 @@ function init(names){
         obj_santa[color].image_id = 1; // 各種アニメーション用
         obj_santa[color].show();
     }
-    for (var color in obj_window){
-        // name
-        obj_name[color].text(names[color]);
-        obj_name[color].show();
-        set_name_pos(color);
+    // for (var color in obj_window){
+    //     // name
+    //     obj_name[color].text(names[color]);
+    //     obj_name[color].show();
+    //     set_name_pos(color);
 
-        // window
-        obj_window[color].image_id = 1;
-        obj_window[color].state = STATE_CLOSED_NOT_MOVE;
-    }
+    //     // window
+    //     obj_window[color].image_id = 1;
+    //     obj_window[color].state = STATE_CLOSED_NOT_MOVE;
+    // }
+    // 画像の読み込みタイミングによって位置がずれるので少し待つ
+    setTimeout(function(){
+        for (var color in obj_window){
+            // name
+            obj_name[color].text(names[color]);
+            obj_name[color].show();
+            set_name_pos(color);
+
+            // window
+            obj_window[color].image_id = 1;
+            obj_window[color].state = STATE_CLOSED_NOT_MOVE;
+        }
+    }, 50);
 
 
     intro_santa = $("#santa_intro");
@@ -592,6 +617,7 @@ function init(names){
     }
 
     // 画面配置
+    
     reset_screen();
     reset_santa_pos();
     reset_window_pos();
@@ -670,8 +696,19 @@ function timeUp(){
     }
 
     // ヒット時のアニメーションの完了を待ってワープモーションに移る
-    setTimeout(function(){warp();}, 500);
+    // setTimeout(function(){warp();}, 500);
     
+    var all_player_goal = true;
+    for(var color2 in obj_santa){
+        if (obj_santa[color2].state != STATE_GOAL) {
+            all_player_goal = false;
+        }
+    }
+    if (!all_player_goal){
+        setTimeout(function(){warp();}, 1000);
+    }else{
+        setTimeout(function(){soriAnimationStart();}, 1000);
+    }
 }
 
 function warp(){
