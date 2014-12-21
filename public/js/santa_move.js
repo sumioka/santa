@@ -478,8 +478,8 @@ function set_name_pos(color){
     // console.log(obj_name[color].css("left") + " " + left);
     obj_name[color].css("left", left);
     var name_height = px2int(obj_name[color].css("height"));
-    if (top + name_height > HEIGHT){
-        top = HEIGHT - name_height;
+    if (top + name_height + 20 > HEIGHT){
+        top = HEIGHT - name_height - 20;
     }
     obj_name[color].css("top", top);
 }
