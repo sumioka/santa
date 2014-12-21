@@ -575,16 +575,20 @@ function init(names){
         obj_santa[color].image_id = 1; // 各種アニメーション用
         obj_santa[color].show();
     }
-    for (var color in obj_window){
-        // name
-        obj_name[color].text(names[color]);
-        obj_name[color].show();
-        set_name_pos(color);
 
-        // window
-        obj_window[color].image_id = 1;
-        obj_window[color].state = STATE_CLOSED_NOT_MOVE;
-    }
+    // 画像の読み込みタイミングによって位置がずれるので少し待つ
+    setTimeout(function(){
+        for (var color in obj_window){
+            // name
+            obj_name[color].text(names[color]);
+            obj_name[color].show();
+            set_name_pos(color);
+
+            // window
+            obj_window[color].image_id = 1;
+            obj_window[color].state = STATE_CLOSED_NOT_MOVE;
+        }
+    }, 50);
 
 
     intro_santa = $("#santa_intro");
