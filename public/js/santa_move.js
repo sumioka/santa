@@ -245,7 +245,7 @@ function santamove(color){
             },100 / santa_speed[color] * idx);
         }
         setTimeout(function(){
-            santa_lock[color] = false; 
+            santa_lock[color] = false;
         },500);
 
     }else{
@@ -311,6 +311,18 @@ function santa_goal_sori_ride(color){
          if (gameTimer){
              // 時間切れでなくそりに乗る時はゴールテキストを表示
              showGoalText(color);
+             var all_player_goal = true;
+             for(var color2 in obj_santa){
+                 if (obj_santa[color2].state != STATE_GOAL) {
+                     all_player_goal = false;
+                 }
+             }
+             if (all_player_goal) {
+                 // 全員がゴールしたなら
+                 // 若干のタイムラグ後，タイムアップする
+                 timeUp();
+                 // setTimeout(function(){timeUp();}, 500);
+             }
          }
         // obj_santa[color].image_id = 1;
         // santa_goal_end(color);
@@ -681,16 +693,20 @@ function init(names){
         obj_santa[color].image_id = 1; // 各種アニメーション用
         obj_santa[color].img.show();
     }
-    for (var color in obj_window){
-        // name
-        obj_name[color].text(names[color]);
-        obj_name[color].show();
-        set_name_pos(color);
 
-        // window
-        obj_window[color].image_id = 1;
-        obj_window[color].state = STATE_CLOSED_NOT_MOVE;
-    }
+    // 画像の読み込みタイミングによって位置がずれるので少し待つ
+    setTimeout(function(){
+        for (var color in obj_window){
+            // name
+            obj_name[color].text(names[color]);
+            obj_name[color].show();
+            set_name_pos(color);
+
+            // window
+            obj_window[color].image_id = 1;
+            obj_window[color].state = STATE_CLOSED_NOT_MOVE;
+        }
+    }, 50);
 
 
     intro_santa = $("#santa_intro");
@@ -760,7 +776,6 @@ function initGameTimer(){
 function startGameTimer(){
     if (!gameTimer){
         gameTimer = setInterval("timeSpend()",1000);
-        // gameTimer = setInterval("timeSpend()",300); // for debug
     }
 }
 
@@ -789,7 +804,7 @@ function timeUp(){
 
     // ヒット時のアニメーションの完了を待ってワープモーションに移る
     setTimeout(function(){warp();}, 500);
-    
+
 }
 
 function warp(){
@@ -950,7 +965,7 @@ function soriAnimationStart(){
     obj_sori.attr("src","image/sleigh1/1.png");
     //$("#sori").animate({left:-1080},2000,endAnimationBigSoriMove);
     //$("#santa_rope").animate({left:-1080},2000);
-    
+
     $("#santa_rope").hide();
     for (var color in obj_santa){
         obj_santa[color].hide();
@@ -968,7 +983,7 @@ function soriAnimation(){
         setTimeout("soriAnimation()",100)
     } else {
         //obj_sori.animate({left:-1080},1000,soriAnimationBigSoriMove);
-        setTimeout("soriAnimationBigSoriMove()",1000);    
+        setTimeout("soriAnimationBigSoriMove()",1000);
     }
 }
 
@@ -988,22 +1003,28 @@ function xmas(){
     // 終わりナレーション
 //    obj_bgm.pause();
 
-    SendMsg("gadget", {method:"gStop", options:{}});  
+    SendMsg("gadget", {method:"gStop", options:{}});
 
     obj_bgm = new Audio("image/sound/fin.mp3");
     obj_bgm.load();
     obj_bgm.play();
     $("#anime_box").animate({top:"1080px"}, 1500);
 
-    var now = (+ new Date());
-    $("#screen_fin1").attr('src', 'image/fin1/fin1.gif?' + now);
-    $("#screen_fin1").show();
+    $("#screen_fin2").show();
 
     setTimeout(function(){
-      $("#screen_fin1").hide();
-      $("#screen_fin2").show();
-      $("#merryxmas").fadeIn("slow");
-    },5000);
+      var now = (+ new Date());
+      $("#screen_fin1").attr('src', 'image/fin1/fin.gif?' + now);
+      $("#screen_fin1").fadeIn("slow");
+
+      setTimeout(function(){
+        $("#screen_fin1").fadeOut("1300");
+
+        setTimeout(function(){
+          $("#merryxmas").fadeIn("slow");
+        },1000);
+      },4900);
+    },1000);
 
 }
 
@@ -1102,7 +1123,7 @@ function toujouall(){
     toujou_animation();
     // intro_santa_timer = setInterval(function(){toujou_animation();}, 100);
     // setTimeout(function(){toujou_end();},30000);
-    
+
     // for (var color in obj_santa){
     //     toujou(color);
     //     break;
