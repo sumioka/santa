@@ -7,6 +7,12 @@ var k_up = 38;
 var k_right = 39;
 var k_down = 40;
 
+var k_red = 81; // q
+var k_blu = 87; // w
+var k_yel = 69; // e
+var k_gre = 82; // r
+
+
 var santa = "red";
 
 var receivedCount = {"red":[0,0],"blu":[0,0],"gre":[0,0],"yel":[0,0]};
@@ -70,29 +76,25 @@ socket.on('message', function(msg) {
 });
 
 function controller(){
-    // var move_keys = _communication_keys;
-    // for(var direction in keys){
-    //     if (!keys.hasOwnProperty(direction)) continue;
-    //     move_keys.red[direction] = true;
-    // }
-    // console.log(keys);
 
-    for (var direction in keys){
-        if (direction == k_left){
-		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"left"}});
-        }
-        if (direction == k_up){
-		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"up"}});
-        }
-        if (direction == k_right){
-		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"right"}});
-        }
-		if (direction == k_down){
-		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"down"}});
-        }
-    }
+    // for (var direction in keys){
+    //     if (direction == k_left){
+		//         SendMsg("message", {method:"santa_move", options:{color:santa, direction:"left"}});
+    //     }
+    //     if (direction == k_up){
+		//         SendMsg("message", {method:"santa_move", options:{color:santa, direction:"up"}});
+    //     }
+    //     if (direction == k_right){
+		//         SendMsg("message", {method:"santa_move", options:{color:santa, direction:"right"}});
+    //     }
+		// if (direction == k_down){
+		//         SendMsg("message", {method:"santa_move", options:{color:santa, direction:"down"}});
+    //     }
 
+        var santa_keys = {red:keys[k_red], blu:keys[k_blu], yel:keys[k_yel], gre:keys[k_gre]};
+        SendMsg("message", {method:"santa_move", options:{santa_keys:santa_keys}});
 }
+
 
 
 //    $(document).keydown(function(e) {
@@ -178,11 +180,19 @@ $(
     function(){
         $(document).keydown(function(e) {
             keys[e.keyCode] = true;
+            if (e.keyCode == k_red) $("#cnt_red").css("background-color", "HotPink");
+            if (e.keyCode == k_blu) $("#cnt_blu").css("background-color", "HotPink");
+            if (e.keyCode == k_yel) $("#cnt_yel").css("background-color", "HotPink");
+            if (e.keyCode == k_gre) $("#cnt_gre").css("background-color", "HotPink");
 
             $(document).keyup(function(e) {
                 delete keys[e.keyCode];
+                if (e.keyCode == k_red) $("#cnt_red").css("background-color", "White");
+                if (e.keyCode == k_blu) $("#cnt_blu").css("background-color", "White");
+                if (e.keyCode == k_yel) $("#cnt_yel").css("background-color", "White");
+                if (e.keyCode == k_gre) $("#cnt_gre").css("background-color", "White");
             });
-   	        santa = $("input[name='santa']:checked")[0].value;
+   	        // santa = $("input[name='santa']:checked")[0].value;
 
    	        if(santa == "non"){
    			        return;

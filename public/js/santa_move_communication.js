@@ -21,17 +21,23 @@ socket.on('message', function(msg) {
          var msgObj = JSON.parse(msg.value);
          switch(msgObj.method){
             case "santa_move":
-               var direction = msgObj.options["direction"];
-               var color = msgObj.options["color"];
-               if(direction == "left")
-                 _communication_keys[color][k_left] = true;
-               if(direction == "right")
-                 _communication_keys[color][k_right] = true;
-               if(direction == "up")
-//                upMultiple(20, color);
-                 _communication_keys[color][k_up] = true;
-               if(direction == "down")
-                 _communication_keys[color][k_down] = true;
+             for (var color in _communication_keys){
+                 if (msgObj.options["santa_keys"][color]){
+             // console.log(color + ":"+msgObj.options["santa_keys"][color]);
+                 _communication_keys[color][k_up] = msgObj.options["santa_keys"][color];
+                     }
+             }
+//                var direction = msgObj.options["direction"];
+//                var color = msgObj.options["color"];
+//                if(direction == "left")
+//                  _communication_keys[color][k_left] = true;
+//                if(direction == "right")
+//                  _communication_keys[color][k_right] = true;
+//                if(direction == "up")
+// //                upMultiple(20, color);
+//                  _communication_keys[color][k_up] = true;
+//                if(direction == "down")
+//                  _communication_keys[color][k_down] = true;
                break;
             case "gadget_move":
                var gesture = msgObj.options["gesture"];
