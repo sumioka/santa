@@ -912,6 +912,17 @@ function xmas(){
 
     SendMsg("gadget", {method:"gStop", options:{}});
 
+<<<<<<< HEAD
+=======
+    if(obj_bgm){
+        try{
+            obj_bgm.pause();
+        } catch (e) {
+
+        }
+        delete obj_bgm;
+    }
+>>>>>>> auto_alive
     obj_bgm = new Audio("image/sound/fin.mp3");
     obj_bgm.load();
     obj_bgm.play();
@@ -920,13 +931,46 @@ function xmas(){
     $("#screen_fin2").show();
 
     setTimeout(function(){
+<<<<<<< HEAD
       var now = (+ new Date());
-      $("#screen_fin1").attr('src', 'image/fin1/fin.gif?' + now);
+      // $("#screen_fin1").attr('src', 'image/fin1/fin.gif?' + now);
       $("#screen_fin1").fadeIn("slow");
 
       setTimeout(function(){
           $("#screen_white").fadeIn(1000);
         // $("#screen_fin1").fadeOut("1300");
+=======
+      $("#screen_fin1").hide();
+      $("#screen_fin2").show();
+      $("#merryxmas").fadeIn("slow");
+    },5000);
+
+}
+
+///////////////////////////////////////////////////////////////////////
+// signaling
+///////////////////////////////////////////////////////////////////////
+function init(names){
+
+    if(obj_bgm){
+        try{
+            obj_bgm.pause();
+        } catch (e) {
+
+        }
+        delete obj_bgm;
+    }
+
+    reset_santa_pos();
+    reset_window_pos();
+
+    $("#anime_box").css("top",0);
+    obj_sori.css("zoom", 1);
+    obj_sori.css("left",150);
+    obj_sori.css("top",0);
+    obj_sori.attr("src","image/sleigh1/sleigh.png");
+    obj_sori.removeClass("refrect");
+>>>>>>> auto_alive
 
         setTimeout(function(){
             $("#screen_fin1").hide();
@@ -946,12 +990,6 @@ function reset_screen(){
     $("#screen_rule").hide();
     $("#screen_ouen").hide();
     $("#screen_intro_bg").hide();
-    $("#screen_fin1").hide();
-    $("#screen_white").hide();
-    $("#screen_fin2").hide();
-    $("#anime_box").css({
-        "left": "0px",
-        "top": "0px"});
     toujou_end();
 
     // エンディング画面を消す
@@ -1154,10 +1192,36 @@ function readyGo(){
 }
 
 // よーいどん用
+<<<<<<< HEAD
 function readyGo2(){
     startGameTimer();
     for(var color in obj_santa){
         obj_santa[color].state = STATE_MOVING;
+=======
+{
+    function go(){
+        startGameTimer();
+        for(var color in obj_santa){
+            obj_santa[color].state = STATE_MOVING;
+        }
+        $("#screen_yoi").hide();
+        $("#screen_don").show();
+        $("#screen_don").fadeOut(3000);
+        //bgm開始
+
+        if(obj_bgm){
+            try{
+                obj_bgm.stop();
+            } catch (e) {
+
+            }
+            delete obj_bgm;
+        }
+        obj_bgm = new Audio("image/sound/bgm.mp3");
+        obj_bgm.loop = "true";
+        obj_bgm.load();
+        obj_bgm.play();
+>>>>>>> auto_alive
     }
     $("#screen_yoi").hide();
     $("#screen_don").show();

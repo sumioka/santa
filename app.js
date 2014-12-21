@@ -143,8 +143,8 @@ var gadget = io.of("/gadget").on("connection", function(socket){
 	});
 
 	socket.on('unnei', function(data) {
-		console.log("message");
 		unnei.emit("message",  {value: data.value});
+		console.log(data.value);
 		//mobile.emit("message",  {value: data.value});
 	});
 	

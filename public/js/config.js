@@ -1,4 +1,5 @@
 var DEBUG_LEVEL = 1; // 0: release, 1:debug
+// var SERVER = "http://192.168.11.3:3000";
 var SERVER = "http://localhost:3000";
 //var SERVER = "http://santajection.herokuapp.com";
 var SANTA_RED_GADGET = "red";

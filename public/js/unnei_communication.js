@@ -198,7 +198,7 @@ $(
    			        return;
    	        }
         });
-        setInterval(controller, 20);
+        setInterval(controller, 100);
 
         // gadget の初期値を読込
         for (var color in colorToGadgetMap){
@@ -207,7 +207,7 @@ $(
         }
 
         // checkAliveする
-        checkAlive()
+        setInterval(checkAlive, 5000);
     }
 
     // TODO: keyをqwerにして、red blu gre yel　を全部移動できるようにする
