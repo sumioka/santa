@@ -699,8 +699,8 @@ function timeUp(){
     // setTimeout(function(){warp();}, 500);
 
     // debug
-    xmas();
-    return;
+    // xmas();
+    // return;
     var all_player_goal = true;
     for(var color2 in obj_santa){
         if (obj_santa[color2].state != STATE_GOAL) {
