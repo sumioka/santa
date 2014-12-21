@@ -697,7 +697,10 @@ function timeUp(){
 
     // ヒット時のアニメーションの完了を待ってワープモーションに移る
     // setTimeout(function(){warp();}, 500);
-    
+
+    // debug
+    xmas();
+    return;
     var all_player_goal = true;
     for(var color2 in obj_santa){
         if (obj_santa[color2].state != STATE_GOAL) {
@@ -918,16 +921,20 @@ function xmas(){
 
     setTimeout(function(){
       var now = (+ new Date());
-      $("#screen_fin1").attr('src', 'image/fin1/fin.gif?' + now);
+      // $("#screen_fin1").attr('src', 'image/fin1/fin.gif?' + now);
       $("#screen_fin1").fadeIn("slow");
 
       setTimeout(function(){
-        $("#screen_fin1").fadeOut("1300");
+          $("#screen_white").fadeIn(1000);
+        // $("#screen_fin1").fadeOut("1300");
 
         setTimeout(function(){
+            $("#screen_fin1").hide();
+            $("#screen_white").fadeOut(500);
           $("#merryxmas").fadeIn("slow");
+          // $("#white_box").fadeIn("slow");
         },1000);
-      },4900);
+      },3900);
     },1000);
 
 }
