@@ -198,7 +198,7 @@ $(
    			        return;
    	        }
         });
-        setInterval(controller, 20);
+        setInterval(controller, 100);
 
         // gadget の初期値を読込
         for (var color in colorToGadgetMap){
