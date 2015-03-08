@@ -1,7 +1,6 @@
 var DEBUG_LEVEL = 0;
 var frame_to_change_img = 2; // santaの昇り降り画像の切り替えフレーム数(2の場合2frame毎に画像を差し替え)
-var move_per_frame = 20; // 1フレームごとの移動ピクセル数
-var msec_window_interval = 6300; // トナカイが出てくる感覚(msec)
+var move_per_frame = 10; // 1フレームごとの移動ピクセル数
 var DIST_WINDOW_SANTA = 100; // サンタと窓がこのピクセル以下の時窓のトナカイが動き出す
 
 var SANTA_MARGIN = 80; // 各サンタのマージン
@@ -308,7 +307,8 @@ function goalAnimation(color){
 }
 
 var window_anime_step = [
-    [2, 0.1], [3, 0.1], [4, 0.1], [5, 0.1], [6, 0.2], // 0.6
+    // [2, 0.1], [3, 0.1], [4, 0.1], [5, 0.1], [6, 0.2], // 0.6
+    [2, 0.5], [3, 0.1], [4, 0.1], [5, 0.1], [6, 0.2], // 0.6
     [7, 0.1], [8, 0.1], [9, 0.1], [10, 1.0], // 1.3
     [11, 0.1], [12, 0.1], [13, 0.1], [6, 0.2], // 0.5
     [14, 0.1], [15, 0.1], [16, 0.1], [17, 0.2], // 0.5
@@ -1154,7 +1154,6 @@ function readyGo(){
 
     // どん!
     setTimeout("readyGo2()",3000);
-    // window_timer = setInterval(moveWindow, msec_window_interval);
 }
 
 // よーいどん用
