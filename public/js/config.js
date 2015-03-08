@@ -1,7 +1,7 @@
 var DEBUG_LEVEL = 1; // 0: release, 1:debug
-// var SERVER = "http://192.168.11.3:3000";
-var SERVER = "http://localhost:3000";
-//var SERVER = "http://santajection.herokuapp.com";
+// var SERVER = "http://192.168.0.3:3000";
+// var SERVER = "http://localhost:3000";
+var SERVER = "http://santawall.herokuapp.com";
 var SANTA_RED_GADGET = "red";
 var SANTA_BLUE_GADGET = "blue";
 var SANTA_GREEN_GADGET = "green";
