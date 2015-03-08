@@ -77,22 +77,11 @@ socket.on('message', function(msg) {
 
 function controller(){
 
-    // for (var direction in keys){
-    //     if (direction == k_left){
-		//         SendMsg("message", {method:"santa_move", options:{color:santa, direction:"left"}});
-    //     }
-    //     if (direction == k_up){
-		//         SendMsg("message", {method:"santa_move", options:{color:santa, direction:"up"}});
-    //     }
-    //     if (direction == k_right){
-		//         SendMsg("message", {method:"santa_move", options:{color:santa, direction:"right"}});
-    //     }
-		// if (direction == k_down){
-		//         SendMsg("message", {method:"santa_move", options:{color:santa, direction:"down"}});
-    //     }
-
         var santa_keys = {red:keys[k_red], blu:keys[k_blu], yel:keys[k_yel], gre:keys[k_gre]};
-        SendMsg("message", {method:"santa_move", options:{santa_keys:santa_keys}});
+        // console.log(santa_keys);
+        // console.log("unnei_communication santa_keys: " + santa_keys);
+
+        // SendMsg("message", {method:"santa_move", options:{santa_keys:santa_keys}});
 }
 
 
