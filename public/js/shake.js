@@ -1,10 +1,11 @@
 // var DEBUG_LEVEL = 3;
-var color = "わからん";
+var color;
 // var santa_keys;
 
 var shakeCounted = 0;
 var shakeSended = 0;
-var isGaming = false; 
+var isGaming = false;
+var movePerShake = 2; // 指定回数振る毎にサンタを動かすメッセージを送る
 
 
 // 端末の角度が変わった時
@@ -28,14 +29,14 @@ function furu(e) {
  }
 
 function checkShake(){
-  if(shakeCounted - shakeSended > 0){
+  if(shakeCounted - shakeSended > movePerShake){
     // SendMsg("santa", {method:"santa_move", options:{color:color, direction:"up", times: shakeCounted - shakeSended}});
     shakeSended = shakeCounted;
     // var santa_keys = {red:undefined, blu:undefined, yel:undefined, gre:undefined};
     // santa_keys[color] = true;
     var santa_keys = {};
     santa_keys[color] = true;
-    SendMsg("santa", {method:"santa_move", options:{santa_keys:santa_keys}});
+    SendMsg("santa", {method:"santa_move", options:{santa_keys:santa_keys, shakeCount:shakeCounted}});
     console.log(santa_keys);
     $("#debug_box").text("debug: color=" + color);
   }
@@ -172,7 +173,9 @@ function fureView(){
 
 
 
-function init(){
+$(function(){
+    // function init(){
+    setSanta("red");
     console.log("あなたの接続ID::" + socket.io.engine.id);
 
     // $("#connectId").text("fuga");
@@ -188,7 +191,8 @@ function init(){
     }
 
     setTimeout("checkShake()",100);
-}
+    // }
+});
 
 
 function end(){
