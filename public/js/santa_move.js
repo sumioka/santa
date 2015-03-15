@@ -72,6 +72,78 @@ var tonakai_src = "image/tonakai/tonakai";
 
 var cache_images = {
     };
+var num_loaded_images = 0;
+var image_paths = [];
+var num_images = 0;
+function count_loaded_images() {
+    num_loaded_images++;
+}
+function load_images(){
+    var img_dir = "image/";
+    for (var color in color_id){
+        var i = color_id[color];
+    // for (var i = 1; i <= 4; i++){
+        // introduction
+        if (i == 4){
+            for (var j = 1; j <= 18; j++){
+                image_paths.push(img_dir + "introduction/introduction"+i+"/" +j +".png");
+            }
+        }else{
+            for (var j = 1; j <= 4; j++){
+                image_paths.push(img_dir + "introduction/introduction"+i+"/" +j +".png");
+            }
+        }
+        // // window
+        for (var j = 1; j <= 26; j++){
+            image_paths.push(img_dir + "window/" +j +".png");
+        }
+
+        // santa 本体
+        for (var j = 1; j <= 10; j++){
+            image_paths.push(img_dir + "santa" + i + "/"+ j +".png");
+        }
+
+        // santa hit
+        for (var j = 1; j <= 2; j++){
+            image_paths.push(img_dir + "down" + i + "/"+ j +".png");
+        }
+
+        // santa goal
+        for (var j = 1; j <= 7; j++){
+            image_paths.push(img_dir + "goal" + i + "/"+ j +".png");
+        }
+
+        // santa sori ride
+        for (var j = 1; j <= 11; j++){
+            image_paths.push(img_dir + "up" + i + "/"+ j +".png");
+        }
+
+        // santa warp
+        for (var j = 1; j <= 11; j++){
+            image_paths.push(img_dir + "warp" + i + "/"+ j +".png");
+        }
+    }
+    // sleigh
+    for (var j = 1; j <= 8; j++){
+        image_paths.push(img_dir + "sleigh1/"+ j +".png");
+    }
+    // sleigh
+    for (var j = 1; j <= 13; j++){
+        image_paths.push(img_dir + "rope/"+ j +".png");
+    }
+    // num timer
+    for (var j = 0; j <= 30; j++){
+        image_paths.push(img_dir + "num/"+ j +".png");
+    }
+    num_images = image_paths.length;
+    for (var j = 0; j < image_paths.length; j++){
+        var new_img = new Image();
+        new_img.onload = count_loaded_images;
+        new_img.src = image_paths[j];
+        cache_images[i+new_img.src] = new_img;
+    }
+}
+
 
 function change_image_src(obj_img, id){
     // 連番の画像ソースについて数字部分をidに変更
@@ -531,125 +603,148 @@ function show_santa_stats(){
     }
 }
 
-function init(names){
-    if(DEBUG_LEVEL == 0){
-        $("#connectId").hide();
-        $("#receiveMsg").hide();
-        $("#errorMsg").hide();
-    }
-
-    // 各種オブジェクトの初期化
-    if (!names){
-        names = {
-            red : $("#name_red").text(),
-            blu : $("#name_blu").text(),
-            yel : $("#name_yel").text(),
-            gre : $("#name_gre").text()
-        };
-    }
-    obj_santa = {
-        red : $("#santa_red"),
-        blu : $("#santa_blu"),
-        yel : $("#santa_yel"),
-        gre : $("#santa_gre")
-    };
-    obj_window = {
-        red : $("#window_red"),
-        blu : $("#window_blu"),
-        yel : $("#window_yel"),
-        gre : $("#window_gre")
-    };
-    obj_name = {
-        red : $("#name_red"),
-        blu : $("#name_blu"),
-        yel : $("#name_yel"),
-        gre : $("#name_gre")
-    };
-    obj_santa["red"].id = 1; // 個別画像フォルダを参照するためのid
-    obj_santa["blu"].id = 2; // santa[id], down[id]等
-    obj_santa["yel"].id = 3;
-    obj_santa["gre"].id = 4;
-    for (var color in obj_santa){
-        obj_santa[color].attr("src","image/santa" + obj_santa[color].id + "/1.png");
-        obj_santa[color].state = STATE_INIT;
-        obj_santa[color].image_id = 1; // 各種アニメーション用
-        obj_santa[color].show();
-    }
-    // for (var color in obj_window){
-    //     // name
-    //     obj_name[color].text(names[color]);
-    //     obj_name[color].show();
-    //     set_name_pos(color);
-
-    //     // window
-    //     obj_window[color].image_id = 1;
-    //     obj_window[color].state = STATE_CLOSED_NOT_MOVE;
-    // }
-    // 画像の読み込みタイミングによって位置がずれるので少し待つ
+// funcがtrueの間処理を止める，間隔はinterval msec
+function waitUntil(func, interval, callback) {
+    // if (func() == true) waitUntil(func, interval);
+    // else {
+    //     }
     setTimeout(function(){
-        for (var color in obj_window){
-            // name
-            obj_name[color].text(names[color]);
-            obj_name[color].show();
-            set_name_pos(color);
+        console.log("num_loaded_images=" + num_loaded_images);
+        if (func() == true) waitUntil(func, interval, callback);
+        else callback();
+    }, interval);
+}
 
-            // window
-            obj_window[color].image_id = 1;
-            obj_window[color].state = STATE_CLOSED_NOT_MOVE;
+function init(names){
+    function init1() {
+        console.log("image loaded");
+        if(DEBUG_LEVEL == 0){
+            $("#connectId").hide();
+            $("#receiveMsg").hide();
+            $("#errorMsg").hide();
         }
-    }, 50);
 
-
-    intro_santa = $("#santa_intro");
-    intro_name = $("#name_intro");
-    // obj_tonakai = $("#tonakai");
-
-    obj_sori = $("#sori");
-    obj_animebox = $("#anime_box"); // ゲーム画面全体
-    WIDTH = px2int(obj_animebox.css("width"));
-    HEIGHT = px2int(obj_animebox.css("height"));
-
-    if (DEBUG_LEVEL > 0){
+        // 各種オブジェクトの初期化
+        if (!names){
+            names = {
+                red : $("#name_red").text(),
+                blu : $("#name_blu").text(),
+                yel : $("#name_yel").text(),
+                gre : $("#name_gre").text()
+            };
+        }
+        obj_santa = {
+            red : $("#santa_red"),
+            blu : $("#santa_blu"),
+            yel : $("#santa_yel"),
+            gre : $("#santa_gre")
+        };
+        obj_window = {
+            red : $("#window_red"),
+            blu : $("#window_blu"),
+            yel : $("#window_yel"),
+            gre : $("#window_gre")
+        };
+        obj_name = {
+            red : $("#name_red"),
+            blu : $("#name_blu"),
+            yel : $("#name_yel"),
+            gre : $("#name_gre")
+        };
+        obj_santa["red"].id = 1; // 個別画像フォルダを参照するためのid
+        obj_santa["blu"].id = 2; // santa[id], down[id]等
+        obj_santa["yel"].id = 3;
+        obj_santa["gre"].id = 4;
         for (var color in obj_santa){
-            santa_pos[color] = $("<p>");
-            santa_pos[color].appendTo(obj_animebox);
+            obj_santa[color].attr("src","image/santa" + obj_santa[color].id + "/1.png");
+            obj_santa[color].state = STATE_INIT;
+            obj_santa[color].image_id = 1; // 各種アニメーション用
+            obj_santa[color].show();
         }
-    }
+        // for (var color in obj_window){
+        //     // name
+        //     obj_name[color].text(names[color]);
+        //     obj_name[color].show();
+        //     set_name_pos(color);
 
-    // 画面配置
-    
-    reset_screen();
-    reset_santa_pos();
-    reset_window_pos();
-    toujou_end();
+        //     // window
+        //     obj_window[color].image_id = 1;
+        //     obj_window[color].state = STATE_CLOSED_NOT_MOVE;
+        // }
+        // 画像の読み込みタイミングによって位置がずれるので少し待つ
+        setTimeout(function(){
+            for (var color in obj_window){
+                // name
+                obj_name[color].text(names[color]);
+                obj_name[color].show();
+                set_name_pos(color);
 
-    $("#anime_box").css("top",0);
-    // ソリ
-    obj_sori.css("zoom", 1);
-    obj_sori.css("left",150);
-    obj_sori.css("top",0);
-    obj_sori.attr("src","image/sleigh1/sleigh.png");
-    obj_sori.removeClass("refrect");
-    if(obj_bgm){
-        obj_bgm.pause();
-    }
+                // window
+                obj_window[color].image_id = 1;
+                obj_window[color].state = STATE_CLOSED_NOT_MOVE;
+            }
+        }, 50);
 
-    $(document).keydown(function(e) {
-        keys[e.keyCode] = true;
 
-        $(document).keyup(function(e) {
-            delete keys[e.keyCode];
+        intro_santa = $("#santa_intro");
+        intro_name = $("#name_intro");
+        // obj_tonakai = $("#tonakai");
+
+        obj_sori = $("#sori");
+        obj_animebox = $("#anime_box"); // ゲーム画面全体
+        WIDTH = px2int(obj_animebox.css("width"));
+        HEIGHT = px2int(obj_animebox.css("height"));
+
+        if (DEBUG_LEVEL > 0){
+            for (var color in obj_santa){
+                santa_pos[color] = $("<p>");
+                santa_pos[color].appendTo(obj_animebox);
+            }
+        }
+
+        // 画面配置
+        
+        reset_screen();
+        reset_santa_pos();
+        reset_window_pos();
+        toujou_end();
+
+        $("#anime_box").css("top",0);
+        // ソリ
+        obj_sori.css("zoom", 1);
+        obj_sori.css("left",150);
+        obj_sori.css("top",0);
+        obj_sori.attr("src","image/sleigh1/sleigh.png");
+        obj_sori.removeClass("refrect");
+        if(obj_bgm){
+            obj_bgm.pause();
+        }
+
+        $(document).keydown(function(e) {
+            keys[e.keyCode] = true;
+
+            $(document).keyup(function(e) {
+                delete keys[e.keyCode];
+            });
         });
-    });
 
-    // timer
-    initGameTimer();
-    if (game_timer == undefined){
-        game_timer = setInterval(movePlane, 20);
+        // timer
+        initGameTimer();
+        if (game_timer == undefined){
+            game_timer = setInterval(movePlane, 20);
+        }
+        // moveWindow();
+        // if (DEBUG_LEVEL > 0){
+        //     window_timer = setInterval(moveWindow, 2300);
+        // }
     }
-    // moveWindow();
-    // if (DEBUG_LEVEL > 0){
-    //     window_timer = setInterval(moveWindow, 2300);
+    load_images();
+    // console.log(num_images);
+    waitUntil(function(){
+        return num_loaded_images < num_images;
+    }, 50, init1);
+    // while(num_loaded_images < num_images) {
+    //     console.log("num_loaded_images=" + num_loaded_images);
     // }
 }
 
