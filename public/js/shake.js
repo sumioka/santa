@@ -1,5 +1,5 @@
 // var DEBUG_LEVEL = 3;
-var color;
+var selected_color;
 // var santa_keys;
 
 var shakeCounted = 0;
@@ -35,17 +35,17 @@ function checkShake(){
     // var santa_keys = {red:undefined, blu:undefined, yel:undefined, gre:undefined};
     // santa_keys[color] = true;
     var santa_keys = {};
-    santa_keys[color] = true;
+    santa_keys[selected_color] = true;
     SendMsg("santa", {method:"santa_move", options:{santa_keys:santa_keys, shakeCount:shakeCounted}});
     console.log(santa_keys);
-    $("#debug_box").text("debug: color=" + color);
+    $("#debug_box").text("debug: color=" + selected_color);
   }
   // SendMsg("santa", {method:"santa_move", options:{color:"red", direction:"up"}});
   setTimeout("checkShake()",50);  
 }
 
 function setSanta(col){
-    // color = col;
+    selected_color = col;
     var colors = ["red", "blu", "yel", "gre"];
     $("#debug_box").text("debug: color " + col + " was selected");
     $("input[name='santa']").val([col]);
