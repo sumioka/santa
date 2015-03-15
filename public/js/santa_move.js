@@ -77,19 +77,23 @@ function count_loaded_images() {
 }
 function load_images(){
     var img_dir = "image/";
+    var num_introduction_images = [0, 4, 8, 4, 18];
     for (var color in color_id){
         var i = color_id[color];
     // for (var i = 1; i <= 4; i++){
         // introduction
-        if (i == 4){
-            for (var j = 1; j <= 18; j++){
-                image_paths.push(img_dir + "introduction/introduction"+i+"/" +j +".png");
-            }
-        }else{
-            for (var j = 1; j <= 4; j++){
-                image_paths.push(img_dir + "introduction/introduction"+i+"/" +j +".png");
-            }
+        for (var j = 1; j <= num_introduction_images[i]; j++){
+            image_paths.push(img_dir + "introduction/introduction"+i+"/" +j +".png");
         }
+        // if (i == 4){
+        //     for (var j = 1; j <= 18; j++){
+        //         image_paths.push(img_dir + "introduction/introduction"+i+"/" +j +".png");
+        //     }
+        // }else{
+        //     for (var j = 1; j <= 4; j++){
+        //         image_paths.push(img_dir + "introduction/introduction"+i+"/" +j +".png");
+        //     }
+        // }
         // // window
         for (var j = 1; j <= 26; j++){
             image_paths.push(img_dir + "window/" +j +".png");
