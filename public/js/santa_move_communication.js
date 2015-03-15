@@ -82,6 +82,7 @@ socket.on('message', function(msg) {
              frame_to_change_img = msgObj.options["frame_to_change_img"];
              move_per_frame = msgObj.options["move_per_frame"];
              dist_window_santa = msgObj.options["dist_window_santa"];
+             DEBUG_LEVEL = msgObj.options["debug_level"];
              break;
             case "end":
             default:

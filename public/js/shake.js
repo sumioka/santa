@@ -45,9 +45,18 @@ function checkShake(){
 }
 
 function setSanta(col){
-  color = col;
-  $("#debug_box").text("debug: color " + col + " was selected");
-  $("input[name='santa']").val([col]);
+    // color = col;
+    var colors = ["red", "blu", "yel", "gre"];
+    $("#debug_box").text("debug: color " + col + " was selected");
+    $("input[name='santa']").val([col]);
+    for (var j=0; j < colors.length; j++) {
+        if (colors[j] == col) {
+            console.log("color" + colors[j]);
+            $("#"+colors[j]+"_select").css("background-color", "red");
+        }else{
+            $("#"+colors[j]+"_select").css("background-color", "");
+        }
+    }
   //$("input[name='santa']:checked")[0].value;
 }
 
@@ -80,9 +89,15 @@ socket.on('message', function(msg) {
             case "rule":
                rule();
                break;
+            case "ouen":
+               ouen();
+               break;
             case "readyGo":
                readyGo();
                break;
+            case "config":
+             DEBUG_LEVEL = msgObj.options["debug_level"];
+             break;
             case "end":
             default:
          }
@@ -90,6 +105,10 @@ socket.on('message', function(msg) {
          document.getElementById("errorMsg").innerHTML = error;
       }
    }
+    if(DEBUG_LEVEL == 0){
+        $("#debug_display").css("display", "none");
+        // $("#debug_display").hide();
+    }
 });
 
 // メッセージを送る
@@ -112,40 +131,61 @@ function DisConnect() {
 ///////////////////////////////////////////////////////////////////////
 // signaling
 ///////////////////////////////////////////////////////////////////////
-function init_screen(){
+function reset_screen(){
     // プレ、タイトル、説明用画像を消す
-    $("#screen_pre").css("display", "none");
-    $("#screen_title").css("display", "none");
-    $("#screen_rule").css("display", "none");
+    $("#screen_pre").hide();
+    $("#screen_title").hide();
+    $("#screen_rule").hide();
     $("#screen_select").show();
     $("#screen_fure").hide();
+    $("#screen_ouen").hide();
+};
+
+function screen_select(){
+    reset_screen();
+    $("#screen_select").show();
 }
 
+function init_screen(){
+    screen_select();
+}
 // プレ用
 function pre(){
-    $("#screen_pre").css("display", "inline");
-    $("#screen_title").css("display", "none");
-    $("#screen_rule").css("display", "none");
-    $("#screen_select").hide();
-    $("#screen_fure").hide();
+    reset_screen();
+    $("#screen_pre").show();
+    // $("#screen_pre").css("display", "inline");
+    // $("#screen_title").css("display", "none");
+    // $("#screen_rule").css("display", "none");
+    // $("#screen_select").hide();
+    // $("#screen_fure").hide();
 };
 
 // タイトル用
 function title(){
-    $("#screen_pre").css("display", "none");
-    $("#screen_title").css("display", "inline");
-    $("#screen_rule").css("display", "none");
-    $("#screen_select").hide();
-    $("#screen_fure").hide();
+    reset_screen();
+    $("#screen_title").show();
+    // $("#screen_pre").css("display", "none");
+    // $("#screen_title").css("display", "inline");
+    // $("#screen_rule").css("display", "none");
+    // $("#screen_select").hide();
+    // $("#screen_fure").hide();
 };
 
 // ルール説明用
 function rule(){
-    $("#screen_pre").css("display", "none");
-    $("#screen_title").css("display", "none");
-    $("#screen_rule").css("display", "inline");
-    $("#screen_select").hide();
-    $("#screen_fure").hide();
+    reset_screen();
+    $("#screen_rule").show();
+    // $("#screen_pre").css("display", "none");
+    // $("#screen_title").css("display", "none");
+    // $("#screen_rule").css("display", "inline");
+    // $("#screen_select").hide();
+    // $("#screen_fure").hide();
+    // $("#screen_intro_bg").hide();
+};
+function ouen(){
+    reset_screen();
+    console.log("ouen");
+    $("#screen_ouen").show();
 };
 
 
@@ -174,13 +214,17 @@ function fureView(){
 
 
 $(function(){
+    if (DEBUG_LEVEL == 0) {
+        $("#debug_display").css("display", "none");
+        // $("#debug_display").hide();
+    }
     // function init(){
     setSanta("red");
     console.log("あなたの接続ID::" + socket.io.engine.id);
 
     // $("#connectId").text("fuga");
     init_event();
-    init_screen();
+    screen_select();
     $("#connectId").text("あなたの接続ID::" + socket.io.engine.id);
     // document.getElementById("connectId").innerHTML = "あなたの接続ID::" + socket.io.engine.id;
 

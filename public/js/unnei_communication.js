@@ -145,7 +145,8 @@ function config(){
                       options:{
                           frame_to_change_img: $("#config_frame_to_change_img").val(),
                           move_per_frame: $("#config_move_per_frame").val(),
-                          dist_window_santa: $("#config_dist_window_santa").val()
+                          dist_window_santa: $("#config_dist_window_santa").val(),
+                          debug_level: $("#config_debug_level").val()
                       }});
 }
 
@@ -180,6 +181,7 @@ $(
         $("#config_frame_to_change_img").val(frame_to_change_img);
         $("#config_move_per_frame").val(move_per_frame);
         $("#config_dist_window_santa").val(dist_window_santa);
+        $("#config_debug_level").val(DEBUG_LEVEL);
         $(document).keydown(function(e) {
             keys[e.keyCode] = true;
             if (e.keyCode == k_red) $("#cnt_red").css("background-color", "HotPink");
