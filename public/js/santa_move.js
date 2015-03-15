@@ -1,6 +1,4 @@
-var frame_to_change_img = 2; // santaの昇り降り画像の切り替えフレーム数(2の場合2frame毎に画像を差し替え)
-var move_per_frame = 10; // 1フレームごとの移動ピクセル数
-var DIST_WINDOW_SANTA = 100; // サンタと窓がこのピクセル以下の時窓のトナカイが動き出す
+
 
 var SANTA_MARGIN = 80; // 各サンタのマージン
 
@@ -456,7 +454,7 @@ function movePlane() {
         //     }
         if (obj_window[color].state != STATE_CLOSED_AND_FINISHED &&
             obj_window[color].state == STATE_CLOSED_NOT_MOVE &&
-            Math.abs(toppos - window_bottom_pos) < DIST_WINDOW_SANTA) {
+            Math.abs(toppos - window_bottom_pos) < dist_window_santa) {
             // console.log("hoge");
             obj_window[color].id = 1;
             obj_window[color].state = STATE_CLOSED_AND_MOVE;

@@ -78,37 +78,34 @@ socket.on('message', function(msg) {
 function controller(){
 
         var santa_keys = {red:keys[k_red], blu:keys[k_blu], yel:keys[k_yel], gre:keys[k_gre]};
-        // console.log(santa_keys);
-        // console.log("unnei_communication santa_keys: " + santa_keys);
-
-        // SendMsg("message", {method:"santa_move", options:{santa_keys:santa_keys}});
+        SendMsg("message", {method:"santa_move", options:{santa_keys:santa_keys}});
 }
 
 
 
-//    $(document).keydown(function(e) {
-//    		santa = $("input[name='santa']:checked")[0].value;
+// $(document).keydown(function(e) {
+//    	santa = $("input[name='santa']:checked")[0].value;
 
-//    		if(santa == "non"){
+//    	if(santa == "non"){
 //    			return;
-//    		}
+//    	}
 
 // 		switch(e.keyCode){
-// 			case k_left:
-// 		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"left"}});
+// 		case k_left:
+// 		    SendMsg("message", {method:"santa_move", options:{color:santa, direction:"left"}});
 // 				break;
-// 			case k_up:
-// 		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"up"}});
-// 		        break;
-// 			case k_right:
-// 		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"right"}});
+// 		case k_up:
+// 		    SendMsg("message", {method:"santa_move", options:{color:santa, direction:"up"}});
+// 		    break;
+// 		case k_right:
+// 		    SendMsg("message", {method:"santa_move", options:{color:santa, direction:"right"}});
 // 				break;
-// 			case k_down:
-// 		        SendMsg("message", {method:"santa_move", options:{color:santa, direction:"down"}});
+// 		case k_down:
+// 		    SendMsg("message", {method:"santa_move", options:{color:santa, direction:"down"}});
 // 				break;
 // 		}
 
-//    });
+// });
 
 function init(){
     console.log();
@@ -180,6 +177,9 @@ function DisConnect() {
 
 $(
     function(){
+        $("#config_frame_to_change_img").val(frame_to_change_img);
+        $("#config_move_per_frame").val(move_per_frame);
+        $("#config_dist_window_santa").val(dist_window_santa);
         $(document).keydown(function(e) {
             keys[e.keyCode] = true;
             if (e.keyCode == k_red) $("#cnt_red").css("background-color", "HotPink");
@@ -187,20 +187,22 @@ $(
             if (e.keyCode == k_yel) $("#cnt_yel").css("background-color", "HotPink");
             if (e.keyCode == k_gre) $("#cnt_gre").css("background-color", "HotPink");
 
-            $(document).keyup(function(e) {
-                delete keys[e.keyCode];
-                if (e.keyCode == k_red) $("#cnt_red").css("background-color", "White");
-                if (e.keyCode == k_blu) $("#cnt_blu").css("background-color", "White");
-                if (e.keyCode == k_yel) $("#cnt_yel").css("background-color", "White");
-                if (e.keyCode == k_gre) $("#cnt_gre").css("background-color", "White");
-            });
    	        // santa = $("input[name='santa']:checked")[0].value;
 
    	        if(santa == "non"){
    			        return;
    	        }
         });
-        setInterval(controller, 100);
+        $(document).keyup(function(e) {
+            if (e.keyCode == k_red) $("#cnt_red").css("background-color", "White");
+            if (e.keyCode == k_blu) $("#cnt_blu").css("background-color", "White");
+            if (e.keyCode == k_yel) $("#cnt_yel").css("background-color", "White");
+            if (e.keyCode == k_gre) $("#cnt_gre").css("background-color", "White");
+            var santa_keys = {red:keys[k_red], blu:keys[k_blu], yel:keys[k_yel], gre:keys[k_gre]};
+            SendMsg("message", {method:"santa_move", options:{santa_keys:santa_keys}});
+            delete keys[e.keyCode];
+        });
+        // setInterval(controller, 100);
 
         // gadget の初期値を読込
         for (var color in colorToGadgetMap){

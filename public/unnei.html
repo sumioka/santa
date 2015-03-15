@@ -23,13 +23,14 @@
 ネットワーク越しにゲームをする場合は遅延などがあるため，
 ここで微調整する．</br>
 数値入力後反映ボタンを押すこと．</br>
-画像切替のインターバルframe：<input id="config_frame_to_change_img" type="text" value="2"></input></br>
-1frame毎の移動ピクセル数：<input id="config_move_per_frame" type="text" value="10"></input></br>
-サンタが窓に近づいた時にトナカイが出始める距離：<input id="config_dist_window_santa" type="text" value="100"></input></br>
+画像切替のインターバルframe：<input id="config_frame_to_change_img" type="text" value="none"></input></br>
+1frame毎の移動ピクセル数：<input id="config_move_per_frame" type="text" value="none"></input></br>
+サンタが窓に近づいた時にトナカイが出始める距離：<input id="config_dist_window_santa" type="text" value="none"></input></br>
 <button onclick="config()">反映）</button>
 
 <h2>サンタコントローラー</h2>
-20msecでキー情報を送信．押しっぱなしでもキー情報を送信し続ける
+QWERのキーを押すと各キーについて赤青黄緑のサンタが登る． </br>
+連打するべし！！
 <table border="1">
 	<tr>
 		<th><font color="red" id="cnt_red">赤Q</font></th>
