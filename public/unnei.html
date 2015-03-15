@@ -18,6 +18,16 @@
 <!-- <input type="radio" name="santa" value="blu">青サンタ</input> -->
 <!-- <input type="radio" name="santa" value="yel">黄サンタ</input> -->
 <!-- <input type="radio" name="santa" value="gre">緑サンタ</input> -->
+
+<h2>サンタの動き調整</h2>
+ネットワーク越しにゲームをする場合は遅延などがあるため，
+ここで微調整する．</br>
+数値入力後反映ボタンを押すこと．</br>
+画像切替のインターバルframe：<input id="config_frame_to_change_img" type="text" value="2"></input></br>
+1frame毎の移動ピクセル数：<input id="config_move_per_frame" type="text" value="10"></input></br>
+サンタが窓に近づいた時にトナカイが出始める距離：<input id="config_dist_window_santa" type="text" value="100"></input></br>
+<button onclick="config()">反映）</button>
+
 <h2>サンタコントローラー</h2>
 20msecでキー情報を送信．押しっぱなしでもキー情報を送信し続ける
 <table border="1">

@@ -138,6 +138,19 @@ function toujouBtn(color){
                       options:{}, color:color,
                       name:$("#name_"+color).val()});
 }
+function config(){
+    console.log({
+                          frame_to_change_img: $("#config_frame_to_change_img").val(),
+                          move_per_frame: $("#config_move_per_frame").val(),
+                          dist_window_santa: $("#config_dist_window_santa").val()
+                      });
+	SendMsg("message", {method:"config",
+                      options:{
+                          frame_to_change_img: $("#config_frame_to_change_img").val(),
+                          move_per_frame: $("#config_move_per_frame").val(),
+                          dist_window_santa: $("#config_dist_window_santa").val()
+                      }});
+}
 
 function ouenBtn(){
 	SendMsg("message", {method:"ouen", options:{}});
@@ -145,7 +158,7 @@ function ouenBtn(){
 
 function readyGo(){
 	SendMsg("message", {method:"readyGo", options:{}});
-  setTimeout(gestureStart,2000)
+  setTimeout(gestureStart,2000);
 }
 
 function timeUp(){

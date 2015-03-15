@@ -78,6 +78,11 @@ socket.on('message', function(msg) {
              console.log("color" + msgObj.color + " name=" +msgObj.name);
              toujou_start(msgObj.color, msgObj.name);
              break;
+            case "config":
+             frame_to_change_img = msgObj.options["frame_to_change_img"];
+             move_per_frame = msgObj.options["move_per_frame"];
+             dist_window_santa = msgObj.options["dist_window_santa"];
+             break;
             case "end":
             default:
          }
