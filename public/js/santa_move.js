@@ -33,9 +33,12 @@ var STATE_OPENED = 7; // 窓は相手なくアニメーションも動いてい�
 var STATE_CLOSED_AND_FINISHED = 8; // 窓は一回相手もうずっと閉まっている状態
 
 var obj_bgm;
+var bgm_play = new Audio("image/sound/bgm.mp3");
 var bgm_hit = new Audio("image/sound/tonakai_hit.mp3");
 var bgm_goal = new Audio("image/sound/goal.mp3");
 var bgm_yojinobori = new Audio("image/sound/sound02.mp3");
+var bgm_warp = new Audio("image/sound/warp.mp3");
+var bgm_fin = new Audio("image/sound/fin.mp3");
 bgm_hit.load();
 bgm_goal.load();
 bgm_yojinobori.load();
@@ -85,16 +88,7 @@ function load_images(){
         for (var j = 1; j <= num_introduction_images[i]; j++){
             image_paths.push(img_dir + "introduction/introduction"+i+"/" +j +".png");
         }
-        // if (i == 4){
-        //     for (var j = 1; j <= 18; j++){
-        //         image_paths.push(img_dir + "introduction/introduction"+i+"/" +j +".png");
-        //     }
-        // }else{
-        //     for (var j = 1; j <= 4; j++){
-        //         image_paths.push(img_dir + "introduction/introduction"+i+"/" +j +".png");
-        //     }
-        // }
-        // // window
+        // window
         for (var j = 1; j <= 26; j++){
             image_paths.push(img_dir + "window/" +j +".png");
         }
@@ -904,9 +898,11 @@ function warpAnimation2(color){
         setTimeout(function(){warpAnimation2(color);},100);
     } else {
         setTimeout(function(){
-            obj_bgm = new Audio("image/sound/warp.mp3");
+            obj_bgm = bgm_warp;
             obj_bgm.load();
             obj_bgm.play();
+            // bgm_warp.load();
+            // bgm_warp.play();
             obj_santa[color].animate({top:-1440},2000);
             obj_name[color].animate({top:-1440},2800);
             setTimeout(function(){warpAnimation3(color);},2100);
@@ -1008,7 +1004,7 @@ function xmas(){
 
     SendMsg("gadget", {method:"gStop", options:{}});
 
-    obj_bgm = new Audio("image/sound/fin.mp3");
+    obj_bgm = bgm_fin;
     obj_bgm.load();
     obj_bgm.play();
     $("#anime_box").animate({top:"1080px"}, 1500);
@@ -1264,7 +1260,7 @@ function readyGo2(){
     //bgm開始
     // if (!obj_bgm){
     if (obj_bgm){obj_bgm.pause();}
-    obj_bgm = new Audio("image/sound/bgm.mp3");
+    obj_bgm = bgm_play;
     // }
     obj_bgm.loop = "true";
     obj_bgm.load();
