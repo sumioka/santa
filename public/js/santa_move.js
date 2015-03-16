@@ -607,13 +607,26 @@ function waitUntil(func, interval, callback) {
     //     }
     setTimeout(function(){
         console.log("num_loaded_images=" + num_loaded_images);
+        // $("#prepare_message").text("Image Loading " + num_loaded_images + " / " + num_images + "");
+        $("#prepare_message").text("Image Loading " + parseInt(100.0 * num_loaded_images / num_images, 10) + " %");
+        console.log("num_loaded_images=" + num_loaded_images);
         if (func() == true) waitUntil(func, interval, callback);
-        else callback();
+        else {
+            setTimeout(function(){
+                $("#prepare_box").fadeOut("1000");
+                setTimeout(callback, 1000);
+            }, 500);
+        }
     }, interval);
 }
 
 function init(names){
+    console.log($("#game_box"));
+    // $("#game_box").mask("Waiting...", 1000);
     function init1() {
+        // $("#prepare_box").hide();
+        $("#game_box").fadeIn("100");
+        $("#game_box").show();
         console.log("image loaded");
         if(DEBUG_LEVEL == 0){
             $("#connectId").hide();
@@ -734,12 +747,14 @@ function init(names){
         // if (DEBUG_LEVEL > 0){
         //     window_timer = setInterval(moveWindow, 2300);
         // }
+        // $("#game_box").show();
+        // $("#game_box").fadeIn("200");
     }
     load_images();
     // console.log(num_images);
     waitUntil(function(){
         return num_loaded_images < num_images;
-    }, 50, init1);
+    }, 150, init1);
     // while(num_loaded_images < num_images) {
     //     console.log("num_loaded_images=" + num_loaded_images);
     // }

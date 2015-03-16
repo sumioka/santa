@@ -16,12 +16,17 @@
 
 <body onLoad="init()" style="background-color:#000000";>
 
+<div id="prepare_box" style="background-color:#FFFF00;margin: 0 auto;width:600px;height:100px;" >
+  <center><h1 id="prepare_message"
+      Image Loading 0 / 350
+  </h1></center>
+</div>
 <div id="connectId"></div>
 <div id="receiveMsg"></div>
 <div id="errorMsg"></div>
 
 <!-- <div id="game_box" class="box"> -->
-<div id="game_box" class="box" style="background-image:url(image/others/bg.png);margin-left:100px;">
+<div id="game_box" class="box" style="background-image:url(image/others/bg.png);margin-left:100px;display:none">
 <img src="image/fin1/fin.gif" name="screen_fin1" id="screen_fin1" style="position:absolute;display:none;z-index:100000">
 <img src="image/fin1/white.png" name="screen_white" id="screen_white" style="position:absolute;display:none;z-index:200000">
 <img src="image/fin2/fin2.gif" name="screen_fin2" id="screen_fin2" style="position:absolute;display:none">
