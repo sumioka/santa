@@ -82,6 +82,19 @@ function count_loaded_images() {
 function load_images(){
     var img_dir = "image/";
     var num_introduction_images = [0, 4, 8, 4, 18];
+    // 大きい画像から読み込む
+    image_paths.push(img_dir + "fin1/fin.gif");
+    image_paths.push(img_dir + "fin2/fin2.gif");
+    image_paths.push(img_dir + "fin1/white.png");
+    image_paths.push(img_dir + "fin2/merryxmas.png");
+    image_paths.push(img_dir + "setumei/pre.jpg");
+    image_paths.push(img_dir + "setumei/title.jpg");
+    image_paths.push(img_dir + "setumei/rule_bg_black.png");
+    image_paths.push(img_dir + "setumei/ouen_bg_black.png");
+    image_paths.push(img_dir + "setumei/yoi.png");
+    image_paths.push(img_dir + "setumei/don.png");
+    image_paths.push(img_dir + "introduction/bg_black.png");
+    image_paths.push(img_dir + "others/wall.png");
     for (var color in color_id){
         var i = color_id[color];
     // for (var i = 1; i <= 4; i++){
@@ -123,6 +136,7 @@ function load_images(){
     for (var j = 1; j <= 8; j++){
         image_paths.push(img_dir + "sleigh1/"+ j +".png");
     }
+    image_paths.push(img_dir + "sleigh1/sleigh.png");
     // sleigh
     for (var j = 1; j <= 13; j++){
         image_paths.push(img_dir + "rope/"+ j +".png");
@@ -131,7 +145,6 @@ function load_images(){
     for (var j = 0; j <= 30; j++){
         image_paths.push(img_dir + "num/"+ j +".png");
     }
-    image_paths.push(img_dir + "fin1/fin.gif");
     num_images = image_paths.length;
     for (var j = 0; j < image_paths.length; j++){
         var new_img = new Image();
@@ -620,6 +633,7 @@ function waitUntil(func, interval, callback) {
     }, interval);
 }
 function setImages(){
+    $("#anime_box").css("background-image", "url(image/others/wall.png)");
     $("#sori").attr({src:"image/sleigh1/sleigh.png"});
     $("#gameTimer").attr({src:"image/num/30.png" });
     $("#screen_pre").attr({src:"image/setumei/pre.jpg"});
