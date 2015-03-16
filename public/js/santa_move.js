@@ -814,7 +814,7 @@ function warp(){
             obj_santa[color].state = STATE_WAIT;
             obj_santa[color].warp = 2;
             var top = parseInt(obj_santa[color].css("top"));
-            obj_santa[color].hide();
+            // obj_santa[color].hide();
             obj_santa[color].attr("src","image/warp" + obj_santa[color].id + "/1.png");
             obj_santa[color].css("top", top - 900);
 //            obj_santa[color].show();
@@ -826,11 +826,11 @@ function warp(){
 
 function warpAnimation1(){
     // 本当はwarpに書くべきだが、なぜか上に書くとゴミが写るのでここで記述
-    for(var color in obj_santa){
-        if(obj_santa[color].state == STATE_WAIT){
-            obj_santa[color].show();
-        }
-    }
+    // for(var color in obj_santa){
+    //     if(obj_santa[color].state == STATE_WAIT){
+    //         obj_santa[color].show();
+    //     }
+    // }
     $("#santa_rope").show();
     setTimeout(function(){rope1(1);},100);
 
