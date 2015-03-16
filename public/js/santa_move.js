@@ -619,11 +619,54 @@ function waitUntil(func, interval, callback) {
         }
     }, interval);
 }
+function setImages(){
+    $("#sori").attr({src:"image/sleigh1/sleigh.png"});
+    $("#gameTimer").attr({src:"image/num/30.png" });
+    $("#screen_pre").attr({src:"image/setumei/pre.jpg"});
+    $("#screen_title").attr({src:"image/setumei/title.jpg"});
+    $("#screen_rule").attr({src:"image/setumei/rule_bg_black.png"});
+    $("#screen_ouen").attr({src:"image/setumei/ouen_bg_black.png"});
+    $("#screen_intro_bg").attr({src:"image/introduction/bg_black.png"});
+    $("#santa_intro").attr({src:"image/introduction/introduction1/1.png"});
+    $("#santa_rope").attr({src:"image/rope/1.png"});
+    $("#screen_yoi").attr({src:"image/setumei/yoi.png"});
+    $("#screen_don").attr({src:"image/setumei/don.png"});
+    $("#screen_fin1").attr({src:"image/fin1/fin.gif"});
+    $("#screen_white").attr({src:"image/fin1/white.png"});
+    $("#screen_fin2").attr({src:"image/fin2/fin2.gif"});
+    $("#merryxmas").attr({src:"image/fin2/merryxmas.png"});
+    // $("#").attr({src:""});
+    // $("#").attr({src:""});
+    // $("#screen_ouen").attr({src:"image/setumei/ouen_bg_black.png"});
+
+
+
+
+    $("#window_red").attr({src:"image/window/1.png"});
+    $("#window_blu").attr({src:"image/window/1.png"});
+    $("#window_gre").attr({src:"image/window/1.png"});
+    $("#window_yel").attr({src:"image/window/1.png"});
+    
+    $("#santa_red").attr({src:"image/santa1/1.png"});
+    $("#santa_blu").attr({src:"image/santa2/1.png"});
+    $("#santa_gre").attr({src:"image/santa4/1.png"});
+    $("#santa_yel").attr({src:"image/santa3/1.png"});
+}
+
+$(function(){
+    console.log($("#game_box"));
+    load_images();
+    // console.log(num_images);
+    waitUntil(function(){
+        return num_loaded_images < num_images;
+    }, 150, function(){
+        setImages();
+        init()});
+    // $("#game_box").mask("Waiting...", 1000);
+});
 
 function init(names){
-    console.log($("#game_box"));
-    // $("#game_box").mask("Waiting...", 1000);
-    function init1() {
+    // function init1() {
         // $("#prepare_box").hide();
         $("#game_box").fadeIn("100");
         $("#game_box").show();
@@ -749,12 +792,7 @@ function init(names){
         // }
         // $("#game_box").show();
         // $("#game_box").fadeIn("200");
-    }
-    load_images();
-    // console.log(num_images);
-    waitUntil(function(){
-        return num_loaded_images < num_images;
-    }, 150, init1);
+    // }
     // while(num_loaded_images < num_images) {
     //     console.log("num_loaded_images=" + num_loaded_images);
     // }
