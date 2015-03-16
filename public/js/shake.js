@@ -67,7 +67,9 @@ function setSanta(col){
 var socket = io.connect(SERVER + "/mobile");
 // var socket = io.connect('http://192.168.0.5:3000');
 socket.on('connect', function(msg) {
-  console.log("connect");
+    console.log("あなたの接続ID:" + socket.io.engine.id);
+    // console.log(socket.io.engine.id);
+    $("#connectId").text("あなたの接続ID::" + socket.io.engine.id);
 });
 // メッセージを受けたとき
 socket.on('message', function(msg) {
@@ -80,18 +82,18 @@ socket.on('message', function(msg) {
             case "init":
                init_screen();
                break;
-            case "pre":
-               pre();
-               break;
-            case "title":
-               title();
-               break;
-            case "rule":
-               rule();
-               break;
-            case "ouen":
-               ouen();
-               break;
+            // case "pre":
+            //    pre();
+            //    break;
+            // case "title":
+            //    title();
+            //    break;
+            // case "rule":
+            //    rule();
+            //    break;
+            // case "ouen":
+            //    ouen();
+            //    break;
             case "readyGo":
                readyGo();
                break;
@@ -136,7 +138,7 @@ function reset_screen(){
     $("#screen_pre").hide();
     $("#screen_title").hide();
     $("#screen_rule").hide();
-    $("#screen_select").show();
+    $("#screen_select").hide();
     $("#screen_fure").hide();
     $("#screen_ouen").hide();
 };
@@ -191,6 +193,8 @@ function ouen(){
 
 function readyGo(){
     // よーい
+    reset_screen();
+    // $("#all_select").hide();
     $("#screen_yoi").show();
 
     // どん!
@@ -202,9 +206,9 @@ function gameStart(){
 
     $("#screen_yoi").hide();
     $("#screen_don").show();
-    $("#screen_don").fadeOut(3000);
+    $("#screen_don").fadeOut(2000);
     // 振れ!
-    setTimeout("fureView()",3000);
+    setTimeout("fureView()",2000);
 }
 
 function fureView(){
@@ -218,14 +222,21 @@ $(function(){
         $("#debug_display").css("display", "none");
         // $("#debug_display").hide();
     }
+    // console.log($("#anime_box"));
+    // console.log($("#anime_box").css("height"));
+    // console.log($(window).height());
+    // $("screen_yoi").css("height", $("#anime_box").height());
+    // $("screen_yoi").css("height", $(window).height());
+    // $("screen_yoi").css("height", "100%");
+    // $("screen_yoi").css("width", "auto");
+    // $("screen_yoi").css("width", "100%");
+    // $("screen_yoi").css("height", "auto");
     // function init(){
     setSanta("red");
-    console.log("あなたの接続ID::" + socket.io.engine.id);
 
     // $("#connectId").text("fuga");
     init_event();
     screen_select();
-    $("#connectId").text("あなたの接続ID::" + socket.io.engine.id);
     // document.getElementById("connectId").innerHTML = "あなたの接続ID::" + socket.io.engine.id;
 
     if(DEBUG_LEVEL == 0){
