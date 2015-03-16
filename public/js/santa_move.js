@@ -42,6 +42,7 @@ var bgm_fin = new Audio("image/sound/fin.mp3");
 bgm_hit.load();
 bgm_goal.load();
 bgm_yojinobori.load();
+bgm_warp.load();
 
 function moveleft(){
     console.log(obj);
@@ -130,6 +131,7 @@ function load_images(){
     for (var j = 0; j <= 30; j++){
         image_paths.push(img_dir + "num/"+ j +".png");
     }
+    image_paths.push(img_dir + "fin1/fin.gif");
     num_images = image_paths.length;
     for (var j = 0; j < image_paths.length; j++){
         var new_img = new Image();
@@ -854,13 +856,13 @@ function rope2(idx){
     }
     if(idx < 7){
         idx ++;
-        setTimeout(function(){rope2(idx)},200);
+        setTimeout(function(){rope2(idx);},200);
     } else {
         setTimeout(function(){
             $("#santa_rope").attr("src","image/rope/8.png");
             setTimeout(function(){
                 $("#santa_rope").attr("src","image/rope/9.png");
-                setTimeout(function(){rope3(0)},100);
+                setTimeout(function(){rope3(0);},100);
                 for(var color in obj_santa){
                     // console.log(color);
                     if(obj_santa[color].state == STATE_WAIT){
@@ -899,10 +901,9 @@ function warpAnimation2(color){
     } else {
         setTimeout(function(){
             obj_bgm = bgm_warp;
-            obj_bgm.load();
+            // obj_bgm.load();
+            // obj_bgm.currentTime = 0;
             obj_bgm.play();
-            // bgm_warp.load();
-            // bgm_warp.play();
             obj_santa[color].animate({top:-1440},2000);
             obj_name[color].animate({top:-1440},2800);
             setTimeout(function(){warpAnimation3(color);},2100);
@@ -941,12 +942,12 @@ function rope5(idx){
         $("#santa_rope").attr("src","image/rope/2.png");
     } else {
         $("#santa_rope").attr("src","image/rope/1.png");
-        setTimeout(function(){warpAnimationEnd()},2000);
+        setTimeout(function(){warpAnimationEnd();},2000);
         return;
     }
 
     idx++;
-    setTimeout(function(){rope5(idx)},100);
+    setTimeout(function(){rope5(idx);},100);
 }
 
 // 上からサンタが落ちてくる
@@ -1005,7 +1006,7 @@ function xmas(){
     SendMsg("gadget", {method:"gStop", options:{}});
 
     obj_bgm = bgm_fin;
-    obj_bgm.load();
+    // obj_bgm.load();
     obj_bgm.play();
     $("#anime_box").animate({top:"1080px"}, 1500);
 
@@ -1263,7 +1264,8 @@ function readyGo2(){
     obj_bgm = bgm_play;
     // }
     obj_bgm.loop = "true";
-    obj_bgm.load();
+    // obj_bgm.load();
+    obj_bgm.currentTime = 0;
     obj_bgm.pause();
     obj_bgm.play();
 }
