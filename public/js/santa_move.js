@@ -95,6 +95,7 @@ function load_images(){
     image_paths.push(img_dir + "setumei/don.png");
     image_paths.push(img_dir + "introduction/bg_black.png");
     image_paths.push(img_dir + "others/wall.png");
+    image_paths.push(img_dir + "goal/goal.png");
     for (var color in color_id){
         var i = color_id[color];
     // for (var i = 1; i <= 4; i++){
