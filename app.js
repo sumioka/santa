@@ -14,6 +14,7 @@ var app = express();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
+//app.set('port', 80);
 app.set('views', path.join(__dirname, 'views'));
 //app.set('view engine', 'jade');
 app.set('view engine', 'ejs');
@@ -70,7 +71,7 @@ var unnei = io.of("/unnei").on("connection", function(socket){
 	console.log("unnei connection");
 	
 	socket.on('message', function(data) {
-		console.log("message");
+		console.log("message" + data.value);
 		proj.emit("message",  {value: data.value});
 		mobile.emit("message",  {value: data.value});
 		gadget.emit("message",  {value: data.value});
@@ -78,7 +79,7 @@ var unnei = io.of("/unnei").on("connection", function(socket){
 	});
 	
 	socket.on('gadget', function(data) {
-		console.log("message to gadget");
+		// console.log("message to gadget");
 		gadget.emit("message",  {value: data.value});
 	});
 
