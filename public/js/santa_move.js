@@ -59,10 +59,10 @@ var k_left = 37;
 var k_up = 38;
 var k_right = 39;
 var k_down = 40;
-var santa_dir = {red:1,blu:1,yel:1,gre:1};
+var santa_sig = {red:{37:0,38:0,39:0,40:0}, blu:{37:0,38:0,39:0,40:0},
+                 yel:{37:0,38:0,39:0,40:0}, gre:{37:0,38:0,39:0,40:0}};
 var color_id = {red:1,blu:2,yel:3,gre:4};
 var santa_pos = {red:undefined, blu:undefined, yel:undefined, gre:undefined};
-var santa_speed = {};
 var santa_lock = {red:false, blu:false, gre:false, yel:false};
 
 // var santaL_src = "image/santa_pack/red_l.png";
@@ -198,41 +198,101 @@ function debug(){
     }
 }
 
-function santamove(color){
+function santamove(color, direction){
+
+    // 1回呼ばれる毎にシグナルを追加する
+    santa_sig[color][direction] += 1;
 
     if(santa_lock[color]){
-        santa_dir[color] += 1;
         return;
     }
-    // 動きカウンタがしきい値以上ならば次の画像に差し替え
-    // console.log("src="+obj_santa[color].attr("src"));
-    if (santa_dir[color] > frame_to_change_img){
+
+    // 動きカウンタがしきい値以上ならば動かす
+    var sum = santa_sig[color][k_up] + santa_sig[color][k_down] + santa_sig[color][k_right] + santa_sig[color][k_left];
+    if (sum >= frame_per_signal){
+
+        // アニメーション制御間隔：　設定値「1回の切替枚数imgs_per_frame」×100ms毎にアニメーションを制御する
         santa_lock[color] = true;
+        setTimeout(function(){
+            santa_lock[color] = false; 
+        }, imgs_per_frame * 100);
 
-        santa_speed[color] = 1;
+        //
+        // シグナルの整理と相殺
+        //
 
-        if(santa_dir[color] > frame_to_change_img * 2){
-            santa_dir[color] -= frame_to_change_img * 2;
-            santa_speed[color] = 2;
+        // 下向きと右向きのシグナルの総和を数える
+        var left_count = santa_sig[color][k_right] - santa_sig[color][k_left];
+        var top_count  = santa_sig[color][k_down] - santa_sig[color][k_up];
+        if (left_count > 0) {
+            santa_sig[color][k_right] = santa_sig[color][k_right] - santa_sig[color][k_left];
+            santa_sig[color][k_left] = 0;
         } else {
-            santa_dir[color] -= frame_to_change_img;
+            santa_sig[color][k_right] = 0;
+            santa_sig[color][k_left] = santa_sig[color][k_left] - santa_sig[color][k_right];               
+        }
+        if (top_count > 0) {
+            santa_sig[color][k_down] = santa_sig[color][k_down] - santa_sig[color][k_up];
+            santa_sig[color][k_up] = 0;
+        } else {
+            santa_sig[color][k_down] = 0;
+            santa_sig[color][k_up] = santa_sig[color][k_up] - santa_sig[color][k_down];               
         }
 
-        for(var idx = 1; idx < 5 * santa_speed[color]; idx++){
+        //
+        // 動作1 上下左右への動き
+        //
+
+        // デフォルトでは来た数だけ進める
+        var left_offset = left_count;
+        var top_offset = top_count;
+
+        // シグナルが3つ以上が来ていたら、来たシグナルの半分を消費し、残りは次回に持ち越すことにする
+        if(Math.abs(top_count) > 2){
+            top_offset = (top_count > 0) ? Math.ceil(top_count / 2) : Math.floor(top_count / 2);
+        }
+        if(Math.abs(left_count) > 2){
+            left_offset = (left_count > 0) ? Math.ceil(left_count / 2) : Math.floor(left_count / 2);
+        }
+
+        // たくさんシグナルが来れば来るほどたくさん進む
+        obj_santa[color].animate(
+            {
+                left: "+=" + move_per_signal * left_offset,
+                top:  "+=" + move_per_signal * top_offset
+            }
+            , imgs_per_frame * 100
+        );
+
+        // 進んだ分だけシグナルを消費する
+        if(top_count > 0) {
+            santa_sig[color][k_down] -= top_offset;
+        } else {
+            santa_sig[color][k_up] -= Math.abs(top_offset);                
+        }
+        if(left_count > 0) {
+            santa_sig[color][k_right] -= left_offset;
+        } else {
+            santa_sig[color][k_left] -= Math.abs(left_offset);                
+        }
+
+        //
+        // 動作2 画像の差し替えによる手のもがき
+        //
+
+        // 動きカウンタがしきい値の2倍以上なら2倍速く動かす
+        var santa_speed = (sum >= frame_per_signal * 2) ? 2 : 1.4;
+
+        // 画像の差替
+        for(var idx = 1; idx <= imgs_per_frame * santa_speed; idx++){
             setTimeout(function(){
                 if(obj_santa[color].state == STATE_MOVING){
                     obj_santa[color].attr({
-                        src: next_image_src(obj_santa[color].attr("src"), 10)
+                        src: next_image_src(obj_santa[color].attr("src"), 10) //10枚で1周期 
                     });
                 }
-            },100 / santa_speed[color] * idx);
-        }
-        setTimeout(function(){
-            santa_lock[color] = false; 
-        },500);
-
-    }else{
-        santa_dir[color] += 1;
+            }, 100 * idx / santa_speed); // 基本は100msごとに画像変更。2倍速なら50ms毎に画像変更。
+        } 
     }
 }
 
@@ -476,6 +536,7 @@ function movePlane() {
         }
 
         if (toppos <= GOAL_LINE && obj_santa[color].state == STATE_MOVING){
+            obj_santa[color].stop();
             goalAnimation(color);
             // alert();
         }
@@ -485,40 +546,20 @@ function movePlane() {
             // トナカイとぶつかった
             console.log("HITTED:" + obj_santa[color].state);
             obj_santa[color].state = STATE_HITTED;
+            obj_santa[color].stop();
             santa_hitstop(color);
         }
 
         if (obj_santa[color].state == STATE_MOVING){
 
             for (var direction in move_keys[color]) {
-	              var pos_left = px2int(obj_santa[color].css("left"));
-	              var pos_top = px2int(obj_santa[color].css("top"));
+                // シグナルが入っていないような異常系は除外
                 if (!move_keys[color].hasOwnProperty(direction)) continue;
-                if (direction == k_left) {
-	                  // pos_left = Math.max(0, pos_left - move_per_frame);
-                    obj_santa[color].animate({left: "-="+move_per_frame}, 0);
-                    // obj_name[color].animate({left:"-="+move_per_frame}, 0);
-                    santamove(color);
-                }
-                if (direction == k_up) {
-                    // if ((pos_top - move_per_frame) > 0){
-                    obj_santa[color].animate({top: "-="+move_per_frame}, 0);
-                    // obj_name[color].animate({top:"-="+move_per_frame}, 0);
-                    santamove(color);
-                    // }
-                }
-                if (direction == k_right) {
-	                  // pos_left = Math.min(WIDTH - px2int(obj_santa[color].css("width")), pos_left + move_per_frame);
-                    obj_santa[color].animate({left: "+="+move_per_frame}, 0);
-                    // obj_name[color].animate({left:"+="+move_per_frame}, 0);
-                    santamove(color);
-                }
-                if (direction == k_down) {
-	                  // pos_top = Math.min(HEIGHT - px2int(obj_santa[color].css("height")), pos_top + move_per_frame);
-                    obj_santa[color].animate({top: "+="+move_per_frame}, 0);
-                    // obj_name[color].animate({top:"+="+move_per_frame}, 0);
-                    santamove(color);
-                }
+
+                // サンタを上下左右に動かす
+                santamove(color, direction);
+
+                // 上下左右にはみ出さないように補正
                 if (px2int(obj_santa[color].css("top")) < 0) obj_santa[color].css("top", 0);
                 if (px2int(obj_santa[color].css("left")) < 0) obj_santa[color].css("left", 0);
                 // 下方向だけははみ出しても良いようにする？
@@ -728,6 +769,13 @@ function init(names){
             obj_santa[color].state = STATE_INIT;
             obj_santa[color].image_id = 1; // 各種アニメーション用
             obj_santa[color].show();
+        }
+        // シグナルカウンタを初期化
+        for(var color in santa_sig){
+            santa_sig[color][k_up] = 0;
+            santa_sig[color][k_down] = 0;
+            santa_sig[color][k_left] = 0;
+            santa_sig[color][k_right] = 0;
         }
         // for (var color in obj_window){
         //     // name
